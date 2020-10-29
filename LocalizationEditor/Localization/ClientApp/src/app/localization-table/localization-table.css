@@ -1,0 +1,20 @@
+﻿table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 97%;
+}
+
+td, th {
+  width: 25%;
+}
+.example-container {
+  height: calc( 100vh - 120px);
+  overflow: auto;
+}
+
+#fieldGroup{
+  width: 100%;
+}
