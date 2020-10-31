@@ -4,6 +4,7 @@ on:
     branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -27,4 +28,5 @@ jobs:
       run: dotnet test --no-restore --verbosity normal
     - name: Sonar scanner
       uses: SonarSource/sonarcloud-github-action@v1.4
-     
+      with:
+       projectBaseDir: LocalizationEditor
