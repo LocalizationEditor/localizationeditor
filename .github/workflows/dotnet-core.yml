@@ -26,7 +26,3 @@ jobs:
     - name: Test
       working-directory: LocalizationEditor
       run: dotnet test --no-restore --verbosity normal
-    - name: Sonar scanner
-      uses: SonarSource/sonarcloud-github-action@v1.4
-      with:
-       projectBaseDir: LocalizationEditor
