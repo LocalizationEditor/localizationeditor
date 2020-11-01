@@ -4,7 +4,11 @@ on:
     branches: [ master, develop ]
   pull_request:
     branches: [ master, develop ]
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened,closed]
+  issues:
+        types: [assigned]
+  issue_comment:
+        types: [created]
 
 jobs:
   build:
@@ -26,3 +30,14 @@ jobs:
     - name: Test
       working-directory: LocalizationEditor
       run: dotnet test --no-restore --verbosity normal
+    - name: Create Issue Branch
+      uses: robvanderleek/create-issue-branch@master
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            branchName: '${issue.number}-${issue.title}'
+            autoCloseIssue: true
+            branches:
+              - label: enhancement
+                prefix: feature/
+              - label: bug
+                prefix: bugfix/
