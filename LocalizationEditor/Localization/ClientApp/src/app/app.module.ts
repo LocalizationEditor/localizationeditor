@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
@@ -49,18 +49,30 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 
+import {Actions} from "./base/actions/actions";
+import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
+import {InputField} from "./base/inputField/inputField";
+import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
+import {ConnectionCreate} from "./connection/connection-create/connection-create";
+import {ConnectionStringView} from "./connection/connection-view/connection-view";
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     FetchDataComponent,
-    LocalizationTable
+    LocalizationTable,
+    ConnectionStringView,
+    Actions,
+    ConnectionEdit,
+    InputField,
+    ConnectionDeleteDialog,
+    ConnectionCreate
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -70,6 +82,9 @@ import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
       {path: '', component: LocalizationTable, pathMatch: 'full'},
       {path: 'localization-table', component: LocalizationTable},
       {path: 'fetch-data', component: FetchDataComponent},
+      {path: 'connection/view', component: ConnectionStringView},
+      {path: 'connection/edit/:id', component: ConnectionEdit},
+      {path: 'connection/create', component: ConnectionCreate}
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -117,10 +132,13 @@ import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
     ScrollingModule,
     MatFormFieldModule,
     MatTableModule,
-    MatTableModule
+    ReactiveFormsModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ConnectionDeleteDialog]
 })
 export class AppModule {
 }

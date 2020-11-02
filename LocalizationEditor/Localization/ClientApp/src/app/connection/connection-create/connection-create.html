@@ -1,0 +1,17 @@
+<div class="connection-wrapper">
+  <h3 id="connectionHeader">Create page</h3>
+  <input-field #inputName
+               class="input-filed-mat"
+               lable="Name"
+               [value]="connection.name">
+  </input-field>
+  <input-field #inputConnectionStr
+               class="input-filed-mat"
+               lable="ConnectionString"
+               [value] = "connection.connectionString">
+  </input-field>
+  {{connection.name}}
+  <button mat-button color="primary" (click)='create(inputName.value, inputConnectionStr.value)'>
+    Create
+  </button>
+</div>

@@ -1,0 +1,8 @@
+<div class="connection-wrapper">
+  <h3 id="connectionHeader">Edit page</h3>
+  <input-field class="input-filed-mat" lable="Name" [value]="connection.name"></input-field>
+  <input-field class="input-filed-mat" lable="ConnectionString" [value]="connection.connectionString"></input-field>
+  <button mat-button color="primary" (click)='update("should update")'>
+    Update
+  </button>
+</div>
