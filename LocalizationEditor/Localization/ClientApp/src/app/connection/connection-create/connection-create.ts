@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
+import {Validator} from "../connection-validator/validator";
 
 @Component({
   styleUrls: ['../base/connection.css'],
@@ -8,9 +9,11 @@ import {Connection} from "../connection-data/connection";
 })
 export class ConnectionCreate {
   connection: Connection;
+  validator: Validator;
 
   constructor() {
     this.connection = new Connection(0, "", "");
+    this.validator = new Validator();
   }
 
   create(name: string, connectionStr: string) {

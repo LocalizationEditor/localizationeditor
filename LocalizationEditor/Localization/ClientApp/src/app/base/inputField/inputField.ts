@@ -4,8 +4,9 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
   selector: "input-field",
   templateUrl: "input-field.html"
 })
-export class InputField{
+export class InputField {
   @Input() lable: string;
+  @Input() tooltipMessage: string;
 
   @Input() value: string;
   @Output() onChange = new EventEmitter();

@@ -1,4 +1,4 @@
 <mat-form-field appearance="fill">
   <mat-label>{{lable}}</mat-label>
-  <input matInput [ngModel]="value" (ngModelChange)="changeValue($event)"/>
+  <input matInput required minlength="1" [matTooltip]="tooltipMessage" [ngModel]="value" (ngModelChange)="changeValue($event)"/>
 </mat-form-field>
