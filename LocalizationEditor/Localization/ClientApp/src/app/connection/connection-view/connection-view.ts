@@ -1,4 +1,4 @@
-import {Component, NgModule} from '@angular/core';
+import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
 
 export const Connections: Connection[] = [

@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
 
 @Component({
-  styleUrls: ['connection-create.css', '../base/connection.css'],
+  styleUrls: ['../base/connection.css'],
   selector: 'connection-create',
   templateUrl: 'connection-create.html'
 })

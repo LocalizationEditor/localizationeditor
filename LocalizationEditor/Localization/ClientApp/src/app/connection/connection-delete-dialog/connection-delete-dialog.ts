@@ -4,8 +4,7 @@ import {ConnectionDialogData} from "../connection-data/connectionDialogData";
 
 @Component({
   selector: 'connection-delete-dialog',
-  templateUrl: './connection-delete-dialog.html',
-  styleUrls: ['./connection-delete-dialog.css']
+  templateUrl: './connection-delete-dialog.html'
 })
 export class ConnectionDeleteDialog implements OnInit {
 
