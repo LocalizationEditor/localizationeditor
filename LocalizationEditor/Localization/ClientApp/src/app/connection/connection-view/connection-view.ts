@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
+import {ConnectionClientHandler} from "../connection-client-handler/connection-client-handler";
 
 export const Connections: Connection[] = [
   new Connection(1, "1 Connection", "connetion string bla bla bla bla blabla bla bla bla bla"),
@@ -14,4 +15,5 @@ export const Connections: Connection[] = [
 })
 export class ConnectionStringView {
   connections: Connection[] = Connections;
+  connectionHandler: ConnectionClientHandler = new ConnectionClientHandler();
 }

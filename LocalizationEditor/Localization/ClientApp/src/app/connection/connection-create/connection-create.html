@@ -1,5 +1,5 @@
 <div class="connection-wrapper">
-  <h3 id="connectionHeader">Create page</h3>
+  <h3 id="connectionHeader">{{title}}</h3>
   <input-field #inputName
                class="input-filed-mat"
                lable="Name"
@@ -14,9 +14,9 @@
   </input-field>
   <div *ngIf="validator.isValid(inputName.value) &&
         validator.isValid(inputConnectionStr.value)">
-    <button mat-button color="primary"
-            (click)='create(inputName.value, inputConnectionStr.value)'>
-      Create
-    </button>
+      <button mat-button color="primary"
+              (click)='handle(inputName.value, inputConnectionStr.value)'>
+        Go
+      </button>
   </div>
 </div>

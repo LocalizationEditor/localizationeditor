@@ -55,12 +55,13 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 
-import {Actions} from "./base/actions/actions";
 import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
 import {InputField} from "./base/inputField/inputField";
 import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
 import {ConnectionCreate} from "./connection/connection-create/connection-create";
 import {ConnectionStringView} from "./connection/connection-view/connection-view";
+import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,7 +69,7 @@ import {ConnectionStringView} from "./connection/connection-view/connection-view
     FetchDataComponent,
     LocalizationTable,
     ConnectionStringView,
-    Actions,
+    TableColumnActions,
     ConnectionEdit,
     InputField,
     ConnectionDeleteDialog,
@@ -135,7 +136,7 @@ import {ConnectionStringView} from "./connection/connection-view/connection-view
     ReactiveFormsModule,
   ],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
   ],
   bootstrap: [AppComponent],
   entryComponents: [ConnectionDeleteDialog]

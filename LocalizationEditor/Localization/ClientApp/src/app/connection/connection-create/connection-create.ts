@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
-import {Validator} from "../connection-validator/validator";
+import {ConnectionValidator} from "../connection-validator/connectionValidator";
+import {ConnectionState} from "../connection-data/connection-state";
+import {ConnectionClientHandler} from "../connection-client-handler/connection-client-handler";
 
 @Component({
   styleUrls: ['../base/connection.css'],
@@ -8,17 +10,23 @@ import {Validator} from "../connection-validator/validator";
   templateUrl: 'connection-create.html'
 })
 export class ConnectionCreate {
+  title:string = "Create page";
   connection: Connection;
-  validator: Validator;
+  validator: ConnectionValidator;
+  handler: ConnectionClientHandler;
+
 
   constructor() {
+    this.handler = new ConnectionClientHandler();
     this.connection = new Connection(0, "", "");
-    this.validator = new Validator();
+    this.validator = new ConnectionValidator(256, 1);
   }
 
-  create(name: string, connectionStr: string) {
+  handle(name: string, connectionStr: string): void {
+    alert("click");
     this.connection.name = name;
     this.connection.connectionString = connectionStr;
-    alert("create");
+    this.connection.setState(ConnectionState.Add);
+    this.handler.handle(this.connection);
   }
 }
