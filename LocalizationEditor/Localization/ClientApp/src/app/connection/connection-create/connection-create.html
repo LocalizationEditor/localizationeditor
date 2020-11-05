@@ -1,0 +1,22 @@
+<div class="connection-wrapper">
+  <h3 id="connectionHeader">{{title}}</h3>
+  <input-field #inputName
+               class="input-filed-mat"
+               lable="Name"
+               tooltipMessage="must be more or equal 1 and less then 256"
+               [value]="connection.name">
+  </input-field>
+  <input-field #inputConnectionStr
+               class="input-filed-mat"
+               lable="ConnectionString"
+               tooltipMessage="must be more or equal 1 and less then 256"
+               [value]="connection.connectionString">
+  </input-field>
+  <div *ngIf="validator.isValid(inputName.value) &&
+        validator.isValid(inputConnectionStr.value)">
+      <button mat-button color="primary"
+              (click)='handle(inputName.value, inputConnectionStr.value)'>
+        Go
+      </button>
+  </div>
+</div>
