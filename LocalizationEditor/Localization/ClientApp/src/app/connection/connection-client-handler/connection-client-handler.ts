@@ -1,13 +1,13 @@
 import {IConnection} from "../connection-data/IConnection";
-import {ConnectionState} from "../connection-data/connection-state";
 import {IClientHandler} from "../../base/clinet-handler/client-handler";
+import {EntityState} from "../../base/entity-state";
 
 export class ConnectionClientHandler implements IClientHandler<IConnection> {
   handle(entity: IConnection): IConnection {
     switch (entity.state) {
-      case ConnectionState.Add:
+      case EntityState.Add:
         return this.create(entity);
-      case ConnectionState.Update:
+      case EntityState.Update:
         return this.update(entity);
       default:
         return;

@@ -1,4 +1,4 @@
-export enum ConnectionState {
+export enum EntityState {
   Unknow,
   Add,
   Update,

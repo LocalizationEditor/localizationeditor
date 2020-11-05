@@ -5,7 +5,7 @@ import {Connections} from '../connection-view/connection-view';
 import {Connection} from "../connection-data/connection";
 import {ConnectionValidator} from "../connection-validator/connectionValidator";
 import {ConnectionClientHandler} from "../connection-client-handler/connection-client-handler";
-import {ConnectionState} from "../connection-data/connection-state";
+import {EntityState} from "../../base/entity-state";
 
 @Component({
   styleUrls: ['connection-edit.css', '../base/connection.css'],
@@ -29,7 +29,7 @@ export class ConnectionEdit {
 
   handle(name: string, connectionStr: string): void {
     this.connection = new Connection(this.connectionId, name, connectionStr);
-    this.connection.setState(ConnectionState.Update);
+    this.connection.setState(EntityState.Update);
     this.handler.handle(this.connection);
   }
 

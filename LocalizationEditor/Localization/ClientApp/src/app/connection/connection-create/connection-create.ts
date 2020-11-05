@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {Connection} from "../connection-data/connection";
 import {ConnectionValidator} from "../connection-validator/connectionValidator";
-import {ConnectionState} from "../connection-data/connection-state";
 import {ConnectionClientHandler} from "../connection-client-handler/connection-client-handler";
+import {EntityState} from "../../base/entity-state";
 
 @Component({
   styleUrls: ['../base/connection.css'],
@@ -26,7 +26,7 @@ export class ConnectionCreate {
     alert("click");
     this.connection.name = name;
     this.connection.connectionString = connectionStr;
-    this.connection.setState(ConnectionState.Add);
+    this.connection.setState(EntityState.Add);
     this.handler.handle(this.connection);
   }
 }

@@ -1,11 +1,11 @@
 import {IConnection} from "./IConnection";
-import {ConnectionState} from "./connection-state";
+import {EntityState} from "../../base/entity-state";
 
 export class Connection implements IConnection{
   id: number;
   name: string;
   connectionString: string;
-  state: ConnectionState;
+  state: EntityState;
 
   constructor(id: number, name: string, connection: string) {
     this.id = id;
@@ -17,7 +17,7 @@ export class Connection implements IConnection{
     return this.id == 0;
   }
 
-  setState(state: ConnectionState): void{
+  setState(state: EntityState): void{
     this.state = state;
   }
 }
