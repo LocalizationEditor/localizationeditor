@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{lable}}</mat-label>
+  <input matInput [required] = "isRequired"
+         [placeholder]="placeholder"
+         minlength="1" [type]="type"
+         [matTooltip]="tooltipMessage"
+         [ngModel]="value" (ngModelChange)="changeValue($event)"/>
+</mat-form-field>

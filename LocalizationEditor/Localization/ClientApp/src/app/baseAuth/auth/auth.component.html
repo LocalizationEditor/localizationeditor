@@ -1,0 +1,13 @@
+<mat-card *ngIf=!isLogIn()>
+  <div class="authwrapper">
+    <div class="fields">
+      <input-field type="email" lable="email" placeholder="email..." #email [value]="email.value">
+      </input-field>
+
+      <input-field type="password" lable="password" placeholder="password..." #password [value]="password.value">
+      </input-field>
+
+      <button mat-button color="accent" (click)="login(email.value, password.value)" #loginbutton>Login</button>
+    </div>
+  </div>
+</mat-card>
