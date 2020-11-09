@@ -7,14 +7,11 @@
   width: 97%;
 }
 
-td, th {
-  width: 25%;
-}
 .example-container {
-  height: calc( 100vh - 120px);
+  height: calc(100vh - 120px);
   overflow: auto;
 }
 
-#fieldGroup{
+#fieldGroup {
   width: 100%;
 }

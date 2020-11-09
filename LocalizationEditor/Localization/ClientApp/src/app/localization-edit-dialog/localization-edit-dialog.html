@@ -1,0 +1,27 @@
+﻿<h2 mat-dialog-title>Edit</h2>
+<mat-dialog-content class="editor">
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="{{locale}}" *ngFor="let locale of locales">
+
+      <mat-select name="theme" id="theme" (change)="switchTheme($event.target.value)">
+        <ng-container *ngFor="let theme of themes|async" >
+          <mat-option [value]="theme">{{ theme }}</mat-option>
+        </ng-container>
+      </mat-select>
+
+      <nge-monaco-editor
+        style="--editor-height: 200px"
+        (ready)="onCreateEditor($event)">
+      </nge-monaco-editor>
+      <mat-select>
+        <ng-container *ngFor="let lang of langs" >
+          <mat-option [value]="lang">{{ lang }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="accent" (click)="save()" [mat-dialog-close]="true">Save</button>
+</mat-dialog-actions>

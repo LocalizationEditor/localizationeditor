@@ -1,16 +1,14 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
-
 import {AppComponent} from './app.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
 import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocalizationTable} from './localization-table/localization-table';
 import {A11yModule} from '@angular/cdk/a11y';
-// import {ClipboardModule} from '@angular/cdk/clipboard';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
 import {ScrollingModule} from '@angular/cdk/scrolling';
@@ -54,13 +52,18 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
+import {StepperVerticalComponent} from "./settings-stepper/settings-stepper";
+import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
+import {NGE_THEMES, NgeMonacoModule} from 'nge-monaco';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     FetchDataComponent,
-    LocalizationTable
+    LocalizationTable,
+    StepperVerticalComponent,
+    LocalizationEditDialog
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -70,6 +73,7 @@ import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
       {path: '', component: LocalizationTable, pathMatch: 'full'},
       {path: 'localization-table', component: LocalizationTable},
       {path: 'fetch-data', component: FetchDataComponent},
+      {path: 'settings', component: StepperVerticalComponent},
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -117,10 +121,23 @@ import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
     ScrollingModule,
     MatFormFieldModule,
     MatTableModule,
-    MatTableModule
+    MatTableModule,
+    ReactiveFormsModule,
+    NgeMonacoModule.forRoot({ // use forRoot() in main app module only.
+      locale: 'en', // editor ui language
+      options: { // default options passed to monaco editor instances https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
+        scrollBeyondLastLine: false
+      },
+      theming: {
+        themes: NGE_THEMES.map(theme => 'assets/nge-monaco/themes/' + theme), // use all themes
+        default: 'github' // default theme
+      }
+    })
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [LocalizationEditDialog],
 })
+
 export class AppModule {
 }
