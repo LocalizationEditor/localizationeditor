@@ -120,8 +120,6 @@ import {NGE_THEMES, NgeMonacoModule} from 'nge-monaco';
     PortalModule,
     ScrollingModule,
     MatFormFieldModule,
-    MatTableModule,
-    MatTableModule,
     ReactiveFormsModule,
     NgeMonacoModule.forRoot({ // use forRoot() in main app module only.
       locale: 'en', // editor ui language
@@ -129,8 +127,12 @@ import {NGE_THEMES, NgeMonacoModule} from 'nge-monaco';
         scrollBeyondLastLine: false
       },
       theming: {
-        themes: NGE_THEMES.map(theme => 'assets/nge-monaco/themes/' + theme), // use all themes
-        default: 'github' // default theme
+        themes: [ // custom themes (see theming section for more information)
+          'assets/nge-monaco/themes/monokai.json'
+        ],
+
+        // themes: NGE_THEMES.map(theme => 'assets/nge-monaco/themes/' + theme),
+        default: 'monokai'
       }
     })
   ],
