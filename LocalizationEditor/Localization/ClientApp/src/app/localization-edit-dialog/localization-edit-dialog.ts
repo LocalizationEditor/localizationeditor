@@ -16,6 +16,8 @@ export class LocalizationEditDialog {
   themes = this.theming.themesChanges;
   locales: string[];
   langs: any;
+  flag: boolean = false;
+
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
               @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData,
               private readonly theming: NgeMonacoThemeService) {
@@ -23,10 +25,10 @@ export class LocalizationEditDialog {
     // this.langs = monaco.languages.getLanguages().map(({ id }) => id);
   }
 
-  onCreateEditor(editor: monaco.editor.IStandaloneCodeEditor,languages : monaco.languages.LanguageConfiguration) {
+  onCreateEditor(editor: monaco.editor.IStandaloneCodeEditor, languages: monaco.languages.LanguageConfiguration) {
 
     editor.setModel(monaco.editor.createModel('print("Hello world")', 'python'));
-    this.langs = monaco.languages.getLanguages().map(({ id }) => id);
+    this.langs = monaco.languages.getLanguages().map(({id}) => id);
   }
 
   async switchTheme(theme: string) {
@@ -37,5 +39,14 @@ export class LocalizationEditDialog {
   save(): void {
 
     console.log("saved");
+  }
+
+  helper(): void {
+    if (this.flag === false) {
+      const data = document.getElementsByClassName("mat-tab-body-wrapper")[0];
+      console.log(data)
+      data.setAttribute("style","height:100%");
+      //data.
+    }
   }
 }
