@@ -8,22 +8,23 @@
     "build:ssr": "ng run Localization:server:dev",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^9.1.12",
-    "@angular/cdk": "^9.2.4",
+    "@angular/cdk": "^8.2.3",
     "@angular/common": "^9.1.12",
     "@angular/compiler": "^9.1.12",
     "@angular/core": "^9.1.12",
     "@angular/forms": "^9.1.12",
-    "@angular/material": "^9.2.4",
+    "@angular/material": "^8.2.3",
     "@angular/platform-browser": "^9.1.12",
     "@angular/platform-browser-dynamic": "^9.1.12",
     "@angular/platform-server": "^9.1.12",
     "@angular/router": "^9.1.12",
-    "@nguniversal/module-map-ngfactory-loader": "^8.1.1",
+    "@nguniversal/module-map-ngfactory-loader": "^9.0.0-next.9",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.5.3",
     "core-js": "^3.8.0",
@@ -33,14 +34,15 @@
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.6.3",
-    "zone.js": "0.9.1",
-    "node-forge": "^0.10.0"
+    "zone.js": "~0.10.3",
+    "node-forge": "^0.10.0",
+    "monaco-editor": "^0.21.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.26",
-    "@angular/cli": "^8.3.29",
-    "@angular/compiler-cli": "^8.2.14",
-    "@angular/language-service": "^8.2.14",
+    "@angular-devkit/build-angular": "^0.901.12",
+    "@angular/cli": "^9.1.12",
+    "@angular/compiler-cli": "^9.1.12",
+    "@angular/language-service": "^9.1.12",
     "@types/jasmine": "~3.4.4",
     "@types/jasminewd2": "~2.0.8",
     "@types/node": "~12.11.6",
@@ -52,7 +54,7 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.5.4",
-    "typescript": "3.5.3"
+    "typescript": "3.8.3"
   },
   "optionalDependencies": {
     "node-sass": "^4.12.0",
