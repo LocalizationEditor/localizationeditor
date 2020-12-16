@@ -1,48 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using Autofac.Core;
 using Microsoft.Extensions.Configuration;
-using Module = Autofac.Module;
 
 namespace LocalizationEditor.Base.Extensions
 {
   public static class AssemblyHelper
   {
-    public static IReadOnlyCollection<Assembly> GetAssemblies(this Assembly assembly)
+    public static IReadOnlyCollection<Assembly> GetAssemblies(
+      this Assembly assembly, string rootContentPath = "LocalizationEditor")
     {
       var assemblies = new List<Assembly>();
-      GetDependentAssemblies(assembly, assemblies);
+      GetDependentAssemblies(assembly, assemblies, rootContentPath);
       assemblies.Add(assembly);
       return assemblies;
     }
 
-    public static void AddDiForDependentAssemblies(this Assembly assembly, ContainerBuilder builder,
+    public static void AddDiForDependentAssemblies(this Assembly assembly, 
+      ContainerBuilder builder,
       IConfiguration configuration)
     {
-      var assemblies = assembly.GetAssemblies();
-      var injectedClasses = assemblies
-        .SelectMany(a =>
-          a.GetTypes().Where(type => type.BaseType == typeof(Module)).ToList()
-        ).ToList();
-
-      foreach (var type in injectedClasses)
-      {
-        var method = type.GetMethod("Load", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (method == null || !method.GetParameters().Any(i => i.ParameterType == typeof(ContainerBuilder)))
-          return;
-
-        if (Activator.CreateInstance(type, null) is IModule module)
-          builder.RegisterModule(module);
-      }
+      var assemblies = assembly.GetAssemblies().ToArray();
+      builder.RegisterAssemblyModules(assemblies);
     }
 
-    private static void GetDependentAssemblies(Assembly assembly, ICollection<Assembly> dependentAssemblyList)
+    private static void GetDependentAssemblies(
+      Assembly assembly, ICollection<Assembly> dependentAssemblyList, string rootContentPath)
     {
       var referencedAssemblies = assembly.GetReferencedAssemblies()
-        .Where(i => i.FullName.StartsWith("LocalizationEditor"));
+        .Where(i => i.FullName.StartsWith(rootContentPath));
 
       foreach (var referencedAssembly in referencedAssemblies)
       {
@@ -50,7 +37,7 @@ namespace LocalizationEditor.Base.Extensions
           continue;
         var loadedAssembly = Assembly.Load(referencedAssembly.FullName);
         dependentAssemblyList.Add(loadedAssembly);
-        GetDependentAssemblies(loadedAssembly, dependentAssemblyList);
+        GetDependentAssemblies(loadedAssembly, dependentAssemblyList, rootContentPath);
       }
     }
   }
