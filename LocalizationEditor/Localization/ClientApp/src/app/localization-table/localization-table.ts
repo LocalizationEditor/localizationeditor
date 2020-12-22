@@ -4,11 +4,11 @@ import {LocalizationEditDialog} from "../localization-edit-dialog/localization-e
 import {MatDialog} from "@angular/material/dialog";
 
 export interface LocalizationDataRow {
-  localizationGroup: string;
-  localizationKey: string;
+  group: string;
+  key: string;
 }
 
-const LOCALES: string[] = ['ru', 'ua', 'en', 'he', 'tr', 'er', 'uk'];
+const LOCALES: string[] = ['ru', 'ua', 'enlksjdfglhksdjf.xcm,vb.xcmvnb.xc,mvnblifgolihjdclksjdhfgpsdiuyfhjkxcvb;xcvbhlfdglkjdshflkgjhdsfg'];
 const NAMES: string[] = [
   'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
   'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
@@ -21,7 +21,7 @@ const NAMES: string[] = [
 })
 export class LocalizationTable implements AfterViewInit {
   columnsToDisplay = [];
-  columns = ['localizationGroup', 'localizationKey'];
+  columns = ['group', 'key'];
   dataSource: MatTableDataSource<LocalizationDataRow>;
   rows: LocalizationDataRow[];
 
@@ -46,14 +46,29 @@ export class LocalizationTable implements AfterViewInit {
     }
   }
 
-  openEditDialog() {
+  editLocalization(localizedRow: LocalizationDataRow) {
     const dialogRef = this.dialog.open(LocalizationEditDialog, {
-      height:'90%',
-      width:'90%',
-      data: {locales: LOCALES}
+      height: '99%',
+      data: {locales: LOCALES, localizedString: localizedRow}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  deleteLocalizationKey() {
+    // todo add logic to delete and server route
+  }
+
+  addLocalizationString() {
+
+
+    const dialogRef = this.dialog.open(LocalizationEditDialog, {
+      height: '99%',
+      data: {locales: LOCALES, localizedString: {}}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      // todo process dialog closing
     });
   }
 }
@@ -63,8 +78,8 @@ function createLocalizationRow(id: number): any {
     NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
 
   let row = {
-    localizationGroup: id.toString(),
-    localizationKey: name
+    group: id.toString(),
+    key: name
   };
 
   for (const locale in LOCALES) {

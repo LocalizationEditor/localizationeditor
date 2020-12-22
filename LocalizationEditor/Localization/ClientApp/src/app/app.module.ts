@@ -48,13 +48,13 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {MatFormFieldModule} from "@angular/material/form-field";
-
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {StepperVerticalComponent} from "./settings-stepper/settings-stepper";
 import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
-import {NGE_THEMES, NgeMonacoModule} from 'nge-monaco';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -121,22 +121,9 @@ import {NGE_THEMES, NgeMonacoModule} from 'nge-monaco';
     ScrollingModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    NgeMonacoModule.forRoot({ // use forRoot() in main app module only.
-      locale: 'en', // editor ui language
-      options: { // default options passed to monaco editor instances https://microsoft.github.io/monaco-editor/api/interfaces/monaco.editor.ieditorconstructionoptions.html
-        scrollBeyondLastLine: false
-      },
-      theming: {
-        themes: [ // custom themes (see theming section for more information)
-          'assets/nge-monaco/themes/monokai.json'
-        ],
-
-        // themes: NGE_THEMES.map(theme => 'assets/nge-monaco/themes/' + theme),
-        default: 'monokai'
-      }
-    })
+    MonacoEditorModule.forRoot(),
   ],
-  providers: [],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog],
 })

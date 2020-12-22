@@ -1,9 +1,10 @@
-﻿import {Component, Inject, ViewChild} from '@angular/core';
+﻿import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {NgeMonacoThemeService} from "nge-monaco";
+import {MatTabChangeEvent} from "@angular/material/tabs";
 
 export interface UpdateDialogData {
   locales: string[];
+  localizedString: object;
 }
 
 @Component({
@@ -13,40 +14,29 @@ export interface UpdateDialogData {
 })
 
 export class LocalizationEditDialog {
-  themes = this.theming.themesChanges;
   locales: string[];
-  langs: any;
-  flag: boolean = false;
+  editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
+  code: string;
+  localizationString = {};
+  private lastSelected: string;
 
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
-              @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData,
-              private readonly theming: NgeMonacoThemeService) {
+              @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData) {
     this.locales = data.locales;
-    // this.langs = monaco.languages.getLanguages().map(({ id }) => id);
-  }
+    this.localizationString = data.localizedString;
 
-  onCreateEditor(editor: monaco.editor.IStandaloneCodeEditor, languages: monaco.languages.LanguageConfiguration) {
-
-    editor.setModel(monaco.editor.createModel('print("Hello world")', 'python'));
-    this.langs = monaco.languages.getLanguages().map(({id}) => id);
-  }
-
-  async switchTheme(theme: string) {
-    debugger;
-    this.theming.setTheme(theme);
+    this.lastSelected = this.locales[0];
+    this.code = this.localizationString[this.lastSelected];
   }
 
   save(): void {
-
-    console.log("saved");
+    // todo implement save logic to server
   }
 
-  helper(): void {
-    if (this.flag === false) {
-      const data = document.getElementsByClassName("mat-tab-body-wrapper")[0];
-      console.log(data)
-      data.setAttribute("style","height:100%");
-      //data.
-    }
+  tabChanged($event: MatTabChangeEvent): void {
+    this.localizationString[this.lastSelected] = this.code
+    this.code = this.localizationString[$event.tab.textLabel];
+    this.lastSelected = $event.tab.textLabel;
   }
 }
+
