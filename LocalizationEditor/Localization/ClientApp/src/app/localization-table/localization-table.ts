@@ -57,8 +57,6 @@ export class LocalizationTable implements AfterViewInit {
   }
 
   addLocalizationString() {
-
-
     const dialogRef = this.dialog.open(LocalizationEditDialog, {
       height: '99%',
       data: {locales: LOCALES, localizedString: {}}
