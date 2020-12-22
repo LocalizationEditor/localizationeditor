@@ -1,3 +1,7 @@
+using System.Reflection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using LocalizationEditor.Base.Extensions;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

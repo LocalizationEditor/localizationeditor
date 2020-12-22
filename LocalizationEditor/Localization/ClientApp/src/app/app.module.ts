@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
@@ -47,14 +47,19 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {StepperVerticalComponent} from "./settings-stepper/settings-stepper";
 import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
 import { MonacoEditorModule } from 'ngx-monaco-editor';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
+import {InputField} from "./base/inputField/inputField";
+import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
+import {ConnectionCreate} from "./connection/connection-create/connection-create";
+import {ConnectionStringView} from "./connection/connection-view/connection-view";
+import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +68,13 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     FetchDataComponent,
     LocalizationTable,
     StepperVerticalComponent,
-    LocalizationEditDialog
+    LocalizationEditDialog,
+    ConnectionStringView,
+    TableColumnActions,
+    ConnectionEdit,
+    InputField,
+    ConnectionDeleteDialog,
+    ConnectionCreate
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -74,6 +85,9 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
       {path: 'localization-table', component: LocalizationTable},
       {path: 'fetch-data', component: FetchDataComponent},
       {path: 'settings', component: StepperVerticalComponent},
+      {path: 'connection/view', component: ConnectionStringView},
+      {path: 'connection/edit/:id', component: ConnectionEdit},
+      {path: 'connection/create', component: ConnectionCreate}
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -122,11 +136,12 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
     MatFormFieldModule,
     ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
+    MatTableModule,
+    ReactiveFormsModule,
   ],
   providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent],
-  entryComponents: [LocalizationEditDialog],
+  entryComponents: [LocalizationEditDialog,ConnectionDeleteDialog],
 })
-
 export class AppModule {
 }

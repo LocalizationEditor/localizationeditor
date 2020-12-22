@@ -3,6 +3,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localizatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39CB195D-A454-4869-B783-FDD11BC232DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.Base", "LocalizationEditor.Base\LocalizationEditor.Base.csproj", "{714FA344-2256-4FBF-BB39-074E4E88796D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +15,13 @@ Global
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{714FA344-2256-4FBF-BB39-074E4E88796D} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 	EndGlobalSection
 EndGlobal
