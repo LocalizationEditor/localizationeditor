@@ -1,10 +1,11 @@
 ﻿import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatTabChangeEvent} from "@angular/material/tabs";
+import {LocalizationDataRow} from "../localization-table/localization-table";
 
 export interface UpdateDialogData {
   locales: string[];
-  localizedString: object;
+  localizedString: LocalizationDataRow;
 }
 
 @Component({
@@ -18,12 +19,14 @@ export class LocalizationEditDialog {
   editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
   code: string;
   localizationString = {};
+  localizationKey: string;
   private lastSelected: string;
 
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
               @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData) {
     this.locales = data.locales;
     this.localizationString = data.localizedString;
+    this.localizationKey = data.localizedString.key;
 
     this.lastSelected = this.locales[0];
     this.code = this.localizationString[this.lastSelected];
