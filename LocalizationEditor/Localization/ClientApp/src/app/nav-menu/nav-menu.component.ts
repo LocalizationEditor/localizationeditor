@@ -5,6 +5,8 @@ import {CustomRoute} from "../base/route";
 const Routes: CustomRoute[] = [
   new CustomRoute(1, "View", "connection/view"),
   new CustomRoute(2, "Create", "connection/create"),
+  new CustomRoute(3, "Localization", "localization-table"),
+  new CustomRoute(4, "Settings", "settings"),
 ];
 
 @Component({
