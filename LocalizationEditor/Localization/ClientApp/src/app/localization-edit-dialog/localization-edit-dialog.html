@@ -3,8 +3,9 @@
   <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales">
   </mat-tab>
 </mat-tab-group>
-<ngx-monaco-editor class="my-code-editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+<ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button>Preview</button>
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
   <button mat-button color="accent" (click)="save()" [mat-dialog-close]="true">Save</button>
 </mat-dialog-actions>
