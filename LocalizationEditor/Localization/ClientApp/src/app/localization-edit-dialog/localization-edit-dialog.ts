@@ -1,12 +1,7 @@
 ﻿import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatTabChangeEvent} from "@angular/material/tabs";
-import {LocalizationDataRow} from "../localization-table/localization-table";
-
-export interface UpdateDialogData {
-  locales: string[];
-  localizedString: LocalizationDataRow;
-}
+import {UpdateDialogData} from "./update-dialog-data";
 
 @Component({
   selector: 'localization-edit-dialog',

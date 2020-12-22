@@ -2,11 +2,7 @@
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
-
-export interface LocalizationDataRow {
-  group: string;
-  key: string;
-}
+import {LocalizationDataRow} from "./localization-data-row";
 
 const LOCALES: string[] = ['ru', 'ua', 'enlksjdfglhksdjf.xcm,vb.xcmvnb.xc,mvnblifgolihjdclksjdhfgpsdiuyfhjkxcvb;xcvbhlfdglkjdshflkgjhdsfg'];
 const NAMES: string[] = [
