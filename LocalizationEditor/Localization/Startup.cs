@@ -73,7 +73,7 @@ namespace Localization
       app.UseSpa(spa =>
       {
         spa.Options.SourcePath = "ClientApp";
-        spa.Options.StartupTimeout = new TimeSpan(0, 2, 0);
+        spa.Options.StartupTimeout = new TimeSpan(0, 5, 0);
 
         if (env.IsDevelopment())
         {
