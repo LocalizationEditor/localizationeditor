@@ -53,7 +53,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {StepperVerticalComponent} from "./settings-stepper/settings-stepper";
 import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
-import { MonacoEditorModule } from 'ngx-monaco-editor';
+import {MonacoEditorModule} from 'ngx-monaco-editor';
 import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
 import {InputField} from "./base/inputField/inputField";
 import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
@@ -142,11 +142,13 @@ import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
     MatTableModule,
     ReactiveFormsModule,
   ],
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     SpinnerHttpInterceptor,
-    { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true }],
+    {provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true},
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [LocalizationEditDialog,ConnectionDeleteDialog],
+  entryComponents: [LocalizationEditDialog, ConnectionDeleteDialog],
 })
 export class AppModule {
 }

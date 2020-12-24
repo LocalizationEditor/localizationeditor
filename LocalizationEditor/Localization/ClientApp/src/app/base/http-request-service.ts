@@ -1,5 +1,6 @@
 ﻿import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,11 @@ export class HttpRequestService {
     return this.httpClient.delete(`${this.baseUrl}${uri}`);
   }
 
-  public post<T>(uri: string, requestObject: T) {
+  public post<T>(uri: string, requestObject: T):Observable<any> {
     return this.httpClient.post(`${this.baseUrl}${uri}`, requestObject);
   }
 
-  public put<T>(uri: string, requestObject: T) {
+  public put<T>(uri: string, requestObject: T):Observable<any> {
     return this.httpClient.put(`${this.baseUrl}${uri}`, requestObject);
   }
 }
