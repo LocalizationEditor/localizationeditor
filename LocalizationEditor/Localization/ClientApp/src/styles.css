@@ -22,7 +22,7 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; }
   z-index: -1;
 }
 
-app-root:empty ::after {
+app-root:empty + .loading {
   opacity: 1;
   z-index: 100;
 }
