@@ -1,15 +1,16 @@
-﻿import {AfterViewInit, Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
-import {LocalizationDataRow} from "./localization-data-row";
+import {
+  LocalizationDataRowView,
+  LocalizationDataRowServerDto,
+  LocalizationDataRowsServerDto
+} from "./localization-data-row-view";
 import {LocalizationConfig} from "./localization-config";
 import {HttpRequestService} from "../base/http-request-service";
-
-const NAMES: string[] = [
-  'Maia', 'Asher', 'Olivia', 'Atticus', 'Amelia', 'Jack', 'Charlotte', 'Theodore', 'Isla', 'Oliver',
-  'Isabella', 'Jasper', 'Cora', 'Levi', 'Violet', 'Arthur', 'Mia', 'Thomas', 'Elizabeth'
-];
+import {catchError, map, startWith, switchMap} from "rxjs/operators";
+import {merge, of as observableOf} from 'rxjs';
 
 @Component({
   selector: 'localization-table',
@@ -17,46 +18,53 @@ const NAMES: string[] = [
   templateUrl: 'localization-table.html',
 })
 
-export class LocalizationTable implements OnInit, AfterViewInit {
+export class LocalizationTable implements OnInit {
   public columnsToDisplay = [];
-
   columns = ['group', 'key'];
-  dataSource: MatTableDataSource<LocalizationDataRow>;
-  rows: LocalizationDataRow[];
+  dataSource: MatTableDataSource<LocalizationDataRowView>;
   public config: LocalizationConfig;
+  private isLoadingResults: boolean;
 
   constructor(private dialog: MatDialog, private httpService: HttpRequestService) {
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
-    this.httpService.get<LocalizationConfig>(`${BaseServerRoutes.Localization}/config`).subscribe(data => {
-        this.config = data;
-        this.rows = Array.from({length: 100}, (_, k) => this.createLocalizationRow(k + 1));
-        this.dataSource = new MatTableDataSource(this.rows);
-        this.config.locales.forEach(i => this.columns.push(i));
-        this.columnsToDisplay = Array.from(this.columns);
-        this.columnsToDisplay.push('actions');
-      },
-      error => console.log(error));
+    this.getConfig();
+    this.getList();
   }
 
-  ngAfterViewInit(): void {
-    console.log();
+  private getConfig() {
+    this.httpService.get<LocalizationConfig>(`${BaseServerRoutes.Localization}/config`)
+      .subscribe(data => {
+          this.config = data;
+          this.config.locales.forEach(i => this.columns.push(i));
+          this.columnsToDisplay = Array.from(this.columns);
+          this.columnsToDisplay.push('actions');
+        },
+        error => console.log(error));
   }
 
-  private createLocalizationRow(id: number): LocalizationDataRow {
-    const name = NAMES[Math.round(Math.random() * (NAMES.length - 1))] + ' ' +
-      NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) + '.';
+  private getList() {
+    this.httpService.get<LocalizationDataRowsServerDto>(`${BaseServerRoutes.Localization}`)
+      .subscribe(data => {
+        if(data === null)
+          return;
+        let rows = data.localizationStrings.map(LocalizationTable.mapRow);
+        this.dataSource = new MatTableDataSource(rows)
+      }, i => console.log(i));
+  }
 
+  private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
     let row = {
-      group: id.toString(),
-      key: name
-    };
-
-    for (const locale in this.config.locales) {
-      row[this.config.locales[locale]] = this.config.locales[Math.round(Math.random() * (this.config.locales.length - 1))];
+      group: serverDto.group,
+      key: serverDto.key,
+      id: serverDto.id
     }
-    return row;
+    return serverDto.localizations.reduce((obj, item) => {
+      obj[item.locale] = item.value;
+      return obj;
+    }, row);
   }
 
   applyFilter(event: Event) {
@@ -68,7 +76,7 @@ export class LocalizationTable implements OnInit, AfterViewInit {
     }
   }
 
-  editLocalization(localizedRow: LocalizationDataRow) {
+  editLocalization(localizedRow: LocalizationDataRowView) {
     const dialogRef = this.dialog.open(LocalizationEditDialog, {
       height: '99%',
       width: '90%',
@@ -95,7 +103,6 @@ export class LocalizationTable implements OnInit, AfterViewInit {
   }
 }
 
-enum BaseServerRoutes
-{
+enum BaseServerRoutes {
   Localization = `localization`,
 }

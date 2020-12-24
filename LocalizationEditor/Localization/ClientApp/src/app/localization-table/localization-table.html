@@ -11,7 +11,7 @@
 
   <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
 
-    <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columns" >
       <mat-header-cell *matHeaderCellDef><span class="truncate-text ">{{column}}</span></mat-header-cell>
       <mat-cell *matCellDef="let element"><span class="truncate-text ">{{element[column]}}</span></mat-cell>
     </ng-container>
