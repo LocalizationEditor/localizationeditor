@@ -60,6 +60,8 @@ import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/conn
 import {ConnectionCreate} from "./connection/connection-create/connection-create";
 import {ConnectionStringView} from "./connection/connection-view/connection-view";
 import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
+import {SpinnerOverlayComponent} from "./base/spinner/component/spinner-overlay.component";
+import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
 
 @NgModule({
   declarations: [
@@ -74,7 +76,8 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
     ConnectionEdit,
     InputField,
     ConnectionDeleteDialog,
-    ConnectionCreate
+    ConnectionCreate,
+    SpinnerOverlayComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -139,7 +142,9 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
     MatTableModule,
     ReactiveFormsModule,
   ],
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    SpinnerHttpInterceptor,
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true }],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog,ConnectionDeleteDialog],
 })

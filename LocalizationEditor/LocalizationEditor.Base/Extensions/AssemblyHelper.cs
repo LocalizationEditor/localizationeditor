@@ -8,7 +8,7 @@ namespace LocalizationEditor.Base.Extensions
 {
   public static class AssemblyHelper
   {
-    public static IReadOnlyCollection<Assembly> GetAssemblies(
+    private static IEnumerable<Assembly> GetAssemblies(
       this Assembly assembly, string rootContentPath = "LocalizationEditor")
     {
       var assemblies = new List<Assembly>();
