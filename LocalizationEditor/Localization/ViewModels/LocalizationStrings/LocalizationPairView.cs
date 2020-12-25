@@ -8,6 +8,5 @@ namespace Localization.ViewModels.LocalizationStrings
     public string Locale { get; set; }
     [JsonProperty("value")]
     public string Value { get; set; }
-
   }
 }

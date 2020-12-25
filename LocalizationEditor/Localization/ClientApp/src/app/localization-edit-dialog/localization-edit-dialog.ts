@@ -9,7 +9,6 @@ import {
 } from "../localization-table/models/localization-data-row-view";
 import {SnackbarService} from "../base/snackbar-service";
 import {LocalizationDataRowServerDto} from "../localization-table/models/localization-data-row-server-dto";
-import {LocalizationStringDto} from "../localization-table/models/localization-string-dto";
 
 @Component({
   selector: 'localization-edit-dialog',
@@ -39,6 +38,7 @@ export class LocalizationEditDialog {
   }
 
   save(): void {
+    this.localizationString[this.lastSelected] = this.code
     let obj = this.mapServerDto(this.localizationString);
     let promise;
     if (this.localizationString.id === 0)
@@ -54,23 +54,18 @@ export class LocalizationEditDialog {
   }
 
   private mapServerDto(localizationString: LocalizationDataRowView): LocalizationDataRowServerDto {
-    let localizations: LocalizationStringDto[] = [];
-    for (const localesKey in this.locales) {
-      let localizationObject = {
-        locale: this.locales[localesKey],
-        value: localizationString[this.locales[localesKey]]
-      };
-      localizations.push(localizationObject);
-    }
-
     return {
       group: localizationString.group,
       key: localizationString.key,
       id: localizationString.id,
-      localizations: localizations
+      localizations: this.locales.map(i=> {
+        return {
+          locale: i,
+          value: localizationString[i]
+        }
+      })
     };
   }
-
 
   tabChanged($event: MatTabChangeEvent): void {
     this.localizationString[this.lastSelected] = this.code

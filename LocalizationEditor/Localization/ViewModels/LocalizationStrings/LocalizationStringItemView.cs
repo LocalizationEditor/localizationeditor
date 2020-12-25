@@ -11,7 +11,6 @@ namespace Localization.ViewModels.LocalizationStrings
     public string Group { get; set; }
     [JsonProperty("key")]
     public string Key { get; set; }
-
     [JsonProperty("localizations")]
     public IEnumerable<LocalizationPairView> Localizations { get; set; }
   }
