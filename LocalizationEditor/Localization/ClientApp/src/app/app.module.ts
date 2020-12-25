@@ -5,7 +5,6 @@ import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {AppComponent} from './app.component';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
-import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LocalizationTable} from './localization-table/localization-table';
 import {A11yModule} from '@angular/cdk/a11y';
@@ -51,7 +50,6 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/mater
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
-import {StepperVerticalComponent} from "./settings-stepper/settings-stepper";
 import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
 import {MonacoEditorModule} from 'ngx-monaco-editor';
 import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
@@ -67,9 +65,7 @@ import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
   declarations: [
     AppComponent,
     NavMenuComponent,
-    FetchDataComponent,
     LocalizationTable,
-    StepperVerticalComponent,
     LocalizationEditDialog,
     ConnectionStringView,
     TableColumnActions,
@@ -85,9 +81,6 @@ import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
     FormsModule,
     RouterModule.forRoot([
       {path: '', component: LocalizationTable, pathMatch: 'full'},
-      {path: 'localization-table', component: LocalizationTable},
-      {path: 'fetch-data', component: FetchDataComponent},
-      {path: 'settings', component: StepperVerticalComponent},
       {path: 'connection/view', component: ConnectionStringView},
       {path: 'connection/edit/:id', component: ConnectionEdit},
       {path: 'connection/create', component: ConnectionCreate}

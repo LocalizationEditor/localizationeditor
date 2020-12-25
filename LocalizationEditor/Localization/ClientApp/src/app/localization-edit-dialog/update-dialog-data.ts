@@ -1,4 +1,4 @@
-﻿import {LocalizationDataRowView} from "../localization-table/localization-data-row-view";
+﻿import {LocalizationDataRowView} from "../localization-table/models/localization-data-row-view";
 
 export interface UpdateDialogData {
     locales: string[];

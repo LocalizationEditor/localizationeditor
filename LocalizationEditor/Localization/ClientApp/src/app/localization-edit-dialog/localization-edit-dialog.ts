@@ -5,11 +5,11 @@ import {UpdateDialogData} from "./update-dialog-data";
 import {HttpRequestService} from "../base/http-request-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {
-  LocalizationDataRowServerDto,
-  LocalizationDataRowView,
-  LocalizationStringDto
-} from "../localization-table/localization-data-row-view";
+  LocalizationDataRowView
+} from "../localization-table/models/localization-data-row-view";
 import {SnackbarService} from "../base/snackbar-service";
+import {LocalizationDataRowServerDto} from "../localization-table/models/localization-data-row-server-dto";
+import {LocalizationStringDto} from "../localization-table/models/localization-string-dto";
 
 @Component({
   selector: 'localization-edit-dialog',

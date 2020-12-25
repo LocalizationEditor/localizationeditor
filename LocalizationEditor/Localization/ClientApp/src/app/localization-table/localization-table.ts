@@ -2,16 +2,13 @@
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
-import {
-  LocalizationDataRowServerDto,
-  LocalizationDataRowsServerDto,
-  LocalizationDataRowView
-} from "./localization-data-row-view";
-import {LocalizationConfig} from "./localization-config";
+import {LocalizationDataRowView} from "./models/localization-data-row-view";
+import {LocalizationConfig} from "./models/localization-config";
 import {HttpRequestService} from "../base/http-request-service";
 import {SnackbarService} from "../base/snackbar-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
-
+import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
+import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
 
 @Component({
   selector: 'localization-table',

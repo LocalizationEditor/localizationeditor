@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using System.Collections.Generic;
+using Localization.DataTransferObjects.LocalizationString;
+using Localization.ViewModels.LocalizationStrings;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Localization.Controllers
 {
@@ -17,21 +18,19 @@ namespace Localization.Controllers
     }
 
     [HttpPost]
-    public IActionResult Add(LocalizationStringItemView view)
+    public ActionResult<LocalizationStringItemView> Add(LocalizationStringItemView view)
     {
-      return null;
+      var dto = _mapper.Map<LocalizationRowDto>(view);
+      view = _mapper.Map<LocalizationStringItemView>(dto);
+      return view;
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(long id, LocalizationStringItemView view)
+    public ActionResult<LocalizationStringItemView> Update(long id, LocalizationStringItemView view)
     {
-      return null;
-    }
-
-    [HttpGet("{id}")]
-    public ActionResult<LocalizationStringItemView> GetById(long id)
-    {
-      return null;
+      var dto = _mapper.Map<LocalizationRowDto>(view);
+      view = _mapper.Map<LocalizationStringItemView>(dto);
+      return view;
     }
 
     [HttpDelete("{id}")]
@@ -41,81 +40,29 @@ namespace Localization.Controllers
     }
 
     [HttpGet]
-    public ActionResult<LocalizationStringList> GetAll()
+    public ActionResult<LocalizationStringListView> GetAll()
     {
-      var item = new LocalizationStringItemView {
-        Id = 0,
-        Key = "key",
-        Group = "group" ,
-        Localizations = new []
+      var item = new LocalizationRowDto(0,
+        "group",
+        "key",
+        new List<LocalizationPairDto>
         {
-          new LocalizationPair{Locale = "ru", Value = "sdfgsdfg"},
-          new LocalizationPair{Locale = "ua", Value = "@222"},
-          new LocalizationPair{Locale = "en", Value = "!11"},
-        }};
-      var list = Enumerable.Repeat(item, 100);
-      return new LocalizationStringList {LocalizationStrings = list};
+          new LocalizationPairDto("ru", "sdfgsdfg"),
+          new LocalizationPairDto("ua", "@222"),
+          new LocalizationPairDto("en", "!11"),
+        });
+
+      var list = Enumerable
+        .Repeat(item, 100)
+        .Select(_mapper.Map<LocalizationStringItemView>);
+
+      return new LocalizationStringListView {LocalizationStrings = list};
     }
 
     [HttpGet("config")]
     public ActionResult<LocalizationStringsConfigView> GetConfig()
     {
       return _mapper.Map<LocalizationStringsConfigView>(new[] {"ru", "ua", "en"});
-    }
-  }
-
-
-  public class LocalizationStringItemView
-  {
-    [JsonProperty("id")]
-    public long Id { get; set; }
-    [JsonProperty("group")]
-    public string Group { get; set; }
-    [JsonProperty("key")]
-    public string Key { get; set; }
-
-    [JsonProperty("localizations")]
-    public IEnumerable<LocalizationPair> Localizations { get; set; }
-  }
-
-  public class LocalizationPair
-  {
-    [JsonProperty("locale")]
-    public string Locale { get; set; }
-    [JsonProperty("value")]
-    public string Value { get; set; }
-
-  }
-
-  public class LocalizationStringList
-  {
-    [JsonProperty("localizationStrings")]
-    public IEnumerable<LocalizationStringItemView> LocalizationStrings { get; set; }
-  }
-
-  public class LocalizationStringsConfigView
-  {
-    [JsonProperty("locales")]
-    public IEnumerable<string> Locales { get; set; }
-  }
-
-  public class LocalizationStringsConfigViewMapperProfile : Profile
-  {
-    public LocalizationStringsConfigViewMapperProfile()
-    {
-      CreateMap<IEnumerable<string>, LocalizationStringsConfigView>()
-        .ForMember(i=>i.Locales,
-          act=>act.MapFrom(i=>i));
-    }
-  }
-
-  public class LocalizationItemViewMapperProfile : Profile
-  {
-    public LocalizationItemViewMapperProfile()
-    {
-      CreateMap<IEnumerable<string>, LocalizationStringsConfigView>()
-        .ForMember(i=>i.Locales,
-          act=>act.MapFrom(i=>i));
     }
   }
 }
