@@ -1,32 +1,37 @@
 ﻿import {Injectable, NgZone} from "@angular/core";
 import {
   MatSnackBar,
+  MatSnackBarConfig,
 } from "@angular/material/snack-bar";
 
 
 @Injectable()
- export class SnackbarService {
-  constructor( private _snackBar: MatSnackBar,
-               private _zone: NgZone) {
+export class SnackbarService {
+  constructor(private _snackBar: MatSnackBar,
+              private _zone: NgZone) {
   }
 
-  public success():void{
+  private readonly _snackbarConfig: MatSnackBarConfig = {
+    duration: 500,
+    horizontalPosition: 'right',
+    verticalPosition: 'top'
+  };
+
+  public success(): void {
     this._zone.run(() => {
-      this._snackBar.open('Success', '', {
-        duration: 500,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        panelClass: ['success-snackbar']
-      });
+      this._snackBar.open('Success',
+        '',
+        {
+          ...this._snackbarConfig,
+          panelClass: ['success-snackbar']
+        });
     });
   }
 
-  public fail():void{
+  public fail(): void {
     this._zone.run(() => {
       this._snackBar.open('Failed', '', {
-        duration: 500,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
+        ...this._snackbarConfig,
         panelClass: ['failed-snackbar']
       });
     });
