@@ -1,17 +1,16 @@
-﻿<div>
-  <div id="fieldGroup">
-    <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale" #input>
-    </mat-form-field>
-    <button mat-icon-button (click)="addLocalizationString()">
-      <mat-icon>add</mat-icon>
-    </button>
-  </div>
+﻿<div id="fieldGroup">
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale" #input>
+  </mat-form-field>
+  <button mat-icon-button (click)="addLocalizationString()">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
 
-  <mat-table class="mat-elevation-z8" [dataSource]="dataSource">
-
-    <ng-container matColumnDef="{{column}}" *ngFor="let column of columns" >
+<div class="mat-elevation-z8">
+  <mat-table [hidden]="dataSource.filteredData<=0" [dataSource]="dataSource">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
       <mat-header-cell *matHeaderCellDef><span class="truncate-text ">{{column}}</span></mat-header-cell>
       <mat-cell *matCellDef="let element"><span class="truncate-text ">{{element[column]}}</span></mat-cell>
     </ng-container>
@@ -19,7 +18,7 @@
     <ng-container matColumnDef="actions" stickyEnd>
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button mat-icon-button [matMenuTriggerFor]="menu" >
+        <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -37,9 +36,7 @@
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true "></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
-
-    <mat-header-row class="mat-row" *matNoDataRow>
-      <mat-row class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</mat-row>
-    </mat-header-row>
   </mat-table>
+  <h3 [hidden]="dataSource.filteredData.length > 0"  id="noRecords"> No records found </h3>
 </div>
+
