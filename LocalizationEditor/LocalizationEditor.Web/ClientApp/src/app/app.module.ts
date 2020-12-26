@@ -61,6 +61,7 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
 import {SpinnerOverlayComponent} from "./base/spinner/component/spinner-overlay.component";
 import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
 import {SafeHtmlPipe} from "./localization-edit-dialog/safeHtml-pipe";
+import {SnackbarService} from "./base/snackbar-service";
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import {SafeHtmlPipe} from "./localization-edit-dialog/safeHtml-pipe";
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     SpinnerHttpInterceptor,
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true},
+    SnackbarService
   ],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog, ConnectionDeleteDialog],

@@ -7,7 +7,6 @@ import {BaseServerRoutes} from "../base/base-server-routes";
 import {
   LocalizationDataRowView
 } from "../localization-table/models/localization-data-row-view";
-import {SnackbarService} from "../base/snackbar-service";
 import {LocalizationDataRowServerDto} from "../localization-table/models/localization-data-row-server-dto";
 import {Observable} from "rxjs";
 import {FormControl} from "@angular/forms";
@@ -17,7 +16,6 @@ import {map, startWith} from "rxjs/operators";
   selector: 'localization-edit-dialog',
   templateUrl: 'localization-edit-dialog.html',
   styleUrls: ['./localization-edit-dialog.css'],
-  providers: [SnackbarService]
 })
 
 export class LocalizationEditDialog implements OnInit {
@@ -36,8 +34,7 @@ export class LocalizationEditDialog implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
               @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData,
-              private _httpService: HttpRequestService,
-              private _snackBar: SnackbarService) {
+              private _httpService: HttpRequestService) {
     this.locales = data.locales;
     this.localizationString = data.localizedString;
     this.localizationKey = data.localizedString.key;

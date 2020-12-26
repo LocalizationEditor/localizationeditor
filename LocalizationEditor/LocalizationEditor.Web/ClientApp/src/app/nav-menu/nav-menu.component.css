@@ -19,7 +19,7 @@ html {
 mat-sidenav-container, mat-sidenav-content{
 overflow: initial;
 }
-example-container {
+.example-container {
   display: flex;
   flex-direction: column;
   position: absolute;

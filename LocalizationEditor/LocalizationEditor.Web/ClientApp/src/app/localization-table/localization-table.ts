@@ -5,7 +5,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {LocalizationDataRowView} from "./models/localization-data-row-view";
 import {LocalizationConfig} from "./models/localization-config";
 import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service";
-import {SnackbarService} from "../base/snackbar-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
@@ -14,7 +13,6 @@ import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-ser
   selector: 'localization-table',
   styleUrls: ['./localization-table.css'],
   templateUrl: 'localization-table.html',
-   providers: [SnackbarService]
 })
 
 export class LocalizationTable implements OnInit {
@@ -24,8 +22,7 @@ export class LocalizationTable implements OnInit {
   public config: LocalizationConfig;
 
   constructor(private _dialog: MatDialog,
-              private _httpService: HttpRequestService,
-              private _snackBar: SnackbarService) {
+              private _httpService: HttpRequestService) {
     this.dataSource = new MatTableDataSource();
   }
 

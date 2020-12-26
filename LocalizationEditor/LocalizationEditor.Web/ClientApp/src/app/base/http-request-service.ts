@@ -1,15 +1,17 @@
 ﻿import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-// import {SnackbarService} from "./snackbar-service";
 import {Observable} from "rxjs";
-// private _snackBar: SnackbarService
+import {SnackbarService} from "./snackbar-service";
+
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  deps: [SnackbarService]
 })
+
 export class HttpRequestService {
   constructor(private httpClient: HttpClient,
-              @Inject('BASE_URL') private  baseUrl: string
-              ) {
+              @Inject('BASE_URL') private  baseUrl: string,
+              private _snackBar: SnackbarService) {
   }
 
   public get<T>(requestObj: ITypedRequest<T>) {
@@ -43,13 +45,13 @@ export class HttpRequestService {
         if (request.OnThenAction !== null)
           request.OnThenAction(data);
 
-        if (request.UseSuccessSnackBar === true)
-          // this._snackBar.success();
+        if (request.UseSuccessSnackBar)
+           this._snackBar.success();
 
         return data;
       })
       .catch(error => {
-        // this._snackBar.fail();
+        this._snackBar.fail();
         console.log(error)
       });
   }
