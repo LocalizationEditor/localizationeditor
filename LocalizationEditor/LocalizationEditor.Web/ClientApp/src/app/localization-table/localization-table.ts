@@ -4,7 +4,7 @@ import {LocalizationEditDialog} from "../localization-edit-dialog/localization-e
 import {MatDialog} from "@angular/material/dialog";
 import {LocalizationDataRowView} from "./models/localization-data-row-view";
 import {LocalizationConfig} from "./models/localization-config";
-import {HttpRequestService} from "../base/http-request-service";
+import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service";
 import {SnackbarService} from "../base/snackbar-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
@@ -14,7 +14,7 @@ import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-ser
   selector: 'localization-table',
   styleUrls: ['./localization-table.css'],
   templateUrl: 'localization-table.html',
-  providers: [SnackbarService]
+   providers: [SnackbarService]
 })
 
 export class LocalizationTable implements OnInit {
@@ -35,32 +35,28 @@ export class LocalizationTable implements OnInit {
   }
 
   private getConfig() {
-    this._httpService.get<LocalizationConfig>(`${BaseServerRoutes.Localization}/config`)
-      .subscribe(data => {
-          this.config = data;
-          this.config.locales.forEach(i => this.columns.push(i));
-          this.columnsToDisplay = Array.from(this.columns);
-          this.columnsToDisplay.push('actions');
-        },
-        error => {
-          this._snackBar.fail();
-          console.log(error)
-        });
+    //.subscribe(data => {
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/config`,
+      false,
+      null,
+      result => {
+        this.config = {...result};
+        this.config.locales.forEach(i => this.columns.push(i));
+        this.columnsToDisplay = Array.from(this.columns);
+        this.columnsToDisplay.push('actions');
+      });
+    this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
 
   private getList() {
-    this._httpService.get<LocalizationDataRowsServerDto>(`${BaseServerRoutes.Localization}`)
-      .subscribe(
-        data => {
-          if (data === null)
-            return;
-          let rows = data.localizationStrings.map(LocalizationTable.mapRow);
-          this.dataSource = new MatTableDataSource(rows)
-        },
-        error => {
-          this._snackBar.fail();
-          console.log(error)
-        });
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}`,
+      false,
+      null,
+      result => {
+        let rows = result.localizationStrings.map(LocalizationTable.mapRow);
+        this.dataSource = new MatTableDataSource(rows)
+      });
+    this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
 
   private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
@@ -96,13 +92,9 @@ export class LocalizationTable implements OnInit {
   }
 
   deleteLocalizationKey(localizedRow: LocalizationDataRowView) {
-    this._httpService.delete(`${BaseServerRoutes.Localization}/${localizedRow.id}`)
-      .subscribe(
-        data => this._snackBar.success(),
-        error => {
-          this._snackBar.fail();
-          console.log(error)
-        });
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/${localizedRow.id}`,
+      true);
+    this._httpService.delete(request);
   }
 
   addLocalizationString() {

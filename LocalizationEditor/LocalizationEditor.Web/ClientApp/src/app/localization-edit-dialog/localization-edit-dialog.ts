@@ -2,7 +2,7 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {MatTabChangeEvent} from "@angular/material/tabs";
 import {UpdateDialogData} from "./update-dialog-data";
-import {HttpRequestService} from "../base/http-request-service";
+import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {
   LocalizationDataRowView
@@ -20,7 +20,7 @@ import {map, startWith} from "rxjs/operators";
   providers: [SnackbarService]
 })
 
-export class LocalizationEditDialog implements OnInit{
+export class LocalizationEditDialog implements OnInit {
   public locales: string[];
   public editorOptions = {theme: 'vs-dark', language: 'html', automaticLayout: true};
   public code: string;
@@ -63,17 +63,16 @@ export class LocalizationEditDialog implements OnInit{
   save(): void {
     this.localizationString[this.lastSelected] = this.code
     let obj = this.mapServerDto(this.localizationString);
-    let promise;
+    let request = new TypedRequestImpl(
+      this.localizationString.id === 0 ?
+        `${BaseServerRoutes.Localization}` :
+        `${BaseServerRoutes.Localization}/${this.localizationString.id}`,
+      true,
+      obj);
     if (this.localizationString.id === 0)
-      promise = this._httpService.post(`${BaseServerRoutes.Localization}`, obj)
+      this._httpService.post(request)
     else
-      promise = this._httpService.put(`${BaseServerRoutes.Localization}/${this.localizationString.id}`, obj);
-    promise.subscribe(
-      data => this._snackBar.success(),
-      error => {
-        this._snackBar.fail();
-        console.log(error)
-      });
+      this._httpService.put(request);
   }
 
   private mapServerDto(localizationString: LocalizationDataRowView): LocalizationDataRowServerDto {
