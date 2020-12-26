@@ -24,7 +24,7 @@ export class TableColumnActions {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
-        alert(`Delete by root, ${result.link}/${result.id}`);
+        console.log(`Delete by root, ${result.link}/${result.id}`);
         this.handler.delete(result.id);
       }
     });
