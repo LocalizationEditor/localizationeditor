@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 
 import {AppComponent} from './app.component';
@@ -55,12 +55,9 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 
-import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
-import {InputField} from "./base/inputField/inputField";
-import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
-import {ConnectionCreate} from "./connection/connection-create/connection-create";
-import {ConnectionStringView} from "./connection/connection-view/connection-view";
-import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
+import {ConnectionViewComponent} from "./connection/components/view/connection-view.component";
+import {ConnectionComponent} from "./connection/components/base/connection.component";
+import {ConnectionEditDialogComponent} from "./connection/components/dialogs/connection-edit-dialog.component";
 
 @NgModule({
   declarations: [
@@ -68,12 +65,9 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
     NavMenuComponent,
     FetchDataComponent,
     LocalizationTable,
-    ConnectionStringView,
-    TableColumnActions,
-    ConnectionEdit,
-    InputField,
-    ConnectionDeleteDialog,
-    ConnectionCreate
+    ConnectionViewComponent,
+    ConnectionComponent,
+    ConnectionEditDialogComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -83,9 +77,7 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
       {path: '', component: LocalizationTable, pathMatch: 'full'},
       {path: 'localization-table', component: LocalizationTable},
       {path: 'fetch-data', component: FetchDataComponent},
-      {path: 'connection/view', component: ConnectionStringView},
-      {path: 'connection/edit/:id', component: ConnectionEdit},
-      {path: 'connection/create', component: ConnectionCreate}
+      {path: 'connections', component: ConnectionViewComponent}
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -139,7 +131,7 @@ import {TableColumnActions} from "./base/table-column-actions/table-actions.comp
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectionDeleteDialog]
+  entryComponents: [ConnectionEditDialogComponent]
 })
 export class AppModule {
 }

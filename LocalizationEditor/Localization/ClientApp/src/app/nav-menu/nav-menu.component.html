@@ -13,12 +13,7 @@
       <mat-nav-list>
         <a mat-list-item routerLink="localization-table" >Localization</a>
         <a mat-list-item routerLink="fetch-data" >Fetch data</a>
-        <button mat-button [matMenuTriggerFor]="connection">Connections</button>
-        <mat-menu #connection>
-          <mat-list-item *ngFor="let route of routes">
-            <a mat-button routerLink="{{route.route}}">{{route.name}}</a>
-          </mat-list-item>
-        </mat-menu>
+        <a mat-button routerLink="connections">Connections</a>
       </mat-nav-list>
     </mat-sidenav>
 
