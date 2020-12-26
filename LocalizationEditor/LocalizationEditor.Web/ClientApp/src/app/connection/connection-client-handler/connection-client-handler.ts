@@ -15,16 +15,16 @@ export class ConnectionClientHandler implements IClientHandler<IConnection> {
   }
 
   private create(connection: IConnection): IConnection {
-    alert(`create id:${connection.id}`);
+    console.log(`create id:${connection.id}`);
     return connection;
   }
 
   private update(connection: IConnection): IConnection {
-    alert(`update id:${connection.id}`);
+    console.log(`update id:${connection.id}`);
     return connection;
   }
 
   delete(connectionId: number): void {
-    alert("delete");
+    console.log("delete");
   }
 }
