@@ -1,7 +1,9 @@
 ﻿<div id="fieldGroup">
   <mat-form-field>
     <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale" #input>
+    <label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale">
+    </label>
   </mat-form-field>
   <button mat-icon-button (click)="addLocalizationString()">
     <mat-icon>add</mat-icon>
