@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using Localization.DataTransferObjects.LocalizationString;
 using Localization.ViewModels.LocalizationStrings;
+using LocalizationEditor.BAL.Models.LocalizationString;
 
 namespace Localization.ViewMapperProfiles
 {
-  public class LocalizationPairViewMapperProfile : Profile
+  internal class LocalizationPairViewMapperProfile : Profile
   {
     public LocalizationPairViewMapperProfile()
     {
-      CreateMap<LocalizationPairDto, LocalizationPairView>()
+      CreateMap<ILocalizationPair, LocalizationPairView>()
         .ForMember(destinationMember => destinationMember.Locale,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Locale))
         .ForMember(destinationMember => destinationMember.Value,

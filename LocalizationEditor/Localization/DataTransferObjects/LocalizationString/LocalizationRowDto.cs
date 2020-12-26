@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using LocalizationEditor.BAL.Models.LocalizationString;
+using System.Collections.Generic;
 
 namespace Localization.DataTransferObjects.LocalizationString
 {
-  public class LocalizationRowDto
+  internal class LocalizationRowDto : ILocalizationRow
   {
     public LocalizationRowDto(long id,
       string localizationGroup,
       string localizationKey,
-      List<LocalizationPairDto> localizations)
+      List<ILocalizationPair> localizations)
     {
       Id = id;
       LocalizationGroup = localizationGroup;
@@ -18,6 +19,6 @@ namespace Localization.DataTransferObjects.LocalizationString
     public long Id { get; }
     public string LocalizationGroup { get; }
     public string LocalizationKey { get; }
-    public IReadOnlyCollection<LocalizationPairDto> Localizations { get; }
+    public IReadOnlyCollection<ILocalizationPair> Localizations { get; }
   }
 }

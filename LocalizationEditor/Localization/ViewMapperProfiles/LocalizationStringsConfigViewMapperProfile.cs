@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Localization.ViewMapperProfiles
 {
-  public class LocalizationStringsConfigViewMapperProfile : Profile
+  internal class LocalizationStringsConfigViewMapperProfile : Profile
   {
     public LocalizationStringsConfigViewMapperProfile()
     {

@@ -1,6 +1,8 @@
-﻿namespace Localization.DataTransferObjects.LocalizationString
+﻿using LocalizationEditor.BAL.Models.LocalizationString;
+
+namespace Localization.DataTransferObjects.LocalizationString
 {
-  public class LocalizationPairDto
+  internal class LocalizationPairDto : ILocalizationPair
   {
     public LocalizationPairDto(string locale, string value)
     {

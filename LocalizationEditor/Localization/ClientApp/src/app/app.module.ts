@@ -60,6 +60,7 @@ import {ConnectionStringView} from "./connection/connection-view/connection-view
 import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
 import {SpinnerOverlayComponent} from "./base/spinner/component/spinner-overlay.component";
 import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
+import {SafeHtmlPipe} from "./localization-edit-dialog/safeHtml-pipe";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
     ConnectionDeleteDialog,
     ConnectionCreate,
     SpinnerOverlayComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
