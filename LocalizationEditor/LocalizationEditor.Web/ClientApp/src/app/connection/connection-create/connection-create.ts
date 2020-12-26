@@ -23,7 +23,7 @@ export class ConnectionCreate {
   }
 
   handle(name: string, connectionStr: string): void {
-    alert("click");
+    console.log("click");
     this.connection.name = name;
     this.connection.connectionString = connectionStr;
     this.connection.setState(EntityState.Add);
