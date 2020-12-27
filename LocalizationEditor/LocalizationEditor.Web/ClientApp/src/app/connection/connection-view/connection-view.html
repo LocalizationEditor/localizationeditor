@@ -1,0 +1,21 @@
+<div class="connection-wrapper">
+  <h1 id="connectionHeader">Connections</h1>
+  <div class="container">
+    <mat-list class="matList">
+      <mat-list-item *ngFor="let connection of connections">
+        <div class = "mat-item">
+          <span>{{connection.name}}</span>
+          <span>{{connection.connectionString}}</span>
+          <edit-delete-action-comp
+            [handler] = "connectionHandler"
+            [routeEditLink]="'/connection/edit'"
+            [routeDeleteLink]="'/connection/delete'"
+            [id]="connection.id"
+            [message]="'Are you really want delete this connection?'">
+          </edit-delete-action-comp>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
