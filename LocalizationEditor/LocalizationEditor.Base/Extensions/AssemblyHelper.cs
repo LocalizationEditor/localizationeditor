@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace LocalizationEditor.Base.Extensions
 {
-  public static class AssemblyHelper // todo refactor
+  public static class AssemblyHelper
   {
     public static IEnumerable<Assembly> GetAssemblies(
       this Assembly assembly, string rootContentPath = "LocalizationEditor")

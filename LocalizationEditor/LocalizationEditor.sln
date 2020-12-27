@@ -1,5 +1,5 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localization\Localization.csproj", "{97FE75D7-A715-40C3-A515-EB0D21EF55CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.Web", "LocalizationEditor.Web\LocalizationEditor.Web.csproj", "{97FE75D7-A715-40C3-A515-EB0D21EF55CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39CB195D-A454-4869-B783-FDD11BC232DE}"
 EndProject
@@ -8,6 +8,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConnectionStrings", "ConnectionStrings", "{90B62617-D013-4D6A-B754-495E65BC5588}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.ConnectionStrings", "LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj", "{8E43C482-5171-4D53-803B-C94E7CA30E62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.BAL", "LocalizationEditor.BAL\LocalizationEditor.BAL.csproj", "{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{DC099606-2398-4F79-9A14-73E571F5E0C9}"
+ProjectSection(SolutionItems) = preProject
+	.editorconfig = .editorconfig
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +30,8 @@ Global
 		{714FA344-2256-4FBF-BB39-074E4E88796D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E43C482-5171-4D53-803B-C94E7CA30E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E43C482-5171-4D53-803B-C94E7CA30E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB} = {39CB195D-A454-4869-B783-FDD11BC232DE}
@@ -34,11 +43,22 @@ Global
 		{8E43C482-5171-4D53-803B-C94E7CA30E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E43C482-5171-4D53-803B-C94E7CA30E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E43C482-5171-4D53-803B-C94E7CA30E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{714FA344-2256-4FBF-BB39-074E4E88796D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 		{714FA344-2256-4FBF-BB39-074E4E88796D} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 		{90B62617-D013-4D6A-B754-495E65BC5588} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 		{8E43C482-5171-4D53-803B-C94E7CA30E62} = {90B62617-D013-4D6A-B754-495E65BC5588}
+		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 	EndGlobalSection
 EndGlobal

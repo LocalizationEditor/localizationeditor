@@ -6,8 +6,9 @@ namespace LocalizationEditor.ConnectionStrings.Services
 {
   public interface IConnectionService
   {
-    Task SaveConnectionAsync(List<IConnection> connections);
+    Task SaveConnectionAsync(IConnection connections);
     Task<IReadOnlyCollection<IConnection>> GetConnectionsAsync();
     Task<IConnection> GetConnectionByNameAsync(string name);
+    Task Remove(long id);
   }
 }

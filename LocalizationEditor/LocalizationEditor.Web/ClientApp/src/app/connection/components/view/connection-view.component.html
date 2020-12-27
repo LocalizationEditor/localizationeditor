@@ -1,0 +1,61 @@
+﻿<div class="connection-wrapper">
+  <h1>Connections</h1>
+  <div class="table-wrapper">
+    <div class="table-add-action">
+      <button mat-menu-item (click)="onAdd(element)">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+    <div class="table-wrapper-overflow">
+      <table mat-table [dataSource]="connections" class="mat-elevation-z8">
+        <ng-container matColumnDef="connectionName">
+          <th mat-header-cell *matHeaderCellDef>Connection name</th>
+          <td mat-cell *matCellDef="let element"> {{element.connectionName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef>User name</th>
+          <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="password">
+          <th mat-header-cell *matHeaderCellDef>Password</th>
+          <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+        </ng-container>
+        <ng-container matColumnDef="serverName">
+          <th mat-header-cell *matHeaderCellDef>Server Name</th>
+          <td mat-cell *matCellDef="let element"> {{element.serverName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dbType">
+          <th mat-header-cell *matHeaderCellDef> Db type</th>
+          <td mat-cell *matCellDef="let element"> {{element.dbType.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="dbName">
+          <th mat-header-cell *matHeaderCellDef> Db name</th>
+          <td mat-cell *matCellDef="let element"> {{element.dbName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="matMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #matMenu="matMenu">
+              <button mat-menu-item (click)="onEdit(element)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="handleRemove(element)">
+                <mat-icon>delete</mat-icon>
+                <span>Remove</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>
