@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
+using LocalizationEditor.Base.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocalizationEditor.Web.Area.ConnectionStrings
@@ -32,10 +32,10 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpGet("config")]
-    public IReadOnlyCollection<ConnectionConfigViewModel> GetConnectionConfig()
+    public IReadOnlyCollection<ConnectionDbTypeViewModel> GetConnectionConfig()
     {
-      return Enum.GetValues(typeof(DbType)).Cast<DbType>()
-        .Select(item => _mapper.Map<ConnectionConfigViewModel>(item))
+      return EnumExtensions.GetValueList<DbType>()
+        .Select(item => _mapper.Map<ConnectionDbTypeViewModel>(item))
         .ToList();
     }
 
@@ -47,11 +47,11 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
       return model;
     }
 
-    [HttpPut]
-    public async Task<ConnectionViewModel> Update(ConnectionViewModel model)
+    [HttpPut("{id}")]
+    public async Task<ConnectionViewModel> Update(long id, ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
-      await _service.SaveConnectionAsync(dto);
+      await _service.UpdateConnection(id, dto);
       return model;
     }
 

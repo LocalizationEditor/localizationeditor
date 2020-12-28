@@ -7,7 +7,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings.ViewMapperProfiles
   {
     public ConnectionConfigViewMapper()
     {
-      CreateMap<DbType, ConnectionConfigViewModel>()
+      CreateMap<DbType, ConnectionDbTypeViewModel>()
         .ForMember(destinationMember => destinationMember.Id,
           memberOptions => memberOptions.MapFrom(item => (long)item))
         .ForMember(destinationMember => destinationMember.Name,

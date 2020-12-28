@@ -19,40 +19,31 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
     public async Task SaveConnectionAsync(IConnection connection)
     {
-      var existConnections = new List<IConnection>();
-      if (File.Exists(_pathOptionsProvider.FileName))
-      {
-        var json = await File.ReadAllTextAsync(_pathOptionsProvider.FileName);
-        existConnections.AddRange(JsonConvert.DeserializeObject<List<ConnectionDto>>(json));
-        if (IsNewEntity(connection))
-        {
-          connection.UpdateId(GenerateNewId(existConnections));
-          existConnections.Add(connection);
-        }
-        else
-        {
-          var entity = existConnections.FirstOrDefault(item => item.Id == connection.Id);
-          entity.Update(
-            connection.ConnectionName,
-            connection.Server,
-            connection.DbName,
-            connection.UserName,
-            connection.Password,
-            connection.DataBaseType);
-        }
-      }
+      var existConnections = new List<IConnection>(await GetConnectionsAsync());
+      connection.UpdateId(GenerateNewId(existConnections));
+      existConnections.Add(connection);
+      var data = JsonConvert.SerializeObject(existConnections);
+      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
+    }
 
+    public async Task UpdateConnection(long id, IConnection connection)
+    {
+      var existConnections = new List<IConnection>(await GetConnectionsAsync());
+
+      var entity = existConnections.FirstOrDefault(item => item.Id == id);
+      entity?.Update(connection);
 
       var data = JsonConvert.SerializeObject(existConnections);
       await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
     }
 
-    public async Task<IReadOnlyCollection<IConnection>> GetConnectionsAsync()
+    public async Task<IEnumerable<IConnection>> GetConnectionsAsync()
     {
       if (!File.Exists(_pathOptionsProvider.FileName))
-        return null;
+        return Enumerable.Empty<IConnection>();
 
-      return await GetConnectionsFromFileAsync();
+      var json = await File.ReadAllTextAsync(_pathOptionsProvider.FileName);
+      return JsonConvert.DeserializeObject<List<ConnectionDto>>(json);
     }
 
     public async Task<IConnection> GetConnectionByNameAsync(string name)
@@ -60,7 +51,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
       if (!File.Exists(_pathOptionsProvider.FileName))
         return null;
 
-      var connections = await GetConnectionsFromFileAsync();
+      var connections = await GetConnectionsAsync();
       return connections
         .FirstOrDefault(item => item.ConnectionName == name);
     }
@@ -75,17 +66,6 @@ namespace LocalizationEditor.ConnectionStrings.Services
       list.Remove(removeEntity);
       var data = JsonConvert.SerializeObject(list);
       await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
-    }
-
-    private async Task<IReadOnlyCollection<IConnection>> GetConnectionsFromFileAsync()
-    {
-      var json = await File.ReadAllTextAsync(_pathOptionsProvider.FileName);
-      return JsonConvert.DeserializeObject<List<ConnectionDto>>(json);
-    }
-
-    private bool IsNewEntity(IConnection connection)
-    {
-      return connection.Id == 0;
     }
 
     private long GenerateNewId(IReadOnlyCollection<IConnection> connections)

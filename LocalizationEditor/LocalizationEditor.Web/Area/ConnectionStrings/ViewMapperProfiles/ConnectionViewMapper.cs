@@ -23,13 +23,13 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings.ViewMapperProfiles
           sourceOption => sourceOption.MapFrom(option => option.Server))
         .ForMember(destinationMember => destinationMember.DbType,
           sourceOption =>
-            sourceOption.MapFrom(option => new ConnectionConfigViewModel
+            sourceOption.MapFrom(option => new ConnectionDbTypeViewModel
             {
               Id = (long)option.DataBaseType,
               Name = Enum.GetName(typeof(DbType), option.DataBaseType)
             }))
         .ReverseMap()
-        .ConstructUsing((source, ctx) => new ConnectionDto(
+        .ConstructUsing(source => new ConnectionDto(
           source.Id,
           source.ServerName,
           source.DbName,

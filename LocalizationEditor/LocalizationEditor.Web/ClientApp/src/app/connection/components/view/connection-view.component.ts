@@ -37,7 +37,7 @@ export class ConnectionViewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined){
+      if (result !== undefined) {
         console.log(this.connections);
         this.connections[indexBefore] = result;
       }
@@ -76,9 +76,11 @@ export class ConnectionViewComponent implements OnInit {
 
   private handleEdit(connection: IConnection) {
     const request = new TypedRequestImpl<IConnection>(
-      `${BaseServerRoutes.Connection}`,
+      `${BaseServerRoutes.Connection}/${connection.id}`,
       true,
-      connection);
+      connection,
+      result => {
+      });
 
     this._httpService.put<IConnection>(request);
   }
@@ -89,9 +91,7 @@ export class ConnectionViewComponent implements OnInit {
       true,
       connection,
       result => {
-        this.connections.push(result);
-      }
-    )
+      });
 
     this._httpService.post<IConnection>(request);
   }

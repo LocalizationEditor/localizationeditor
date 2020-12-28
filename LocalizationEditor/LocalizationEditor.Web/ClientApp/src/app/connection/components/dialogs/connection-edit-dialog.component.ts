@@ -14,12 +14,18 @@ export class ConnectionEditDialogComponent implements OnInit {
   dialogData: IConnection;
   handler: Function;
   dbTypes: DbType[];
+  private readonly matDialogStyle: object = {
+    'display': 'flex',
+    'justify-content':'center',
+    'flex-direction':'column',
+    'align-items':'center'
+  };
 
   constructor(
     private _httpService: HttpRequestService,
     public dialogRef: MatDialogRef<ConnectionViewComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any)
-  {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(this.matDialogStyle);
     this.dialogData = data.connection;
     this.handler = data.handler;
   }
@@ -32,13 +38,13 @@ export class ConnectionEditDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onOkClick(): void{
+  onOkClick(): void {
     this.data.connection.dbType = new DbType(0, this.data.connection.dbType);
     var result = this.handler(this.data.connection);
     this.dialogRef.close(result);
   }
 
-  private getConfig(){
+  private getConfig() {
     const request = new TypedRequestImpl(
       `${BaseServerRoutes.Connection}/config`,
       false,

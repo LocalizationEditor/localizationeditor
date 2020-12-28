@@ -5,22 +5,23 @@ using AutoMapper.Contrib.Autofac.DependencyInjection;
 using LocalizationEditor.Base.Extensions;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace LocalizationEditor.Web
 {
   public class Startup
   {
     private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration)
+    private readonly IWebHostEnvironment _hostEnvironment;
+    public Startup(IConfiguration configuration, IWebHostEnvironment hostEnvironment)
     {
       _configuration = configuration;
+      _hostEnvironment = hostEnvironment;
     }
 
     private ILifetimeScope AutofacContainer { get; set; }
@@ -30,14 +31,20 @@ namespace LocalizationEditor.Web
       services.AddMvc();
       services.AddSwaggerGen();
       services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
-      services.AddOptions(_configuration, Assembly.GetExecutingAssembly());
+      services.AddOptions(
+        _configuration,
+        Assembly.GetExecutingAssembly(),
+        new HostingOption(
+          _hostEnvironment.IsProduction(),
+          _hostEnvironment.IsStaging(),
+          _hostEnvironment.IsDevelopment()));
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
       var executingAssembly = Assembly.GetExecutingAssembly();
       var assemblies = executingAssembly.GetAssemblies().ToArray();
-      builder.AddDependencyInjection(executingAssembly);
+      builder.RegisterAssemblyModules(assemblies);
       builder.RegisterMediatR(assemblies);
       builder.RegisterAutoMapper(assemblies);
     }

@@ -11,6 +11,6 @@
     DbType DataBaseType { get; }
 
     void UpdateId(long id);
-    void Update(string connectionName, string server, string dbName, string user, string pass, DbType type);
+    void Update(IConnection connection);
   }
 }

@@ -17,6 +17,6 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     [JsonProperty("password")]
     public string Password { get; set;}
     [JsonProperty("dbType")]
-    public ConnectionConfigViewModel DbType { get; set;}
+    public ConnectionDbTypeViewModel DbType { get; set;}
   }
 }

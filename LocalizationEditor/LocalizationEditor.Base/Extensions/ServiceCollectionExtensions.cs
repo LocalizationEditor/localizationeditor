@@ -10,20 +10,21 @@ namespace LocalizationEditor.Base.Extensions
   public static class ServiceCollectionExtensions
   {
     public static void AddOptions(
-      this IServiceCollection services, 
+      this IServiceCollection services,
       IConfiguration configuration,
-      Assembly rootAssembly)
+      Assembly rootAssembly,
+      IHostingOption hostingOption)
     {
       var assemblies = rootAssembly.GetAssemblies();
       var types = assemblies
-        .SelectMany(assembly => assembly.GetTypes())
-        .Where(type => type.IsAssignableTo<IConfigurationModule>() && !type.IsInterface);
+        .SelectMany(assembly => assembly.GetTypes()
+          .Where(type => type.IsAssignableTo<IConfigurationModule>() && !type.IsInterface));
 
       foreach (var type in types)
       {
         if (Activator.CreateInstance(type) is IConfigurationModule module)
         {
-          module.ConfigurationRoot = configuration;
+          module.SetConfig(configuration, hostingOption);
           module.AddOptions(services);
         }
       }

@@ -2,7 +2,7 @@
 
 namespace LocalizationEditor.Web.Area.ConnectionStrings
 {
-  public class ConnectionConfigViewModel
+  public class ConnectionDbTypeViewModel
   {
     [JsonProperty("id")]
     public long Id { get; set; }

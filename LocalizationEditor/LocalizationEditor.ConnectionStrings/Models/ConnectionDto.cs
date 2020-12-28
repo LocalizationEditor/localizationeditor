@@ -33,14 +33,14 @@
       Id = id;
     }
 
-    public void Update(string connectionName, string server, string dbName, string user, string pass, DbType type)
+    public void Update(IConnection connection)
     {
-      ConnectionName = connectionName;
-      Server = server;
-      DbName = dbName;
-      UserName = user;
-      Password = pass;
-      DataBaseType = type;
+      ConnectionName = connection.ConnectionName;
+      Server = connection.Server;
+      DbName = connection.DbName;
+      UserName = connection.UserName;
+      Password = connection.Password;
+      DataBaseType = connection.DataBaseType;
     }
   }
 }
