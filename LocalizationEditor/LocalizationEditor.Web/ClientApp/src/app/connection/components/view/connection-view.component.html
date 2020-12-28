@@ -8,7 +8,7 @@
       </button>
     </div>
     <div class="table-wrapper-overflow">
-      <table mat-table [dataSource]="connections" class="mat-elevation-z8">
+      <mat-table [dataSource]="connections" class="mat-elevation-z8" aria-describedby="connections">
         <ng-container matColumnDef="connectionName">
           <mat-header-cell *matHeaderCellDef>Connection name</mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.connectionName}} </mat-cell>
@@ -55,7 +55,7 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </table>
+      </mat-table>
     </div>
   </div>
 </div>
