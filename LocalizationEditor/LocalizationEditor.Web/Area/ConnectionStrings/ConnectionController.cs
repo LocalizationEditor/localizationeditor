@@ -23,7 +23,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpGet]
-    public async Task<IReadOnlyCollection<ConnectionViewModel>> GetConnectionsAsync()
+    public async Task<ActionResult<IReadOnlyCollection<ConnectionViewModel>>> GetConnectionsAsync()
     {
       var connections = await _service.GetConnectionsAsync();
       return connections != null
@@ -32,7 +32,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpGet("config")]
-    public IReadOnlyCollection<ConnectionDbTypeViewModel> GetConnectionConfig()
+    public ActionResult<IReadOnlyCollection<ConnectionDbTypeViewModel>> GetConnectionConfig()
     {
       return EnumExtensions.GetValueList<DbType>()
         .Select(item => _mapper.Map<ConnectionDbTypeViewModel>(item))
@@ -40,7 +40,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpPost]
-    public async Task<ConnectionViewModel> CreateConnectionString(ConnectionViewModel model)
+    public async Task<ActionResult<ConnectionViewModel>> CreateConnectionString(ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
       await _service.SaveConnectionAsync(dto);
@@ -48,7 +48,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpPut("{id}")]
-    public async Task<ConnectionViewModel> Update(long id, ConnectionViewModel model)
+    public async Task<ActionResult<ConnectionViewModel>> Update(long id, ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
       await _service.UpdateConnection(id, dto);
@@ -56,7 +56,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpDelete("{id}")]
-    public async Task<long> Delete(long id)
+    public async Task<ActionResult<long>> Delete(long id)
     {
       await _service.Remove(id);
       return id;
