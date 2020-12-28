@@ -1,7 +1,7 @@
 ﻿using LocalizationEditor.BAL.Commands.Requests;
 using LocalizationEditor.BAL.Models.LocalizationString;
 
-namespace Localization.MediatR.Requests.LocalizationStrings
+namespace LocalizationEditor.Web.MediatR.Requests.LocalizationStrings
 {
   public class AddLocalizationStringRequest : IAddLocalizationStringRequest
   {

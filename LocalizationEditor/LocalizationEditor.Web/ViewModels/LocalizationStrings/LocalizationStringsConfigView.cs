@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Localization.ViewModels.LocalizationStrings
+namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {
   public class LocalizationStringsConfigView
   {

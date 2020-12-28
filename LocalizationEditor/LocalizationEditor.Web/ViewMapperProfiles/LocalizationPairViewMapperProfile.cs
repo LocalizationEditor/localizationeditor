@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Localization.DataTransferObjects.LocalizationString;
-using Localization.ViewModels.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
+using LocalizationEditor.Web.DataTransferObjects.LocalizationString;
+using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 
-namespace Localization.ViewMapperProfiles
+namespace LocalizationEditor.Web.ViewMapperProfiles
 {
   internal class LocalizationPairViewMapperProfile : Profile
   {

@@ -1,6 +1,6 @@
 ﻿using LocalizationEditor.BAL.Models.LocalizationString;
 
-namespace Localization.DataTransferObjects.LocalizationString
+namespace LocalizationEditor.Web.DataTransferObjects.LocalizationString
 {
   internal class LocalizationPairDto : ILocalizationPair
   {

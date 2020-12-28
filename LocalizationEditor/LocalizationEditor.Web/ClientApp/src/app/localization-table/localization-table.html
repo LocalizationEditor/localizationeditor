@@ -1,14 +1,10 @@
-﻿<div id="fieldGroup">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale">
-    </label>
-  </mat-form-field>
-  <button mat-icon-button (click)="addLocalizationString()">
+﻿<mat-form-field class="mat-elevation-z8" style="width: 100%">
+  <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
+
+  <button mat-icon-button matSuffix (click)="addLocalizationString()"  >
     <mat-icon>add</mat-icon>
   </button>
-</div>
+</mat-form-field>
 
 <div class="mat-elevation-z8">
   <mat-table [hidden]="dataSource.filteredData<=0" [dataSource]="dataSource">
@@ -39,6 +35,6 @@
     <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true "></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
   </mat-table>
-  <h3 [hidden]="dataSource.filteredData.length > 0"  id="noRecords"> No records found </h3>
+  <h3 [hidden]="dataSource.filteredData.length > 0" id="noRecords"> No records found </h3>
 </div>
 
