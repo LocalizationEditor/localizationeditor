@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace LocalizationEditor.Web.Area.ConnectionStrings
 {
   public class ConnectionViewModel
   {
     [JsonProperty("id")]
-    public long Id { get; set; }
+    public Guid Id { get; set; }
     [JsonProperty("connectionName")]
     public string ConnectionName { get; set; }
     [JsonProperty("serverName")]

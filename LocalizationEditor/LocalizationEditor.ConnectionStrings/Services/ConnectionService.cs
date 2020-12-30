@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,16 +18,16 @@ namespace LocalizationEditor.ConnectionStrings.Services
       _pathOptionsProvider = provider;
     }
 
-    public async Task SaveConnectionAsync(IConnection connection)
+    public async Task<IConnection> SaveConnectionAsync(IConnection connection)
     {
       var existConnections = new List<IConnection>(await GetConnectionsAsync());
-      connection.UpdateId(GenerateNewId(existConnections));
       existConnections.Add(connection);
       var data = JsonConvert.SerializeObject(existConnections);
       await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
+      return connection;
     }
 
-    public async Task UpdateConnection(long id, IConnection connection)
+    public async Task UpdateConnection(Guid id, IConnection connection)
     {
       var existConnections = new List<IConnection>(await GetConnectionsAsync());
 
@@ -56,7 +57,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
         .FirstOrDefault(item => item.ConnectionName == name);
     }
 
-    public async Task Remove(long id)
+    public async Task Remove(Guid id)
     {
       var connections = await GetConnectionsAsync();
       var removeEntity = connections
@@ -66,13 +67,6 @@ namespace LocalizationEditor.ConnectionStrings.Services
       list.Remove(removeEntity);
       var data = JsonConvert.SerializeObject(list);
       await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
-    }
-
-    private long GenerateNewId(IReadOnlyCollection<IConnection> connections)
-    {
-      return connections.Count != 0
-        ? connections.Max(item => item.Id) + 1
-        : 1;
     }
   }
 }

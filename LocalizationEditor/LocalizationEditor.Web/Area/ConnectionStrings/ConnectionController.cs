@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -44,11 +45,11 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     {
       var dto = _mapper.Map<IConnection>(model);
       await _service.SaveConnectionAsync(dto);
-      return model;
+      return _mapper.Map<ConnectionViewModel>(dto);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ConnectionViewModel>> Update(long id, ConnectionViewModel model)
+    public async Task<ActionResult<ConnectionViewModel>> Update(Guid id, ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
       await _service.UpdateConnection(id, dto);
@@ -56,7 +57,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult<long>> Delete(long id)
+    public async Task<ActionResult<Guid>> Delete(Guid id)
     {
       await _service.Remove(id);
       return id;

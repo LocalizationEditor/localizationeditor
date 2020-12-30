@@ -12,7 +12,7 @@ import {BaseServerRoutes} from "../../../base/base-server-routes";
   styleUrls: ['./connection-view.component.css']
 })
 export class ConnectionViewComponent implements OnInit {
-  connections: IConnection[] = new Array<IConnection>();
+  public connections: IConnection[] = new Array<IConnection>();
   private displayedColumns: string[];
 
   constructor(public dialog: MatDialog,
@@ -103,7 +103,6 @@ export class ConnectionViewComponent implements OnInit {
       null,
       result => {
         this.connections = result;
-        console.log(this.connections);
       });
 
     this._httpService.get<IConnection[]>(request);

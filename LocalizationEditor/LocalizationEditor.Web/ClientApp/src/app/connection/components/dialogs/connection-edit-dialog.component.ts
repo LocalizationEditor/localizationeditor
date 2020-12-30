@@ -40,7 +40,7 @@ export class ConnectionEditDialogComponent implements OnInit {
 
   onOkClick(): void {
     this.data.connection.dbType = new DbType(0, this.data.connection.dbType);
-    var result = this.handler(this.data.connection);
+    const result = this.handler(this.data.connection);
     this.dialogRef.close(result);
   }
 

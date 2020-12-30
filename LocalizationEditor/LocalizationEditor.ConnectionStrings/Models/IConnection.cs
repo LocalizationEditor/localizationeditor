@@ -1,8 +1,10 @@
-﻿namespace LocalizationEditor.ConnectionStrings.Models
+﻿using System;
+
+namespace LocalizationEditor.ConnectionStrings.Models
 {
   public interface IConnection
   {
-    long Id { get; }
+    Guid Id { get; }
     string ConnectionName { get; }
     string Server { get; }
     string DbName { get; }
@@ -10,7 +12,6 @@
     string Password { get; }
     DbType DataBaseType { get; }
 
-    void UpdateId(long id);
     void Update(IConnection connection);
   }
 }
