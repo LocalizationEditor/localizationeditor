@@ -12,22 +12,19 @@ import {BaseServerRoutes} from "../../../base/base-server-routes";
 })
 export class ConnectionEditDialogComponent implements OnInit {
   dialogData: IConnection;
-  handler: Function;
   dbTypes: DbType[];
   private readonly matDialogStyle: object = {
     'display': 'flex',
-    'justify-content':'center',
-    'flex-direction':'column',
-    'align-items':'center'
+    'justify-content': 'center',
+    'flex-direction': 'column',
+    'align-items': 'center'
   };
 
   constructor(
     private _httpService: HttpRequestService,
     public dialogRef: MatDialogRef<ConnectionViewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log(this.matDialogStyle);
     this.dialogData = data.connection;
-    this.handler = data.handler;
   }
 
   ngOnInit(): void {
@@ -40,8 +37,11 @@ export class ConnectionEditDialogComponent implements OnInit {
 
   onOkClick(): void {
     this.data.connection.dbType = new DbType(0, this.data.connection.dbType);
-    const result = this.handler(this.data.connection);
-    this.dialogRef.close(result);
+    if (this.data.connection.id === undefined)
+      this.handleAdd(this.data.connection);
+    else this.handleEdit(this.data.connection);
+
+    this.dialogRef.close();
   }
 
   private getConfig() {
@@ -54,5 +54,30 @@ export class ConnectionEditDialogComponent implements OnInit {
       }
     );
     this._httpService.get<DbType[]>(request);
+  }
+
+  private handleAdd(connection: IConnection) {
+    const request = new TypedRequestImpl<IConnection>(
+      `${BaseServerRoutes.Connection}`,
+      true,
+      connection,
+      result => {
+        console.log("add close dialog")
+        this.dialogRef.close(result);
+      });
+
+    this._httpService.post<IConnection>(request);
+  }
+
+  private handleEdit(connection: IConnection) {
+    const request = new TypedRequestImpl<IConnection>(
+      `${BaseServerRoutes.Connection}/${connection.id}`,
+      true,
+      connection,
+      result => {
+        this.dialogRef.close(result);
+      });
+
+    this._httpService.put<IConnection>(request);
   }
 }

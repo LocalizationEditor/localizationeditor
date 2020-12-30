@@ -31,9 +31,7 @@ export class ConnectionViewComponent implements OnInit {
     let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
       ...dialogConfig,
       data: {
-        connection,
-        handler: this.handleEdit
-      },
+        connection},
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -50,12 +48,11 @@ export class ConnectionViewComponent implements OnInit {
     let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
       ...dialogConfig,
       data: {
-        connection,
-        handler: this.handleAdd
-      },
+        connection},
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if (result !== undefined)
         this.connections.push(result);
     });
@@ -72,28 +69,6 @@ export class ConnectionViewComponent implements OnInit {
       });
 
     this._httpService.delete<number>(request);
-  }
-
-  private handleEdit(connection: IConnection) {
-    const request = new TypedRequestImpl<IConnection>(
-      `${BaseServerRoutes.Connection}/${connection.id}`,
-      true,
-      connection,
-      result => {
-      });
-
-    this._httpService.put<IConnection>(request);
-  }
-
-  private handleAdd(connection: IConnection) {
-    const request = new TypedRequestImpl<IConnection>(
-      `${BaseServerRoutes.Connection}`,
-      true,
-      connection,
-      result => {
-      });
-
-    this._httpService.post<IConnection>(request);
   }
 
   private getConnections() {
