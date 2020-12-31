@@ -62,7 +62,6 @@ export class ConnectionEditDialogComponent implements OnInit {
       true,
       connection,
       result => {
-        console.log("add close dialog")
         this.dialogRef.close(result);
       });
 

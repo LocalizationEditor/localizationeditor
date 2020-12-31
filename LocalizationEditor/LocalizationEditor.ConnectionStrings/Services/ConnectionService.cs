@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalizationEditor.Base.Encrypt;
 using Newtonsoft.Json;
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Options;
@@ -12,10 +13,12 @@ namespace LocalizationEditor.ConnectionStrings.Services
   internal class ConnectionService : IConnectionService
   {
     private readonly IPathOptionsProvider _pathOptionsProvider;
+    private readonly IEncryptService _encryptService;
 
-    public ConnectionService(IPathOptionsProvider provider)
+    public ConnectionService(IPathOptionsProvider provider, IEncryptService encryptService)
     {
       _pathOptionsProvider = provider;
+      _encryptService = encryptService;
     }
 
     public async Task<IConnection> SaveConnectionAsync(IConnection connection)
@@ -23,7 +26,8 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var existConnections = new List<IConnection>(await GetConnectionsAsync());
       existConnections.Add(connection);
       var data = JsonConvert.SerializeObject(existConnections);
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
+      var encryptData = _encryptService.Encrypt(data);
+      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
       return connection;
     }
 
@@ -33,9 +37,10 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
       var entity = existConnections.FirstOrDefault(item => item.Id == id);
       entity?.Update(connection);
-
       var data = JsonConvert.SerializeObject(existConnections);
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
+      var encryptData = _encryptService.Encrypt(data);
+
+      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
     }
 
     public async Task<IEnumerable<IConnection>> GetConnectionsAsync()
@@ -44,7 +49,8 @@ namespace LocalizationEditor.ConnectionStrings.Services
         return Enumerable.Empty<IConnection>();
 
       var json = await File.ReadAllTextAsync(_pathOptionsProvider.FileName);
-      return JsonConvert.DeserializeObject<List<ConnectionDto>>(json);
+      var decryptData = _encryptService.Decrypt(json);
+      return JsonConvert.DeserializeObject<List<ConnectionDto>>(decryptData);
     }
 
     public async Task<IConnection> GetConnectionByNameAsync(string name)
@@ -66,7 +72,8 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var list = connections.ToList();
       list.Remove(removeEntity);
       var data = JsonConvert.SerializeObject(list);
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, data);
+      var encryptData = _encryptService.Encrypt(data);
+      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
     }
   }
 }
