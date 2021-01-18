@@ -1,0 +1,36 @@
+﻿<h1 mat-dialog-title>Edit</h1>
+<div mat-dialog-content
+     [(ngStyle)]='matDialogStyle'>
+  <mat-form-field>
+    <mat-label>Connection name</mat-label>
+    <input matInput placeholder="Connection name" [(ngModel)]="dialogData.connectionName"/>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>User name</mat-label>
+    <input matInput placeholder="User name" [(ngModel)]="dialogData.userName" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Server name</mat-label>
+    <input matInput placeholder="Server name" [(ngModel)]="dialogData.serverName" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Db name</mat-label>
+    <input matInput placeholder="Db name" [(ngModel)]="dialogData.dbName" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Password" type="password" [(ngModel)]="dialogData.password" />
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="mat-form-field-dialog">
+    <mat-label>Db Type</mat-label>
+    <mat-select [(ngModel)]="dialogData.dbType">
+      <mat-option [value]="item.name" *ngFor="let item of dbTypes">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="mat-actions-dialog">
+  <button mat-raised-button color="warn" (click)="onNoClick()">No</button>
+  <button mat-raised-button color="primary" (click)="onOkClick()">Ok</button>
+</div>

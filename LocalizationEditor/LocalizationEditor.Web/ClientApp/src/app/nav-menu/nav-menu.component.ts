@@ -4,10 +4,7 @@ import {CustomRoute} from "../base/route";
 
 const Routes: CustomRoute[] = [
   new CustomRoute(1, "Localization", ""),
-  new CustomRoute(2, "Connection", "connection",
-    [
-    new CustomRoute(1, "View", "connection/view"),
-    new CustomRoute(2, "Create", "connection/create")]),
+  new CustomRoute(2, "Connection", "connections")
 ];
 
 @Component({
