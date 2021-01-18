@@ -10,8 +10,13 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac" Version="6.1.0" />
       <PackageReference Include="FluentValidation" Version="9.3.0" />
       <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
     </ItemGroup>
 
 </Project>

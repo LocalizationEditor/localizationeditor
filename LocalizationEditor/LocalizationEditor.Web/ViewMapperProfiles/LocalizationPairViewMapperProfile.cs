@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LocalizationEditor.BAL.Models.LocalizationString;
-using LocalizationEditor.Web.DataTransferObjects.LocalizationString;
+using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 
 namespace LocalizationEditor.Web.ViewMapperProfiles
@@ -15,7 +15,7 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
         .ForMember(destinationMember => destinationMember.Value,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Value))
         .ReverseMap()
-        .ConstructUsing(source => new LocalizationPairDto(source.Locale, source.Value));
+        .ConstructUsing(source => new LocalizationPair(source.Locale, source.Value));
     }
   }
 }

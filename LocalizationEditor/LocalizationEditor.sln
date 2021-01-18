@@ -12,6 +12,8 @@ ProjectSection(SolutionItems) = preProject
 	.editorconfig = .editorconfig
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.DAL", "LocalizationEditor.DAL\LocalizationEditor.DAL.csproj", "{CF214BC5-95A7-41C5-B65D-34C13D38AC14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,10 +36,15 @@ Global
 		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C8B901-C05E-4D6E-BD1D-B2A6FD8E435C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 		{714FA344-2256-4FBF-BB39-074E4E88796D} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 		{271BF467-4D39-4BCD-B61F-AE8ED0232B7B} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14} = {39CB195D-A454-4869-B783-FDD11BC232DE}
 	EndGlobalSection
 EndGlobal

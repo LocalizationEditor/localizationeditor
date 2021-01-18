@@ -1,6 +1,6 @@
 ﻿using LocalizationEditor.BAL.Commands.Requests;
 
-namespace LocalizationEditor.Web.MediatR.Requests.LocalizationStrings
+namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
 {
   public class DeleteLocalizationStringRequest : IDeleteLocalizationStringRequest
   {

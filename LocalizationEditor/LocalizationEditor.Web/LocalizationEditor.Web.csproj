@@ -15,7 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autofac" Version="6.0.0" />
+        <PackageReference Include="Autofac" Version="6.1.0" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.1.0" />
@@ -31,8 +31,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\LocalizationEditor.BAL\LocalizationEditor.BAL.csproj" />
       <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
+      <ProjectReference Include="..\LocalizationEditor.DAL\LocalizationEditor.DAL.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

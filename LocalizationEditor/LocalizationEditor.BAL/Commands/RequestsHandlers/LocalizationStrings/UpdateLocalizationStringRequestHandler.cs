@@ -7,7 +7,7 @@ using MediatR;
 
 namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 {
-  internal class UpdateLocalizationStringRequestHandler : IRequestHandler<IUpdateLocalizationStringRequest, ILocalizationRow>
+  internal class UpdateLocalizationStringRequestHandler : IRequestHandler<IUpdateLocalizationStringRequest, ILocalizationString>
   {
     private readonly ILocalizationStringRepository _repository;
 
@@ -16,7 +16,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       _repository = repository;
     }
 
-    public async Task<ILocalizationRow> Handle(IUpdateLocalizationStringRequest request,
+    public async Task<ILocalizationString> Handle(IUpdateLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
      var modelFromDb =  await _repository.GetByIdAsync(request.Id);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LocalizationEditor.BAL.Commands.Requests
 {
-  public interface IGetAllLocalizationStringRequest : IRequest<IEnumerable<ILocalizationRow>>
+  public interface IGetAllLocalizationStringRequest : IRequest<IEnumerable<ILocalizationString>>
   {
     int Limit { get; set; }
     int Offset { get; set; }

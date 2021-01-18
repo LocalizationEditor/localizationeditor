@@ -4,6 +4,8 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using LocalizationEditor.Base.Extensions;
+using LocalizationEditor.DAL.Models.LocalizationString;
+using MediatR;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using System.Net.NetworkInformation;
+using TypeExtensions = AutoMapper.Internal.TypeExtensions;
 
 namespace Localization
 {
@@ -34,10 +38,17 @@ namespace Localization
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
+      var x =typeof(LocalizationStringDbModel);
       var assemblies = Assembly.GetExecutingAssembly().GetAssemblies().ToArray();
       Assembly.GetExecutingAssembly().AddDiForDependentAssemblies(builder, _configuration);
       builder.RegisterMediatR(assemblies);
       builder.RegisterAutoMapper(assemblies);
+      // builder.RegisterAssemblyTypes(assemblies).Where(t =>
+      //
+      //     t.GetInterfaces().Any(i => i.IsClosedTypeOf( typeof(IRequestHandler<,>)))
+      //     )
+      //
+      //   .AsImplementedInterfaces();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

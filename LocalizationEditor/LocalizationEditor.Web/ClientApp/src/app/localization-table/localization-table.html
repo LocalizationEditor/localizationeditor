@@ -1,6 +1,7 @@
-﻿<mat-form-field class="mat-elevation-z8" style="width: 100%">
-  <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
-
+﻿<mat-form-field class="mat-elevation-z8 search-block" >
+  <label>
+    <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
+  </label>
   <button mat-icon-button matSuffix (click)="addLocalizationString()"  >
     <mat-icon>add</mat-icon>
   </button>
