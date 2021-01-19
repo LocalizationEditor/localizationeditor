@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
@@ -24,19 +24,6 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
           null, // todo: map from correct place
           source.Key,
           source.Localizations.Select(ctx.Mapper.Map<ILocalizationPair>).ToList()));
-    }
-  }
-
-  internal class LocalizationGroupViewMapperProfile : Profile
-  {
-    public LocalizationGroupViewMapperProfile()
-    {
-      CreateMap<ILocalizationGroup, LocalizationStringGroupView>()
-        .ForMember(destinationMember => destinationMember.Id,
-          memberOptions => memberOptions.MapFrom(resolver => resolver.Id))
-        .ForMember(destinationMember => destinationMember.Name,
-          memberOptions => memberOptions.MapFrom(resolver => resolver.Name))
-        ;
     }
   }
 }

@@ -1,4 +1,4 @@
-﻿using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
+using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
 using LocalizationEditor.Base.Models;
 using System.Collections.Generic;
 
@@ -11,11 +11,5 @@ namespace LocalizationEditor.DAL.Models.LocalizationString
     public LocalizationGroupDbModel Group { get; set; }
 
     public ICollection<LocalizationPair> Locales { get; set; }
-  }
-
-  public class LocalizationGroupDbModel : IIdentityModel
-  {
-    public long Id { get; set; }
-    public string Name { get; set; }
   }
 }

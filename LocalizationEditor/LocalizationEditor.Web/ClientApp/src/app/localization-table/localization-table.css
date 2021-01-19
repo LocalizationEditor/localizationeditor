@@ -16,7 +16,7 @@ mat-cell > span.truncate-text {
 
 .mat-table {
   overflow: auto;
-  max-height: 550px;
+  max-height: 85vh;
 }
 
 .mobile-label {
@@ -61,3 +61,7 @@ mat-cell > span.truncate-text {
   padding-left: 24px;
 }
 
+#footer {
+  display:block;
+  height:40px;
+}

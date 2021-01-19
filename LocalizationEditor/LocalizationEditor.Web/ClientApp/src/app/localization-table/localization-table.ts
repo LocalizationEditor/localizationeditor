@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
@@ -32,7 +32,6 @@ export class LocalizationTable implements OnInit {
   }
 
   private getConfig() {
-    //.subscribe(data => {
     let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/config`,
       false,
       null,
