@@ -1,10 +1,10 @@
-﻿using LocalizationEditor.Web.ViewModels.Base;
+using LocalizationEditor.Web.ViewModels.Base;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {
-  public class LocalizationStringItemView: IdView
+  public class LocalizationStringItemView : IdView
   {
     [JsonProperty("group")]
     public LocalizationStringGroupView Group { get; set; }

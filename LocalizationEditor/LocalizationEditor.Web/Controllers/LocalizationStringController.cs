@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using LocalizationEditor.BAL.Commands.Requests;
+using AutoMapper;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
-// using LocalizationEditor.Web.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
