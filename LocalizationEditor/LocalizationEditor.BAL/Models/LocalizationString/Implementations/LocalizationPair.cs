@@ -8,7 +8,11 @@
       Value = value;
     }
 
-    public string Locale { get; }
-    public string Value { get; }
+    public string Locale { get; set; }
+    public string Value { get; set; }
+
+    public LocalizationPair()
+    {
+    }
   }
 }

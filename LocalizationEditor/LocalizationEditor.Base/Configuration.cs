@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using LocalizationEditor.Base.DapperHelper;
 using LocalizationEditor.Base.Encrypt;
 using LocalizationEditor.Base.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ public class Configuration : Module, IConfigurationModule
     {
       builder.RegisterType<EncryptService>().As<IEncryptService>();
       builder.RegisterType<EncryptOptionProvider>().As<IEncryptOptionProvider>();
+      builder.RegisterType<DapperQueryHelper>().As<IDapperQueryHelper>();
     }
   }
 }

@@ -1,6 +1,4 @@
-﻿using LocalizationEditor.BAL.Models.LocalizationString;
-
-namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
+﻿namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
 {
   public class LocalizationGroup : ILocalizationGroup
   {

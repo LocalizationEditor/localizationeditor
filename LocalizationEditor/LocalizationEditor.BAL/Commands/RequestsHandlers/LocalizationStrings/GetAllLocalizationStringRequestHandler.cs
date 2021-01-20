@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 {
-  public class
-    GetAllLocalizationStringRequestHandler : IRequestHandler<GetAllLocalizationStringRequest,
-      IEnumerable<ILocalizationString>>
+  public class GetAllLocalizationStringRequestHandler : IRequestHandler<GetAllLocalizationStringRequest,
+      IEnumerable<ILocalizationKey>>
   {
     private readonly ILocalizationStringRepository _repository;
 
@@ -20,7 +19,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       _repository = repository;
     }
 
-    public async Task<IEnumerable<ILocalizationString>> Handle(GetAllLocalizationStringRequest request,
+    public async Task<IEnumerable<ILocalizationKey>> Handle(GetAllLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
       return await _repository.GetAllAsync();

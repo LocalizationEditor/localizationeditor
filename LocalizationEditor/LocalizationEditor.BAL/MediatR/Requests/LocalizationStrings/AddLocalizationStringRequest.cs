@@ -4,12 +4,12 @@ using MediatR;
 
 namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
 {
-  public class AddLocalizationStringRequest : IRequest<ILocalizationString> //IAddLocalizationStringRequest
+  public class AddLocalizationStringRequest : IRequest<ILocalizationKey> //IAddLocalizationStringRequest
   {
-    public AddLocalizationStringRequest(ILocalizationString localizationString)
+    public AddLocalizationStringRequest(ILocalizationKey localizationKey)
     {
-      LocalizationString = localizationString;
+      LocalizationKey = localizationKey;
     }
-    public ILocalizationString LocalizationString { get; }
+    public ILocalizationKey LocalizationKey { get; }
   }
 }

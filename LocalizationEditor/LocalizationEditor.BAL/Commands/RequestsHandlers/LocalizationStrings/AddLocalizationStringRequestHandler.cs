@@ -8,7 +8,7 @@ using MediatR;
 
 namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 {
-  public class AddLocalizationStringRequestHandler : IRequestHandler<AddLocalizationStringRequest, ILocalizationString>
+  public class AddLocalizationStringRequestHandler : IRequestHandler<AddLocalizationStringRequest, ILocalizationKey>
   {
     private readonly ILocalizationStringRepository _repository;
 
@@ -17,10 +17,10 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       _repository = repository;
     }
 
-    public async Task<ILocalizationString> Handle(AddLocalizationStringRequest request,
+    public async Task<ILocalizationKey> Handle(AddLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      return await _repository.AddAsync(request.LocalizationString);
+      return await _repository.AddAsync(request.LocalizationKey);
     }
   }
 }

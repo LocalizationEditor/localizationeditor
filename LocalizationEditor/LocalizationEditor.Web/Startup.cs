@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using LocalizationEditor.DAL;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -42,6 +43,8 @@ namespace LocalizationEditor.Web
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
+      new Costil();
+
       var executingAssembly = Assembly.GetExecutingAssembly();
       var assemblies = executingAssembly.GetAssemblies().ToArray();
       builder.RegisterAssemblyModules(assemblies);

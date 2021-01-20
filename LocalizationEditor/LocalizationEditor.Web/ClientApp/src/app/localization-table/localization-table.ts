@@ -58,10 +58,13 @@ export class LocalizationTable implements OnInit {
 
   private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
     let row = {
-      group: serverDto.group,
+      group: serverDto.group.name,
       key: serverDto.key,
       id: serverDto.id
     }
+
+    console.log(serverDto);
+
     return serverDto.localizations.reduce((obj, item) => {
       obj[item.locale] = item.value;
       return obj;

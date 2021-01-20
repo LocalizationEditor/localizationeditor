@@ -1,4 +1,6 @@
-﻿namespace LocalizationEditor.ConnectionStrings.Models
+﻿using System.Data;
+
+namespace LocalizationEditor.ConnectionStrings.Models
 {
   public abstract class DataBaseConnectionResolver
   {
@@ -10,5 +12,6 @@
     }
 
     public abstract string GetConnectionString();
+    public abstract IDbConnection GetConnection();
   }
 }

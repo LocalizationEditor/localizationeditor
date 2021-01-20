@@ -3,7 +3,7 @@ using LocalizationEditor.BAL.Models.LocalizationString;
 
 namespace LocalizationEditor.BAL.Validators.LocalizableString
 {
-  internal class LocalizationRowValidator :  AbstractValidator<ILocalizationString>
+  internal class LocalizationRowValidator :  AbstractValidator<ILocalizationKey>
   {
     public LocalizationRowValidator(LocalizationPairValidator localizationPairValidator,
       LocalizationGroupValidator groupValidator)

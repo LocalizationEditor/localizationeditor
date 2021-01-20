@@ -5,12 +5,12 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
 {
   public class UpdateLocalizationStringRequest : IUpdateLocalizationStringRequest
   {
-    public UpdateLocalizationStringRequest(long id, ILocalizationString localizationString)
+    public UpdateLocalizationStringRequest(long id, ILocalizationKey localizationKey)
     {
       Id = id;
-      LocalizationString = localizationString;
+      LocalizationKey = localizationKey;
     }
     public long Id { get; }
-    public ILocalizationString LocalizationString { get; }
+    public ILocalizationKey LocalizationKey { get; }
   }
 }

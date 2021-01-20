@@ -6,10 +6,10 @@ namespace LocalizationEditor.BAL.Services.LocalizationStrings
 {
   internal interface ILocalizationStringService
   {
-    Task<ILocalizationString> AddAsync(ILocalizationString @string);
-    Task<ILocalizationString> UpdateAsync(long id, ILocalizationString @string);
-    Task<ILocalizationString> GetByIdAsync(long id);
-    Task<IEnumerable<ILocalizationString>> GetAllAsync();
-    Task<long> DeleteAsync(ILocalizationString @string);
+    Task<ILocalizationKey> AddAsync(ILocalizationKey key);
+    Task<ILocalizationKey> UpdateAsync(long id, ILocalizationKey key);
+    Task<ILocalizationKey> GetByIdAsync(long id);
+    Task<IEnumerable<ILocalizationKey>> GetAllAsync();
+    Task<long> DeleteAsync(ILocalizationKey key);
   }
 }

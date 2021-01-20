@@ -27,7 +27,7 @@ namespace LocalizationEditor.Web.Controllers
     [HttpPost]
     public async Task<ActionResult<LocalizationStringItemView>> Add(LocalizationStringItemView view)
     {
-      var dto = _mapper.Map<ILocalizationString>(view);
+      var dto = _mapper.Map<ILocalizationKey>(view);
       var request = new AddLocalizationStringRequest(dto);
       dto = await _mediator.Send(request);
       return _mapper.Map<LocalizationStringItemView>(dto);
@@ -36,7 +36,7 @@ namespace LocalizationEditor.Web.Controllers
     [HttpPut("{id}")]
     public async Task<ActionResult<LocalizationStringItemView>> Update(long id, LocalizationStringItemView view)
     {
-      var dto = _mapper.Map<ILocalizationString>(view);
+      var dto = _mapper.Map<ILocalizationKey>(view);
       var request = new UpdateLocalizationStringRequest(id, dto);
       dto = await _mediator.Send(request);
       view = _mapper.Map<LocalizationStringItemView>(dto);
@@ -57,11 +57,13 @@ namespace LocalizationEditor.Web.Controllers
       var request = new GetAllLocalizationStringRequest();
       var items = await _mediator.Send(request);
 
-      return new LocalizationStringListView
+      var view = new LocalizationStringListView
       {
         LocalizationStrings = items
           .Select(_mapper.Map<LocalizationStringItemView>)
       };
+
+      return view;
     }
 
 

@@ -10,18 +10,18 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
   {
     public LocalizationItemViewMapperProfile()
     {
-      CreateMap<ILocalizationString, LocalizationStringItemView>()
+      CreateMap<ILocalizationKey, LocalizationStringItemView>()
         .ForMember(destinationMember => destinationMember.Id,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Id))
         .ForMember(destinationMember => destinationMember.Group,
-          memberOptions => memberOptions.MapFrom(resolver => resolver.Group))
-      .ForMember(destinationMember => destinationMember.Key,
+          member => member.MapFrom(res => res.Group))
+        .ForMember(destinationMember => destinationMember.Key,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Key))
         .ForMember(destinationMember => destinationMember.Localizations,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Localizations))
         .ReverseMap()
-        .ConstructUsing((source, ctx) => new LocalizationString(source.Id,
-          null, // todo: map from correct place
+        .ConstructUsing((source, ctx) => new LocalizationKey(source.Id,
+          ctx.Mapper.Map<LocalizationStringGroupView, ILocalizationGroup>(source.Group),
           source.Key,
           source.Localizations.Select(ctx.Mapper.Map<ILocalizationPair>).ToList()));
     }
@@ -36,7 +36,8 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
           memberOptions => memberOptions.MapFrom(resolver => resolver.Id))
         .ForMember(destinationMember => destinationMember.Name,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Name))
-        ;
+        .ReverseMap()
+        .ConstructUsing(source => new LocalizationGroup(source.Id, source.Name));
     }
   }
 }

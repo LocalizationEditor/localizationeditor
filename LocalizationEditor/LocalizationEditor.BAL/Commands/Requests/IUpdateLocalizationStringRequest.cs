@@ -3,9 +3,9 @@ using MediatR;
 
 namespace LocalizationEditor.BAL.Commands.Requests
 {
-  public interface IUpdateLocalizationStringRequest : IRequest<ILocalizationString>
+  public interface IUpdateLocalizationStringRequest : IRequest<ILocalizationKey>
   {
     long Id { get; }
-    ILocalizationString LocalizationString { get; }
+    ILocalizationKey LocalizationKey { get; }
   }
 }

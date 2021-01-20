@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using System.Threading.Tasks;
 
@@ -6,10 +7,10 @@ namespace LocalizationEditor.BAL.Repositories
 {
   public interface ILocalizationStringRepository
   {
-    Task<ILocalizationString> AddAsync(ILocalizationString localizationString);
-    Task<ILocalizationString> UpdateAsync(ILocalizationString localizationString);
-    Task<ILocalizationString> GetByIdAsync(long id);
-    Task<IEnumerable<ILocalizationString>> GetAllAsync();
-    Task<long> DeleteAsync(ILocalizationString localizationString);
+    Task<ILocalizationKey> AddAsync(ILocalizationKey localizationKey);
+    Task<ILocalizationKey> UpdateAsync(ILocalizationKey localizationKey);
+    Task<ILocalizationKey> GetByIdAsync(long id);
+    Task<IEnumerable<ILocalizationKey>> GetAllAsync(IDbConnection connection);
+    Task<long> DeleteAsync(ILocalizationKey localizationKey);
   }
 }

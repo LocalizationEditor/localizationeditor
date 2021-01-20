@@ -14,29 +14,29 @@ namespace LocalizationEditor.BAL.Services.LocalizationStrings.Implementations
       _repository = repository;
     }
 
-    public Task<ILocalizationString> AddAsync(ILocalizationString @string)
+    public Task<ILocalizationKey> AddAsync(ILocalizationKey key)
     {
-      return _repository.AddAsync(@string);
+      return _repository.AddAsync(key);
     }
 
-    public Task<ILocalizationString> UpdateAsync(long id, ILocalizationString @string)
+    public Task<ILocalizationKey> UpdateAsync(long id, ILocalizationKey key)
     {
-      return _repository.UpdateAsync(@string);
+      return _repository.UpdateAsync(key);
     }
 
-    public Task<ILocalizationString> GetByIdAsync(long id)
+    public Task<ILocalizationKey> GetByIdAsync(long id)
     {
       return _repository.GetByIdAsync(id);
     }
 
-    public Task<IEnumerable<ILocalizationString>> GetAllAsync()
+    public Task<IEnumerable<ILocalizationKey>> GetAllAsync()
     {
       return _repository.GetAllAsync();
     }
 
-    public Task<long> DeleteAsync(ILocalizationString @string)
+    public Task<long> DeleteAsync(ILocalizationKey key)
     {
-      return _repository.DeleteAsync(@string);
+      return _repository.DeleteAsync(key);
     }
   }
 }
