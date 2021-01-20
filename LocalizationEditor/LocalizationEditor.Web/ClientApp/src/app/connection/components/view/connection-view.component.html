@@ -1,0 +1,61 @@
+﻿<div class="connection-wrapper">
+  <h1>Connections</h1>
+  <div class="table-wrapper">
+    <div class="table-add-action">
+      <button mat-menu-item (click)="onAdd(element)">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+    </div>
+    <div class="table-wrapper-overflow">
+      <mat-table [dataSource]="connections" class="mat-elevation-z8" aria-describedby="connections">
+        <ng-container matColumnDef="connectionName">
+          <mat-header-cell *matHeaderCellDef>Connection name</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.connectionName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="userName">
+          <mat-header-cell *matHeaderCellDef>User name</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.userName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="password">
+          <mat-header-cell *matHeaderCellDef>Password</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.password}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="serverName">
+          <mat-header-cell *matHeaderCellDef>Server Name</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.serverName}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="dbType">
+          <mat-header-cell *matHeaderCellDef> Db type</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dbType.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="dbName">
+          <mat-header-cell *matHeaderCellDef> Db name</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dbName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+          <mat-cell mat-cell *matCellDef="let element">
+            <button mat-icon-button [matMenuTriggerFor]="matMenu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #matMenu="matMenu">
+              <button mat-menu-item (click)="onEdit(element)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item (click)="handleRemove(element)">
+                <mat-icon>delete</mat-icon>
+                <span>Remove</span>
+              </button>
+            </mat-menu>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
