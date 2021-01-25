@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Autofac;
-using Microsoft.Extensions.Configuration;
 
 namespace LocalizationEditor.Base.Extensions
 {
@@ -15,14 +13,6 @@ namespace LocalizationEditor.Base.Extensions
       GetDependentAssemblies(assembly, assemblies, rootContentPath);
       assemblies.Add(assembly);
       return assemblies;
-    }
-
-    public static void AddDiForDependentAssemblies(this Assembly assembly, 
-      ContainerBuilder builder,
-      IConfiguration configuration)
-    {
-      var assemblies = assembly.GetAssemblies().ToArray();
-      builder.RegisterAssemblyModules(assemblies);
     }
 
     private static void GetDependentAssemblies(

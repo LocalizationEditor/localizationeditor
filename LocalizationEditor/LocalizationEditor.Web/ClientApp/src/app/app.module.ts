@@ -52,16 +52,13 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatNativeDateModule, MatRippleModule} from "@angular/material/core";
 import {LocalizationEditDialog} from "./localization-edit-dialog/localization-edit-dialog";
 import {MonacoEditorModule} from 'ngx-monaco-editor';
-import {ConnectionEdit} from "./connection/connection-edit/connection-edit";
-import {InputField} from "./base/inputField/inputField";
-import {ConnectionDeleteDialog} from "./connection/connection-delete-dialog/connection-delete-dialog";
-import {ConnectionCreate} from "./connection/connection-create/connection-create";
-import {ConnectionStringView} from "./connection/connection-view/connection-view";
-import {TableColumnActions} from "./base/table-column-actions/table-actions.component";
 import {SpinnerOverlayComponent} from "./base/spinner/component/spinner-overlay.component";
 import {SpinnerHttpInterceptor} from "./base/spinner/spinner-interceptor";
 import {SafeHtmlPipe} from "./localization-edit-dialog/safeHtml-pipe";
 import {SnackbarService} from "./base/snackbar-service";
+import {ConnectionViewComponent} from "./connection/components/view/connection-view.component";
+import {ConnectionEditDialogComponent} from "./connection/components/dialogs/connection-edit-dialog.component";
+import {ConnectionComponent} from "./connection/components/base/connection.component";
 
 @NgModule({
   declarations: [
@@ -69,14 +66,11 @@ import {SnackbarService} from "./base/snackbar-service";
     NavMenuComponent,
     LocalizationTable,
     LocalizationEditDialog,
-    ConnectionStringView,
-    TableColumnActions,
-    ConnectionEdit,
-    InputField,
-    ConnectionDeleteDialog,
-    ConnectionCreate,
     SpinnerOverlayComponent,
     SafeHtmlPipe,
+    ConnectionViewComponent,
+    ConnectionEditDialogComponent,
+    ConnectionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -84,9 +78,7 @@ import {SnackbarService} from "./base/snackbar-service";
     FormsModule,
     RouterModule.forRoot([
       {path: '', component: LocalizationTable, pathMatch: 'full'},
-      {path: 'connection/view', component: ConnectionStringView},
-      {path: 'connection/edit/:id', component: ConnectionEdit},
-      {path: 'connection/create', component: ConnectionCreate}
+      {path: 'connections', component: ConnectionViewComponent, pathMatch: 'full'},
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -145,7 +137,7 @@ import {SnackbarService} from "./base/snackbar-service";
     SnackbarService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [LocalizationEditDialog, ConnectionDeleteDialog],
+  entryComponents: [LocalizationEditDialog, ConnectionEditDialogComponent],
 })
 export class AppModule {
 }
