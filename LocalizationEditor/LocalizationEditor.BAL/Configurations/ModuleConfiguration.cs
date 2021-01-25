@@ -1,15 +1,6 @@
-﻿using Autofac;
-using Autofac.Core;
-using Autofac.Core.Registration;
-using LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings;
-using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
-using LocalizationEditor.BAL.Models.LocalizationString;
+using Autofac;
 using LocalizationEditor.BAL.Services.LocalizationStrings;
 using LocalizationEditor.BAL.Services.LocalizationStrings.Implementations;
-using MediatR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
 
 namespace LocalizationEditor.BAL.Configurations
 {
@@ -23,7 +14,10 @@ namespace LocalizationEditor.BAL.Configurations
         .InstancePerLifetimeScope();
 
 
-
+      builder
+        .RegisterType<TableNamingOptions>()
+        .As<ITableNamingOptions>()
+        .InstancePerLifetimeScope();
     }
   }
 }

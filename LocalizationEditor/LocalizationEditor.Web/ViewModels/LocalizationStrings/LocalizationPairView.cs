@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using System;
 
 namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {

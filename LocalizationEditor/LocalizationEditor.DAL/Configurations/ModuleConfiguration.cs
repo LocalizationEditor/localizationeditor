@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using LocalizationEditor.BAL.Repositories;
 using LocalizationEditor.DAL.Repository.LocalizationString;
 
@@ -11,6 +11,11 @@ namespace LocalizationEditor.DAL.Configurations
       builder
         .RegisterType<LocalizationStringRepository>()
         .As<ILocalizationStringRepository>()
+        .InstancePerLifetimeScope();
+
+      builder
+        .RegisterType<LocalizationGroupRepository>()
+        .As<ILocalizationGroupRepository>()
         .InstancePerLifetimeScope();
     }
   }

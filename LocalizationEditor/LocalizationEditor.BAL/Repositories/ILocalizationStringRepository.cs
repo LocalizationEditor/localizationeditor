@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using System.Threading.Tasks;
 
@@ -11,5 +11,7 @@ namespace LocalizationEditor.BAL.Repositories
     Task<ILocalizationString> GetByIdAsync(long id);
     Task<IEnumerable<ILocalizationString>> GetAllAsync();
     Task<long> DeleteAsync(ILocalizationString localizationString);
+    void SetConnectionString(string connectionString);
+    void SetLocaleColumnNames(IEnumerable<string> locales);
   }
 }

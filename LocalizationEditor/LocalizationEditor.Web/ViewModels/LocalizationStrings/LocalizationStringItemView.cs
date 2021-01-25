@@ -7,7 +7,7 @@ namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
   public class LocalizationStringItemView : IdView
   {
     [JsonProperty("group")]
-    public LocalizationStringGroupView Group { get; set; }
+    public string Group { get; set; }
     [JsonProperty("key")]
     public string Key { get; set; }
     [JsonProperty("localizations")]

@@ -1,13 +1,13 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
-using LocalizationEditor.BAL.Commands.Requests;
+using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Repositories;
 using MediatR;
 
 namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 {
-  internal class UpdateLocalizationStringRequestHandler : IRequestHandler<IUpdateLocalizationStringRequest, ILocalizationString>
+  internal class UpdateLocalizationStringRequestHandler : IRequestHandler<UpdateLocalizationStringRequest, ILocalizationString>
   {
     private readonly ILocalizationStringRepository _repository;
 
@@ -16,11 +16,15 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       _repository = repository;
     }
 
-    public async Task<ILocalizationString> Handle(IUpdateLocalizationStringRequest request,
-      CancellationToken cancellationToken)
+    public async Task<ILocalizationString> Handle(UpdateLocalizationStringRequest request, CancellationToken cancellationToken)
     {
-     var modelFromDb =  await _repository.GetByIdAsync(request.Id);
-     return await _repository.UpdateAsync(request.LocalizationString);
+      string[] locales = new[] { "TextEn", "TextRu", "TextUa" };
+      const string ConnectionString = @"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;";
+      _repository.SetConnectionString(ConnectionString);
+      _repository.SetLocaleColumnNames(locales);
+      var modelFromDb = await _repository.GetByIdAsync(request.Id);
+      modelFromDb.Update(request.LocalizationString);
+      return await _repository.UpdateAsync(modelFromDb);
     }
   }
 }

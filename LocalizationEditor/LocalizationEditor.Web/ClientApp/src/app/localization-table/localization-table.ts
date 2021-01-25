@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
@@ -8,6 +8,7 @@ import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
+import { MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'localization-table',
@@ -20,6 +21,12 @@ export class LocalizationTable implements OnInit {
   public columns = ['group', 'key'];
   public dataSource: MatTableDataSource<LocalizationDataRowView>;
   public config: LocalizationConfig;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  start: number = 0;
+  limit: number = 25;
+  end: number = this.limit + this.start;
+
 
   constructor(private _dialog: MatDialog,
               private _httpService: HttpRequestService) {
@@ -29,6 +36,7 @@ export class LocalizationTable implements OnInit {
   ngOnInit() {
     this.getConfig();
     this.getList();
+    this.dataSource.paginator = this.paginator;
   }
 
   private getConfig() {
@@ -45,12 +53,13 @@ export class LocalizationTable implements OnInit {
   }
 
   private getList() {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}`,
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}`,
       false,
       null,
       result => {
         let rows = result.localizationStrings.map(LocalizationTable.mapRow);
-        this.dataSource = new MatTableDataSource(rows)
+        this.totalCount = result.count;
+        this.dataSource = new MatTableDataSource(rows);
       });
     this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
@@ -69,11 +78,15 @@ export class LocalizationTable implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}&search=${filterValue}`,
+      false,
+      null,
+      result => {
+        let rows = result.localizationStrings.map(LocalizationTable.mapRow);
+        this.totalCount = result.count;
+        this.dataSource = new MatTableDataSource(rows);
+      });
+    this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
 
   editLocalization(localizedRow: LocalizationDataRowView) {
@@ -102,5 +115,40 @@ export class LocalizationTable implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+  onTableScroll(e) {
+    const tableViewHeight = e.target.offsetHeight // viewport
+    const tableScrollHeight = e.target.scrollHeight // length of all table
+    const scrollLocation = e.target.scrollTop; // how far user scrolled
+
+    // If the user has scrolled within 200px of the bottom, add more data
+    const buffer = 200;
+    const limit = tableScrollHeight - tableViewHeight - buffer;
+    if (scrollLocation > limit) {
+      this.getTableData(this.start, this.end);;
+      this.updateIndex();
+    }
+  }
+
+  getTableData(start, end) {
+
+    if (end <= this.totalCount) {
+      let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${this.limit}&offset=${end}`,
+        false,
+        null,
+        result => {
+          let rows = result.localizationStrings.map(LocalizationTable.mapRow);
+          this.totalCount = result.count;
+
+          this.dataSource.data = this.dataSource.data.concat(rows);
+        });
+      this._httpService.get<LocalizationDataRowsServerDto>(request);
+    }
+  }
+
+  totalCount = 0;
+  updateIndex() {
+    this.start = this.end;
+    this.end = this.limit + this.start;
   }
 }

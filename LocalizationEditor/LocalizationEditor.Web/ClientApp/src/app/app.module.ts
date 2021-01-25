@@ -133,7 +133,6 @@ import {SnackbarService} from "./base/snackbar-service";
     PortalModule,
     ScrollingModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
     MatTableModule,
     ReactiveFormsModule,

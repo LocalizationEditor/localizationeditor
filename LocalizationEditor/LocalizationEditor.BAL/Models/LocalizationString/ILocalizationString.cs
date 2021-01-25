@@ -8,5 +8,7 @@ namespace LocalizationEditor.BAL.Models.LocalizationString
     ILocalizationGroup Group { get; }
     string Key { get; }
     IReadOnlyCollection<ILocalizationPair> Localizations { get; }
+
+    void Update(ILocalizationString localizationString);
   }
 }

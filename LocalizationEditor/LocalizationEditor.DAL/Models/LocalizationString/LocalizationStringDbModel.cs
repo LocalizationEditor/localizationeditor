@@ -8,8 +8,5 @@ namespace LocalizationEditor.DAL.Models.LocalizationString
   {
     public long Id { get; set; }
     public string Key { get; set; }
-    public LocalizationGroupDbModel Group { get; set; }
-
-    public ICollection<LocalizationPair> Locales { get; set; }
   }
 }

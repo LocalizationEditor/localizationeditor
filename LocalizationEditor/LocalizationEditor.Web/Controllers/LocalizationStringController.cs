@@ -4,6 +4,7 @@ using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,23 +51,55 @@ namespace LocalizationEditor.Web.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<LocalizationStringListView>> GetAll()
+    public async Task<ActionResult<LocalizationStringListView>> GetAll(int limit, int offset, string search)
     {
-      var request = new GetAllLocalizationStringRequest();
+      var request = new GetAllLocalizationStringRequest
+      {
+        Search = search
+      };
       var items = await _mediator.Send(request);
 
       return new LocalizationStringListView
       {
         LocalizationStrings = items
-          .Select(_mapper.Map<LocalizationStringItemView>)
+          .Skip(offset)
+          .Take(limit)
+          .Select(_mapper.Map<LocalizationStringItemView>),
+        Count = items.Count()
       };
+    }
+
+    [HttpGet("editor")]
+    public async Task<ActionResult<LocalizationStringItemView>> GetEditorModel(LocalizationEditorQueryView view)
+    {
+      var request = new SearchLocalizationStringRequest(view.GroupKey, view.LocalizationStringKey);
+      var localizationString = await _mediator.Send(request);
+      return _mapper.Map<LocalizationStringItemView>(localizationString);
     }
 
 
     [HttpGet("config")]
     public ActionResult<LocalizationStringsConfigView> GetConfig()
     {
-      return _mapper.Map<LocalizationStringsConfigView>(new[] {"ru", "ua", "en"});
+      return _mapper.Map<LocalizationStringsConfigView>(new[] { "TextEn", "TextRu", "TextUa" });
     }
+
+    [HttpGet("editor/config")]
+    public ActionResult<LocalizationStringsEditorConfig> GetEditroConfig()
+    {
+      return new LocalizationStringsEditorConfig
+      {
+        Locales = new[] { "TextEn", "TextRu", "TextUa" },
+        Groups = new[] { "Core.CommonStrings" }
+      };
+    }
+  }
+
+  public class LocalizationEditorQueryView
+  {
+    [JsonProperty("groupKey")]
+    public string GroupKey { get; set; }
+    [JsonProperty("localizationStringKey")]
+    public string LocalizationStringKey { get; set; }
   }
 }

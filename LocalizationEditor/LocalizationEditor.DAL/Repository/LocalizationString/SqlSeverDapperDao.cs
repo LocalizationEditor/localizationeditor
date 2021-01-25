@@ -1,4 +1,4 @@
-﻿using Dapper;
+using Dapper;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,7 +8,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
   public class SqlSeverDapperDao<T>
   {
-    protected readonly string ConnectionString;
+    protected string ConnectionString;
 
     public SqlSeverDapperDao(string connectionString)
     {
@@ -16,34 +16,34 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     }
     public virtual async Task<T> AddAsync(T model)
     {
-      await using var connection = new SqlConnection(ConnectionString);
-      var newId = await connection.InsertAsync(model);
+      var newId = await GetConnection().InsertAsync(model);
       return model;
     }
 
     public virtual async Task<T> UpdateAsync(T model)
     {
-      await using var connection = new SqlConnection(ConnectionString);
-      await connection.UpdateAsync(model);
+      await GetConnection().UpdateAsync(model);
       return model;
     }
 
     public virtual Task<T> GetByIdAsync(long id)
     {
-      using var connection = new SqlConnection(ConnectionString);
-      return connection.GetAsync<T>(id);
+      return GetConnection().GetAsync<T>(id);
     }
 
     public virtual Task<IEnumerable<T>> GetAllAsync()
     {
-      using var connection = new SqlConnection(ConnectionString);
-      return connection.GetListAsync<T>();
+      return GetConnection().GetListAsync<T>();
     }
 
     public virtual async Task<long> DeleteAsync(ILocalizationString localizationString)
     {
-      await using var connection = new SqlConnection(ConnectionString);
-      return await connection.DeleteAsync(localizationString);
+      return await GetConnection().DeleteAsync(localizationString);
+    }
+
+    protected SqlConnection GetConnection()
+    {
+      return new SqlConnection(ConnectionString);
     }
   }
 }

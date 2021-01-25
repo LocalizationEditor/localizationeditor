@@ -1,4 +1,4 @@
-﻿import {Inject, Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from "rxjs";
 import {SnackbarService} from "./snackbar-service";
@@ -42,7 +42,7 @@ export class HttpRequestService {
     observable
       .toPromise()
       .then(data => {
-        if (request.OnThenAction !== null)
+        if (request.OnThenAction)
           request.OnThenAction(data);
 
         if (request.UseSuccessSnackBar)
