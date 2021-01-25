@@ -19,7 +19,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       CancellationToken cancellationToken)
     {
       var localizationRow = await _repository.GetByIdAsync(request.Id);
-      return await _repository.DeleteAsync(localizationRow);
+      return await _repository.DeleteAsync(localizationRow, null);
     }
   }
 }

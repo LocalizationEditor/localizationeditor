@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from '@angular/core';
+﻿import {Component, OnInit, Output} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
@@ -8,6 +8,7 @@ import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
+import {IConnection} from "../connection/models/Connection/IConnection";
 
 @Component({
   selector: 'localization-table',
@@ -20,6 +21,7 @@ export class LocalizationTable implements OnInit {
   public columns = ['group', 'key'];
   public dataSource: MatTableDataSource<LocalizationDataRowView>;
   public config: LocalizationConfig;
+  @Output() connection: IConnection;
 
   constructor(private _dialog: MatDialog,
               private _httpService: HttpRequestService) {
@@ -106,5 +108,10 @@ export class LocalizationTable implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  reciveConnection($event){
+    console.log($event);
+    this.connection = $event;
   }
 }

@@ -20,7 +20,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
     public async Task<ILocalizationKey> Handle(AddLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      return await _repository.AddAsync(request.LocalizationKey);
+      return await _repository.AddAsync(request.LocalizationKey, null);
     }
   }
 }

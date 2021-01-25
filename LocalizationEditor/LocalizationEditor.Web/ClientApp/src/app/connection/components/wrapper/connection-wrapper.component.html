@@ -1,0 +1,7 @@
+﻿<div class="connection-wrapper">
+  <mat-select placeholder="connections" (selectionChange)="sendOnChange()" [formControl]="connectionControl" required>
+    <mat-option *ngFor="let connection of connections" [value]="selectedConnection">
+      {{connection.connectionName}}
+    </mat-option>
+  </mat-select>
+</div>

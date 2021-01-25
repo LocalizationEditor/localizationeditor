@@ -16,12 +16,12 @@ namespace LocalizationEditor.BAL.Services.LocalizationStrings.Implementations
 
     public Task<ILocalizationKey> AddAsync(ILocalizationKey key)
     {
-      return _repository.AddAsync(key);
+      return _repository.AddAsync(key, null);
     }
 
     public Task<ILocalizationKey> UpdateAsync(long id, ILocalizationKey key)
     {
-      return _repository.UpdateAsync(key);
+      return _repository.UpdateAsync(key, null);
     }
 
     public Task<ILocalizationKey> GetByIdAsync(long id)
@@ -31,12 +31,12 @@ namespace LocalizationEditor.BAL.Services.LocalizationStrings.Implementations
 
     public Task<IEnumerable<ILocalizationKey>> GetAllAsync()
     {
-      return _repository.GetAllAsync();
+      return _repository.GetAllAsync(null);
     }
 
     public Task<long> DeleteAsync(ILocalizationKey key)
     {
-      return _repository.DeleteAsync(key);
+      return _repository.DeleteAsync(key, null);
     }
   }
 }

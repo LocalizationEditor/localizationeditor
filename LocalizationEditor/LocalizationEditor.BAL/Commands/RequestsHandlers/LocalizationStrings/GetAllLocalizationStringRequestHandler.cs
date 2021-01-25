@@ -22,7 +22,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
     public async Task<IEnumerable<ILocalizationKey>> Handle(GetAllLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      return await _repository.GetAllAsync();
+      return await _repository.GetAllAsync(null); // should be connection
     }
   }
 }
