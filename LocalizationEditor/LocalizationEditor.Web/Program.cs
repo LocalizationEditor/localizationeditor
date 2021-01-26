@@ -2,7 +2,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Localization
+namespace LocalizationEditor.Web
 {
   public class Program
   {

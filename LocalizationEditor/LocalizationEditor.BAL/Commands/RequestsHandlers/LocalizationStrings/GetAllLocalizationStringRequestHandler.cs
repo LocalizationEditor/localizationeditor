@@ -23,10 +23,9 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
     public async Task<IEnumerable<ILocalizationString>> Handle(GetAllLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      string[] locales = new[] { "TextEn", "TextRu", "TextUa" };
+      
       const string ConnectionString = @"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;";
       _repository.SetConnectionString(ConnectionString);
-      _repository.SetLocaleColumnNames(locales);
 
       var all = await _repository.GetAllAsync();
 
@@ -36,23 +35,6 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
                                                 i.Localizations.Any(j => j.Value?.Search(request.Search) == true)));
     }
   }
-
-  class SearchLocalizationStringRequestHandler : IRequestHandler<SearchLocalizationStringRequest, ILocalizationString>
-  {
-    private readonly ILocalizationStringRepository _repository;
-
-    public SearchLocalizationStringRequestHandler(ILocalizationStringRepository repository)
-    {
-      _repository = repository;
-    }
-
-    public Task<ILocalizationString> Handle(SearchLocalizationStringRequest request, CancellationToken cancellationToken)
-    {
-
-      return null;
-    }
-  }
-
 
   public static class StringExtension
   {

@@ -18,10 +18,8 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 
     public async Task<ILocalizationString> Handle(UpdateLocalizationStringRequest request, CancellationToken cancellationToken)
     {
-      string[] locales = new[] { "TextEn", "TextRu", "TextUa" };
       const string ConnectionString = @"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;";
       _repository.SetConnectionString(ConnectionString);
-      _repository.SetLocaleColumnNames(locales);
       var modelFromDb = await _repository.GetByIdAsync(request.Id);
       modelFromDb.Update(request.LocalizationString);
       return await _repository.UpdateAsync(modelFromDb);

@@ -12,6 +12,6 @@ namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
   public class LocalizationStringsEditorConfig : LocalizationStringsConfigView
   {
     [JsonProperty("groups")]
-    public string[] Groups { get; set; }
+    public IEnumerable<string> Groups { get; set; }
   }
 }

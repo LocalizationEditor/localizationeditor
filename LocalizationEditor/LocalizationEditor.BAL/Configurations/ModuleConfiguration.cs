@@ -16,7 +16,7 @@ namespace LocalizationEditor.BAL.Configurations
 
       builder
         .RegisterType<TableNamingOptions>()
-        .As<ITableNamingOptions>()
+        .As<ITablesConfigurationOptions>()
         .InstancePerLifetimeScope();
     }
   }

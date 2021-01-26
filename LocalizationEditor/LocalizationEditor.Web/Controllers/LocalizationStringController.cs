@@ -1,4 +1,5 @@
 using AutoMapper;
+using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
@@ -15,12 +16,14 @@ namespace LocalizationEditor.Web.Controllers
   {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
+    private readonly ITablesConfigurationOptions _tablesConfigurationOptions;
 
     public LocalizationStringController(IMapper mapper,
-      IMediator mediator)
+      IMediator mediator, ITablesConfigurationOptions tablesConfigurationOptions)
     {
       _mapper = mapper;
       _mediator = mediator;
+      _tablesConfigurationOptions = tablesConfigurationOptions;
     }
 
     [HttpPost]
@@ -81,16 +84,18 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet("config")]
     public ActionResult<LocalizationStringsConfigView> GetConfig()
     {
-      return _mapper.Map<LocalizationStringsConfigView>(new[] { "TextEn", "TextRu", "TextUa" });
+      return _mapper.Map<LocalizationStringsConfigView>(_tablesConfigurationOptions.Locales);
     }
 
     [HttpGet("editor/config")]
-    public ActionResult<LocalizationStringsEditorConfig> GetEditroConfig()
+    public async Task<ActionResult<LocalizationStringsEditorConfig>> GetEditroConfig()
     {
+      var request = new GetAllLocalizationGroupsRequest();
+      var results = await _mediator.Send(request);
       return new LocalizationStringsEditorConfig
       {
-        Locales = new[] { "TextEn", "TextRu", "TextUa" },
-        Groups = new[] { "Core.CommonStrings" }
+        Locales = _tablesConfigurationOptions.Locales,
+        Groups = results.Select(i => i.Name)
       };
     }
   }

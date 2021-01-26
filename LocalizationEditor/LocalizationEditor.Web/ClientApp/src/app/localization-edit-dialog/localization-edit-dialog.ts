@@ -10,7 +10,6 @@ import {
 import { LocalizationDataRowServerDto } from "../localization-table/models/localization-data-row-server-dto";
 import { Observable, of, Subscription } from "rxjs";
 import { FormControl } from "@angular/forms";
-import { map, startWith } from "rxjs/operators";
 
 @Component({
   selector: 'localization-edit-dialog',
@@ -29,20 +28,20 @@ export class LocalizationEditDialog implements OnInit {
   public groupKey: string;
 
   myControl = new FormControl();
-  options: string[] = ["Core.CommonStrings"];
+  options: string[];
   filteredOptions: Observable<string[]> = new Observable<string[]>();
   inputSubscription: Subscription;
 
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
     @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData,
     private _httpService: HttpRequestService) {
-    this.locales = data.locales;
     this.localizationString = data.localizedString;
     this.localizationKey = data.localizedString.key;
     this.groupKey = data.localizedString.group;
   }
 
   ngOnInit() {
+    this.getEditorConfig();
     this.lastSelected = this.locales[0];
     this.code = this.localizationString[this.lastSelected];
   }
@@ -71,6 +70,17 @@ export class LocalizationEditDialog implements OnInit {
   public onValueChanged(value: string) {
     this.isPreview = JSON.parse(value);
     console.log(value);
+  }
+
+  getEditorConfig(): void {
+    let request = new TypedRequestImpl(
+      `${BaseServerRoutes.Localization}/editor/config`,
+      true, null,
+      result => {
+        this.locales = result.locales;
+        this.options = result.groups;
+      });
+      this._httpService.get(request)
   }
 
   save(): void {

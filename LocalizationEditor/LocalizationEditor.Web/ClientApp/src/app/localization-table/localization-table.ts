@@ -26,7 +26,8 @@ export class LocalizationTable implements OnInit {
   start: number = 0;
   limit: number = 25;
   end: number = this.limit + this.start;
-
+  searchValue: string = "";
+  totalCount = 0;
 
   constructor(private _dialog: MatDialog,
               private _httpService: HttpRequestService) {
@@ -77,8 +78,8 @@ export class LocalizationTable implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}&search=${filterValue}`,
+     this.searchValue = (event.target as HTMLInputElement).value;
+    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}&search=${this.searchValue}`,
       false,
       null,
       result => {
@@ -125,15 +126,15 @@ export class LocalizationTable implements OnInit {
     const buffer = 200;
     const limit = tableScrollHeight - tableViewHeight - buffer;
     if (scrollLocation > limit) {
-      this.getTableData(this.start, this.end);;
+      this.getTableData(this.end);;
       this.updateIndex();
     }
   }
 
-  getTableData(start, end) {
+  getTableData(end) {
 
     if (end <= this.totalCount) {
-      let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${this.limit}&offset=${end}`,
+      let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${this.limit}&offset=${end}&search=${this.searchValue}`,
         false,
         null,
         result => {
@@ -146,7 +147,7 @@ export class LocalizationTable implements OnInit {
     }
   }
 
-  totalCount = 0;
+  
   updateIndex() {
     this.start = this.end;
     this.end = this.limit + this.start;

@@ -12,6 +12,5 @@ namespace LocalizationEditor.BAL.Repositories
     Task<IEnumerable<ILocalizationString>> GetAllAsync();
     Task<long> DeleteAsync(ILocalizationString localizationString);
     void SetConnectionString(string connectionString);
-    void SetLocaleColumnNames(IEnumerable<string> locales);
   }
 }

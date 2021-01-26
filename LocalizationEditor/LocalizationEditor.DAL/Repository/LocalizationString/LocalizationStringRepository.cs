@@ -28,20 +28,18 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
                        from {1} strings
                           join {2} groups on groups.[Id] = strings.LocalizationTypeId";
 
-    private IEnumerable<string> _locales;
-    private readonly ITableNamingOptions _tableNamingOptions;
+    private readonly ITablesConfigurationOptions _tableNamingOptions;
     
     
-    public LocalizationStringRepository(IEnumerable<string> locales,
-      ITableNamingOptions tableNamingOptions,
+    public LocalizationStringRepository(ITablesConfigurationOptions tableNamingOptions,
       string connectionString)
       : base(connectionString)
     {
-      _locales = locales;
+
       _tableNamingOptions = tableNamingOptions;
     }
 
-    public LocalizationStringRepository(ITableNamingOptions tableNamingOptions)
+    public LocalizationStringRepository(ITablesConfigurationOptions tableNamingOptions)
       : base(string.Empty)
     {
       _tableNamingOptions = tableNamingOptions;
@@ -52,10 +50,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       ConnectionString = connectionString;
     }
 
-    public void SetLocaleColumnNames(IEnumerable<string> locales)
-    {
-      _locales = locales;
-    }
+
 
     public async override Task<ILocalizationString> AddAsync(ILocalizationString model)
     {
@@ -101,27 +96,27 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 
     public override async Task<IEnumerable<ILocalizationString>> GetAllAsync()
     {
-      var localesForQuery = _locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
+      var localesForQuery = _tableNamingOptions.Locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
 
       var sql = string.Format(query, string.Join(",", localesForQuery), _tableNamingOptions.LocalizationStringsTableName, _tableNamingOptions.LocalizationGroupsTableName);
       var results = await GetConnection().QueryAsync(sql);
-      var models = results.Select(i => (ILocalizationString)GetLocalizationString(_locales, i)).ToList();
+      var models = results.Select(i => (ILocalizationString)GetLocalizationString(i)).ToList();
       return models;
     }
 
     public override async Task<ILocalizationString> GetByIdAsync(long id)
     {
-      var localesForQuery = _locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
+      var localesForQuery = _tableNamingOptions.Locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
 
       var sql = string.Format(query, string.Join(",", localesForQuery), _tableNamingOptions.LocalizationStringsTableName, _tableNamingOptions.LocalizationGroupsTableName);
       var result = await GetConnection().QueryFirstAsync($"{sql} where strings.[Id] = {id}");
-      return GetLocalizationString(_locales, result);
+      return GetLocalizationString(result);
     }
 
-    private static ILocalizationString GetLocalizationString(IEnumerable<string> locales, dynamic result)
+    private ILocalizationString GetLocalizationString( dynamic result)
     {
       var localizationGroup = new LocalizationGroup(result.GroupId, result.GroupName);
-      var resultedLocales = locales.Select(i => (ILocalizationPair)GetLocalizationPair(result, i)).ToList();
+      var resultedLocales = _tableNamingOptions.Locales.Select(i => (ILocalizationPair)GetLocalizationPair(result, i)).ToList();
       var model = new LocalizationStringModel(result.StringId, localizationGroup, result.Key, resultedLocales);
       return model;
     }

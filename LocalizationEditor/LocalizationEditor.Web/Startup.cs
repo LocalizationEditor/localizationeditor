@@ -1,28 +1,28 @@
 using System;
 using System.Reflection;
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using LocalizationEditor.Base.Extensions;
 using LocalizationEditor.DAL.Models.LocalizationString;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
-namespace Localization
+namespace LocalizationEditor.Web
 {
   public class Startup
   {
     private readonly IConfiguration _configuration;
-
-    public Startup(IConfiguration configuration)
+    private readonly IWebHostEnvironment _hostEnvironment;
+    public Startup(IConfiguration configuration, IWebHostEnvironment hostEnvironment)
     {
       _configuration = configuration;
+      _hostEnvironment = hostEnvironment;
     }
 
     private ILifetimeScope AutofacContainer { get; set; }
@@ -30,14 +30,23 @@ namespace Localization
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
+      services.AddSwaggerGen();
       services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+      services.AddOptions(
+        _configuration,
+        Assembly.GetExecutingAssembly(),
+        new HostingOption(
+          _hostEnvironment.IsProduction(),
+          _hostEnvironment.IsStaging(),
+          _hostEnvironment.IsDevelopment()));
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
       var x = typeof(LocalizationStringDbModel);
-      var assemblies = Assembly.GetExecutingAssembly().GetAssemblies().ToArray();
-      Assembly.GetExecutingAssembly().AddDiForDependentAssemblies(builder, _configuration);
+      var executingAssembly = Assembly.GetExecutingAssembly();
+      var assemblies = executingAssembly.GetAssemblies().ToArray();
+      builder.RegisterAssemblyModules(assemblies);
       builder.RegisterMediatR(assemblies);
       builder.RegisterAutoMapper(assemblies);
     }
@@ -45,15 +54,13 @@ namespace Localization
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
       if (env.IsDevelopment())
       {
         app.UseDeveloperExceptionPage();
+        UseSwagger(app);
       }
       else
       {
-        app.UseExceptionHandler("/Error");
         app.UseHsts();
       }
 
@@ -83,6 +90,15 @@ namespace Localization
         {
           spa.UseAngularCliServer(npmScript: "start");
         }
+      });
+    }
+
+    private void UseSwagger(IApplicationBuilder app)
+    {
+      app.UseSwagger();
+      app.UseSwaggerUI(option =>
+      {
+        option.SwaggerEndpoint("/swagger/v1/swagger.json", "Localization Editor Api V1");
       });
     }
   }
