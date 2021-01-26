@@ -1,4 +1,4 @@
-﻿import {Injectable, NgZone} from "@angular/core";
+import {Injectable, NgZone} from "@angular/core";
 import {
   MatSnackBar,
   MatSnackBarConfig,
@@ -12,7 +12,7 @@ export class SnackbarService {
   }
 
   private readonly _snackbarConfig: MatSnackBarConfig = {
-    duration: 500,
+    duration: 3000,
     horizontalPosition: 'right',
     verticalPosition: 'top'
   };
@@ -23,7 +23,6 @@ export class SnackbarService {
         '',
         {
           ...this._snackbarConfig,
-          panelClass: ['success-snackbar']
         });
     });
   }
@@ -32,7 +31,6 @@ export class SnackbarService {
     this._zone.run(() => {
       this._snackBar.open('Failed', '', {
         ...this._snackbarConfig,
-        panelClass: ['failed-snackbar']
       });
     });
 

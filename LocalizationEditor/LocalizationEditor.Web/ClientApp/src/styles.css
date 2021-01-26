@@ -10,13 +10,7 @@ html, body, app-root, .app-frame {
 
 body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.success-snackbar {
-  background: rgba(21, 86, 83, 0.66);
-}
 
-.failed-snackbar {
-  background: rgba(210, 53, 47, 0.66);
-}
 
 .app-loading {
   position: relative;
