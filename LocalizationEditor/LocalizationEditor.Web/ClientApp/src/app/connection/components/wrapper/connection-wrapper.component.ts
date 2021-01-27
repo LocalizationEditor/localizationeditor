@@ -11,9 +11,10 @@ import {BaseServerRoutes} from "../../../base/base-server-routes";
 })
 export class ConnectionWrapperComponent implements OnInit {
   connectionControl = new FormControl('', Validators.required);
+  @Input() name: string;
+  @Input() key: string;
   @Input() selectedConnection: IConnection;
   public connections: IConnection[] = new Array<IConnection>();
-  @Output() selectedConnectionEmitter = new EventEmitter<IConnection>();
 
   constructor(private _httpClient: HttpRequestService) {
   }
@@ -37,7 +38,6 @@ export class ConnectionWrapperComponent implements OnInit {
   }
 
   private sendOnChange(): void {
-    console.log("sendMessage");
-    this.selectedConnectionEmitter.emit(this.selectedConnection);
+    localStorage.setItem(this.key, this.selectedConnection.id.toString());
   }
 }

@@ -23,6 +23,10 @@
           </mat-menu>
         </div>
       </mat-nav-list>
+      <div class="connection-selector-wrapper">
+        <connection-wrapper [name]="'source'" [key]="'source'"></connection-wrapper>
+        <connection-wrapper [name]="'destination'" [key]="'destination'"></connection-wrapper>
+      </div>
     </mat-sidenav>
 
     <mat-sidenav-content>

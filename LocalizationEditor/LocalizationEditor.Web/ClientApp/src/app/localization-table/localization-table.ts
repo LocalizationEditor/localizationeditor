@@ -21,7 +21,6 @@ export class LocalizationTable implements OnInit {
   public columns = ['group', 'key'];
   public dataSource: MatTableDataSource<LocalizationDataRowView>;
   public config: LocalizationConfig;
-  @Output() connection: IConnection;
 
   constructor(private _dialog: MatDialog,
               private _httpService: HttpRequestService) {
@@ -108,10 +107,5 @@ export class LocalizationTable implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
-  }
-
-  reciveConnection($event){
-    console.log($event);
-    this.connection = $event;
   }
 }
