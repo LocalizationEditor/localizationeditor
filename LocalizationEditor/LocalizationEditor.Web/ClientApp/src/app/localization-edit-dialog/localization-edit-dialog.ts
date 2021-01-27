@@ -60,13 +60,17 @@ export class LocalizationEditDialog implements OnInit {
   save(): void {
     this.localizationString[this.lastSelected] = this.code
     let obj = this.mapServerDto(this.localizationString);
+
+    console.log(obj);
+
+    const isNewEntity = this.localizationString.id === undefined || this.localizationString.id === 0;
     let request = new TypedRequestImpl(
-      this.localizationString.id === 0 ?
+      isNewEntity ?
         `${BaseServerRoutes.Localization}` :
         `${BaseServerRoutes.Localization}/${this.localizationString.id}`,
       true,
       obj);
-    if (this.localizationString.id === 0)
+    if (isNewEntity)
       this._httpService.post(request)
     else
       this._httpService.put(request);
@@ -74,8 +78,11 @@ export class LocalizationEditDialog implements OnInit {
 
   private mapServerDto(localizationString: LocalizationDataRowView): LocalizationDataRowServerDto {
     return {
-      group: localizationString.group,
-      key: localizationString.key,
+      group: {
+       id: 0,
+       name: this.myControl.value.toString()
+      },
+      key: this.localizationKey,
       id: localizationString.id,
       localizations: this.locales.map(i => {
         return {

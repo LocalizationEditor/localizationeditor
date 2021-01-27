@@ -59,6 +59,7 @@ import {SnackbarService} from "./base/snackbar-service";
 import {ConnectionViewComponent} from "./connection/components/view/connection-view.component";
 import {ConnectionEditDialogComponent} from "./connection/components/dialogs/connection-edit-dialog.component";
 import {ConnectionComponent} from "./connection/components/base/connection.component";
+import {ConnectionWrapperComponent} from "./connection/components/wrapper/connection-wrapper.component";
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import {ConnectionComponent} from "./connection/components/base/connection.compo
     SafeHtmlPipe,
     ConnectionViewComponent,
     ConnectionEditDialogComponent,
-    ConnectionComponent
+    ConnectionComponent,
+    ConnectionWrapperComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

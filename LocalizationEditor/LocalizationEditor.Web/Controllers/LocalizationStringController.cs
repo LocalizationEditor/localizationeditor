@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using Localization.DataTransferObjects.LocalizationString;
-using Localization.MediatR.Requests.LocalizationStrings;
-using Localization.ViewModels.LocalizationStrings;
+using LocalizationEditor.BAL.Commands.Requests;
+using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
+// using LocalizationEditor.Web.MediatR.Requests.LocalizationStrings;
+using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Localization.Controllers
+namespace LocalizationEditor.Web.Controllers
 {
   [ApiController, Route("localization")]
   public class LocalizationStringController : ControllerBase
@@ -17,7 +17,8 @@ namespace Localization.Controllers
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
 
-    public LocalizationStringController(IMapper mapper, IMediator mediator)
+    public LocalizationStringController(IMapper mapper,
+      IMediator mediator)
     {
       _mapper = mapper;
       _mediator = mediator;
@@ -26,7 +27,7 @@ namespace Localization.Controllers
     [HttpPost]
     public async Task<ActionResult<LocalizationStringItemView>> Add(LocalizationStringItemView view)
     {
-      var dto = _mapper.Map<ILocalizationRow>(view);
+      var dto = _mapper.Map<ILocalizationKey>(view);
       var request = new AddLocalizationStringRequest(dto);
       dto = await _mediator.Send(request);
       return _mapper.Map<LocalizationStringItemView>(dto);
@@ -35,7 +36,7 @@ namespace Localization.Controllers
     [HttpPut("{id}")]
     public async Task<ActionResult<LocalizationStringItemView>> Update(long id, LocalizationStringItemView view)
     {
-      var dto = _mapper.Map<ILocalizationRow>(view);
+      var dto = _mapper.Map<ILocalizationKey>(view);
       var request = new UpdateLocalizationStringRequest(id, dto);
       dto = await _mediator.Send(request);
       view = _mapper.Map<LocalizationStringItemView>(dto);
@@ -54,26 +55,17 @@ namespace Localization.Controllers
     public async Task<ActionResult<LocalizationStringListView>> GetAll()
     {
       var request = new GetAllLocalizationStringRequest();
-      var item =
-        new LocalizationRowDto(0,
-         "group",
-         "key",
-         new List<ILocalizationPair>
-         {
-           new LocalizationPairDto("ru", "sdfgsdfg"),
-           new LocalizationPairDto("ua", "@222"),
-           new LocalizationPairDto("en", "!11"),
-         });
+      var items = await _mediator.Send(request);
 
-       var items = Enumerable.Repeat(item, 100);
-      //await _mediator.Send(request);
-
-      return new LocalizationStringListView
+      var view = new LocalizationStringListView
       {
         LocalizationStrings = items
           .Select(_mapper.Map<LocalizationStringItemView>)
       };
+
+      return view;
     }
+
 
     [HttpGet("config")]
     public ActionResult<LocalizationStringsConfigView> GetConfig()

@@ -1,39 +1,42 @@
-<mat-form-field>
-  <input type="text"
-         placeholder="Group name"
-         aria-label="group"
-         matInput
-         [formControl]="myControl"
-         [matAutocomplete]="auto">
-  <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-      {{option}}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
-<mat-form-field>
-  <mat-label>Localization key</mat-label>
-  <label>
-    <input matInput type="text" [(ngModel)]="localizationKey">
-  </label>
-  <button mat-button *ngIf="localizationKey" matSuffix mat-icon-button aria-label="Clear"
-          (click)="localizationKey=''">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
-<mat-slide-toggle [(ngModel)]="isPreview">
-  Preview
-</mat-slide-toggle>
+<div class="form-inline flex-sm-wrap">
+  <mat-form-field appearance="fill"
+                  class="d-inline-flex d-sm-inline-flex">
+    <input type="text"
+           placeholder="Group name"
+           aria-label="group"
+           matInput
+           [formControl]="myControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="d-sm-inline-flex d-inline-flex" style="margin-left: 5px;">
+    <mat-label>Localization key</mat-label>
+    <label>
+      <input matInput type="text"
+             [(ngModel)]="localizationKey">
+    </label>
+    <button mat-button *ngIf="localizationKey"
+            matSuffix
+            mat-icon-button aria-label="Clear"
+            (click)="localizationKey=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <mat-slide-toggle class="d-lg-inline-flex" [(ngModel)]="isPreview" style="margin-left: 5px;">Preview</mat-slide-toggle>
+</div>
 
 <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
-  <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales">
-  </mat-tab>
+  <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales"></mat-tab>
 </mat-tab-group>
 <div *ngIf="!isPreview">
   <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
 </div>
 <div *ngIf="isPreview">
-  <div [innerHTML]="code | safeHtml :code"></div>
+  <div class="editor" [innerHTML]="code | safeHtml :code"></div>
 </div>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close color="warn">Cancel</button>

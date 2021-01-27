@@ -1,16 +1,16 @@
 ﻿using LocalizationEditor.BAL.Commands.Requests;
 using LocalizationEditor.BAL.Models.LocalizationString;
 
-namespace Localization.MediatR.Requests.LocalizationStrings
+namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
 {
   public class UpdateLocalizationStringRequest : IUpdateLocalizationStringRequest
   {
-    public UpdateLocalizationStringRequest(long id, ILocalizationRow localizationString)
+    public UpdateLocalizationStringRequest(long id, ILocalizationKey localizationKey)
     {
       Id = id;
-      LocalizationString = localizationString;
+      LocalizationKey = localizationKey;
     }
     public long Id { get; }
-    public ILocalizationRow LocalizationString { get; }
+    public ILocalizationKey LocalizationKey { get; }
   }
 }

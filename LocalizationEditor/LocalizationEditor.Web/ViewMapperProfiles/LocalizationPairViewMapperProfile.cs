@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Localization.DataTransferObjects.LocalizationString;
-using Localization.ViewModels.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
+using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
+using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 
-namespace Localization.ViewMapperProfiles
+namespace LocalizationEditor.Web.ViewMapperProfiles
 {
   internal class LocalizationPairViewMapperProfile : Profile
   {
@@ -15,7 +15,7 @@ namespace Localization.ViewMapperProfiles
         .ForMember(destinationMember => destinationMember.Value,
           memberOptions => memberOptions.MapFrom(resolver => resolver.Value))
         .ReverseMap()
-        .ConstructUsing(source => new LocalizationPairDto(source.Locale, source.Value));
+        .ConstructUsing(source => new LocalizationPair(source.Locale, source.Value));
     }
   }
 }

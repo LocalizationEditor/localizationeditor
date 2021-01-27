@@ -1,4 +1,5 @@
 ﻿using LocalizationEditor.BAL.Commands.Requests;
+using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Repositories;
 using MediatR;
@@ -8,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 {
-  internal class GetAllLocalizationStringRequestHandler : IRequestHandler<IGetAllLocalizationStringRequest, IEnumerable<ILocalizationRow>>
+  public class GetAllLocalizationStringRequestHandler : IRequestHandler<GetAllLocalizationStringRequest,
+      IEnumerable<ILocalizationKey>>
   {
     private readonly ILocalizationStringRepository _repository;
 
@@ -17,10 +19,10 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
       _repository = repository;
     }
 
-    public async Task<IEnumerable<ILocalizationRow>> Handle(IGetAllLocalizationStringRequest request,
+    public async Task<IEnumerable<ILocalizationKey>> Handle(GetAllLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      return await _repository.GetAllAsync();
+      return await _repository.GetAllAsync(null); // should be connection
     }
   }
 }

@@ -1,13 +1,4 @@
-﻿table {
-  width: 100%;
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 97%;
-}
-
-#fieldGroup {
+﻿.search-block {
   width: 100%;
 }
 
@@ -17,18 +8,10 @@ mat-header-cell > span.truncate-text {
   white-space: nowrap;
 }
 
-mat-cell > span.truncate-text  {
+mat-cell > span.truncate-text {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-
-.example-container {
-  display: flex;
-  flex-direction: column;
-  max-height: 500px;
-  min-width: 300px;
 }
 
 .mat-table {
@@ -40,7 +23,7 @@ mat-cell > span.truncate-text  {
   display: none;
 }
 
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .mobile-label {
     width: 80px;
     display: inline-block;
@@ -57,6 +40,24 @@ mat-cell > span.truncate-text  {
     padding: 8px 20px;
   }
 }
-#noRecords{
+
+#noRecords {
   text-align: center;
 }
+
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  min-width: 300px;
+  position: relative;
+}
+
+.example-header {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+}
+

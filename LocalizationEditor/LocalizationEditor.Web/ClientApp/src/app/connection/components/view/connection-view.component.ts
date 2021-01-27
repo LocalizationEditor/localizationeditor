@@ -21,7 +21,7 @@ export class ConnectionViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConnections();
-    this.displayedColumns = ["connectionName", "dbName", "userName", "serverName", "password", "dbType", "actions"];
+    this.displayedColumns = ["connectionName", "dbName", "serverName", "dbType", "actions"];
   }
 
   private onEdit(connection: IConnection) {
@@ -59,14 +59,12 @@ export class ConnectionViewComponent implements OnInit {
   }
 
   private handleRemove(connection: IConnection) {
-    const index = this.connections.findIndex(item => item.id === connection.id);
+
     const request = new TypedRequestImpl<number>(
       `${BaseServerRoutes.Connection}/${connection.id}`,
       true,
       null,
-      result => {
-        this.connections.splice(index, 1);
-      });
+      this.onRemove.bind(this));
 
     this._httpService.delete<number>(request);
   }
@@ -81,5 +79,10 @@ export class ConnectionViewComponent implements OnInit {
       });
 
     this._httpService.get<IConnection[]>(request);
+  }
+
+  private onRemove(connection: IConnection){
+    const index = this.connections.findIndex(item => item.id === connection.id);
+    this.connections.splice(index, 1);
   }
 }

@@ -49,10 +49,7 @@ export class ConnectionEditDialogComponent implements OnInit {
       `${BaseServerRoutes.Connection}/config`,
       false,
       null,
-      result => {
-        this.dbTypes = result;
-      }
-    );
+      this.onConfig.bind(this));
     this._httpService.get<DbType[]>(request);
   }
 
@@ -61,9 +58,7 @@ export class ConnectionEditDialogComponent implements OnInit {
       `${BaseServerRoutes.Connection}`,
       true,
       connection,
-      result => {
-        this.dialogRef.close(result);
-      });
+      this.onEdit.bind(this));
 
     this._httpService.post<IConnection>(request);
   }
@@ -73,10 +68,16 @@ export class ConnectionEditDialogComponent implements OnInit {
       `${BaseServerRoutes.Connection}/${connection.id}`,
       true,
       connection,
-      result => {
-        this.dialogRef.close(result);
-      });
+      this.onEdit.bind(this));
 
     this._httpService.put<IConnection>(request);
+  }
+
+  private onEdit(result: IConnection):void{
+    this.dialogRef.close(result);
+  }
+
+  private onConfig(result: DbType[]):void{
+    this.dbTypes = result;
   }
 }
