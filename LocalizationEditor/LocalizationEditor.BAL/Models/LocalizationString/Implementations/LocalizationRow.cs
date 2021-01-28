@@ -20,6 +20,17 @@ namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
     public string Key { get; private set; }
     public IReadOnlyCollection<ILocalizationPair> Localizations { get; private set; }
 
+    public int CompareTo(ILocalizationString other)
+    {
+      if (other is null)
+        return 1;
+
+      if (Group.Name == other.Group.Name && Key == other.Key)
+        return 0;
+
+      return -1;
+    }
+
     public void Update(ILocalizationString localizationString)
     {
       Group = localizationString.Group;
