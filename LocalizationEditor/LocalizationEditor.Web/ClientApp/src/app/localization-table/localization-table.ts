@@ -9,6 +9,7 @@ import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
 import { MatPaginator } from '@angular/material';
+import { LocalizationDataService } from '../localization-edit-dialog/localization-data.service';
 
 @Component({
   selector: 'localization-table',
@@ -30,13 +31,21 @@ export class LocalizationTable implements OnInit {
   totalCount = 0;
 
   constructor(private _dialog: MatDialog,
-              private _httpService: HttpRequestService) {
+    private _httpService: HttpRequestService,
+    private _localizationDataService: LocalizationDataService ) {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
+
     this.getConfig();
-    this.getList();
+    this._localizationDataService.localizationRows.subscribe(localizationRows => {
+      this.dataSource = new MatTableDataSource(localizationRows);
+    });
+    this._localizationDataService.totalCount.subscribe(count => {
+      this.totalCount = count;
+    });
+    this._localizationDataService.initialize();
     this.dataSource.paginator = this.paginator;
   }
 
@@ -52,19 +61,7 @@ export class LocalizationTable implements OnInit {
       });
     this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
-
-  private getList() {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}`,
-      false,
-      null,
-      result => {
-        let rows = result.localizationStrings.map(LocalizationTable.mapRow);
-        this.totalCount = result.count;
-        this.dataSource = new MatTableDataSource(rows);
-      });
-    this._httpService.get<LocalizationDataRowsServerDto>(request);
-  }
-
+ 
   private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
     let row = {
       group: serverDto.group,
@@ -78,16 +75,8 @@ export class LocalizationTable implements OnInit {
   }
 
   applyFilter(event: Event) {
-     this.searchValue = (event.target as HTMLInputElement).value;
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}?limit=${this.limit}&offset=${this.start}&search=${this.searchValue}`,
-      false,
-      null,
-      result => {
-        let rows = result.localizationStrings.map(LocalizationTable.mapRow);
-        this.totalCount = result.count;
-        this.dataSource = new MatTableDataSource(rows);
-      });
-    this._httpService.get<LocalizationDataRowsServerDto>(request);
+    this.searchValue = (event.target as HTMLInputElement).value;
+    this._localizationDataService.loadListMore(this.limit, this.start, this.searchValue);
   }
 
   editLocalization(localizedRow: LocalizationDataRowView) {
@@ -102,9 +91,7 @@ export class LocalizationTable implements OnInit {
   }
 
   deleteLocalizationKey(localizedRow: LocalizationDataRowView) {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/${localizedRow.id}`,
-      true);
-    this._httpService.delete(request);
+    this._localizationDataService.deleteLocalizationKey(localizedRow);
   }
 
   addLocalizationString() {
@@ -132,18 +119,8 @@ export class LocalizationTable implements OnInit {
   }
 
   getTableData(end) {
-
     if (end <= this.totalCount) {
-      let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${this.limit}&offset=${end}&search=${this.searchValue}`,
-        false,
-        null,
-        result => {
-          let rows = result.localizationStrings.map(LocalizationTable.mapRow);
-          this.totalCount = result.count;
-
-          this.dataSource.data = this.dataSource.data.concat(rows);
-        });
-      this._httpService.get<LocalizationDataRowsServerDto>(request);
+      this._localizationDataService.loadListMore(this.limit, end, this.searchValue);
     }
   }
 

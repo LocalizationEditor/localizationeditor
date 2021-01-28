@@ -10,6 +10,7 @@ import {
 import { LocalizationDataRowServerDto } from "../localization-table/models/localization-data-row-server-dto";
 import { Observable, of, Subscription } from "rxjs";
 import { FormControl } from "@angular/forms";
+import { LocalizationDataService } from './localization-data.service';
 
 @Component({
   selector: 'localization-edit-dialog',
@@ -34,7 +35,8 @@ export class LocalizationEditDialog implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<LocalizationEditDialog>,
     @Inject(MAT_DIALOG_DATA) public data: UpdateDialogData,
-    private _httpService: HttpRequestService) {
+    private _httpService: HttpRequestService,
+    private _localizationService: LocalizationDataService) {
     this.localizationString = data.localizedString;
     this.localizationKey = data.localizedString.key;
     this.groupKey = data.localizedString.group;
@@ -42,8 +44,7 @@ export class LocalizationEditDialog implements OnInit {
 
   ngOnInit() {
     this.getEditorConfig();
-    this.lastSelected = this.locales[0];
-    this.code = this.localizationString[this.lastSelected];
+
   }
 
   ngAfterViewInit() {
@@ -72,32 +73,26 @@ export class LocalizationEditDialog implements OnInit {
     console.log(value);
   }
 
-  getEditorConfig(): void {
+  public getEditorConfig(): void {
     let request = new TypedRequestImpl(
       `${BaseServerRoutes.Localization}/editor/config`,
-      true, null,
+      false,
+      null,
       result => {
         this.locales = result.locales;
         this.options = result.groups;
+        this.lastSelected = this.locales[0];
+        this.code = this.localizationString[this.lastSelected];
       });
-      this._httpService.get(request)
+    this._httpService.get(request)
   }
 
-  save(): void {
+  public save(): void {
     this.localizationString[this.lastSelected] = this.code
     this.localizationString.group = this.groupKey;
     this.localizationString.key = this.localizationKey;
     let obj = this.mapServerDto(this.localizationString);
-    let request = new TypedRequestImpl(
-      !this.localizationString.id ?
-        `${BaseServerRoutes.Localization}` :
-        `${BaseServerRoutes.Localization}/${this.localizationString.id}`,
-      true,
-      obj);
-    if (!this.localizationString.id)
-      this._httpService.post(request)
-    else
-      this._httpService.put(request);
+    this._localizationService.save(obj);
   }
 
   private mapServerDto(localizationString: LocalizationDataRowView): LocalizationDataRowServerDto {
@@ -120,4 +115,3 @@ export class LocalizationEditDialog implements OnInit {
     this.lastSelected = $event.tab.textLabel;
   }
 }
-

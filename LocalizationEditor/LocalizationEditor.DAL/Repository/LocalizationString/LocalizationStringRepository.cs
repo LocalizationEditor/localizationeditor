@@ -62,7 +62,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
                   values ({SQLParameterHelper.KeyParameter},{SQLParameterHelper.GroupParameter},{columnParametres})
                   select cast(scope_identity() as int) as Id";
       var newId = await GetConnection().QueryFirstAsync(sql, parameters);
-      model = await GetByIdAsync(newId["Id"]);
+      model = await GetByIdAsync(newId.Id);
       return model;
     }
 
@@ -73,7 +73,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       var sql = $@"update {_tableNamingOptions.LocalizationStringsTableName} set
                       [StringKey] = {SQLParameterHelper.KeyParameter},
                       [LocalizationTypeId] = {SQLParameterHelper.GroupParameter},
-                      {string.Join(",", model.Localizations.Select(i => $"[{i.Locale }] = @{i.Locale}"))},
+                      {string.Join(",", model.Localizations.Select(i => $"[{i.Locale }] = @{i.Locale}"))}
                        where [Id] = {SQLParameterHelper.IdParameter}";
 
       var parameters = GetParameters(model);

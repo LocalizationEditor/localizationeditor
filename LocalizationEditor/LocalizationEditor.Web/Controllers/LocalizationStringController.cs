@@ -67,7 +67,7 @@ namespace LocalizationEditor.Web.Controllers
         LocalizationStrings = items
           .Skip(offset)
           .Take(limit)
-          .Select(_mapper.Map<LocalizationStringItemView>),
+          .Select(_mapper.Map<LocalizationStringItemView>).OrderBy(i=>i.Group).ThenBy(i=>i.Key),
         Count = items.Count()
       };
     }
