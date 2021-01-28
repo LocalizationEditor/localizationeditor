@@ -1,5 +1,6 @@
-﻿.editor {
-  height: calc(100vh - 182px) !important;
+.editor {
+  height: 73vh !important;
   display: flex;
   flex-direction: column;
 }
+

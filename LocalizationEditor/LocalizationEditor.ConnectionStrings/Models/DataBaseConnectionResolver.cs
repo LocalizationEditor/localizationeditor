@@ -1,14 +1,14 @@
-﻿namespace LocalizationEditor.ConnectionStrings.Models
+namespace LocalizationEditor.ConnectionStrings.Models
 {
-  public abstract class DataBaseConnectionResolver
-  {
-    protected readonly IConnection Connection;
+  //public abstract class DataBaseConnectionResolver : IDataBaseConnectionResolver
+  //{
+  //  //protected readonly IConnection Connection;
 
-    protected DataBaseConnectionResolver(IConnection connection)
-    {
-      Connection = connection;
-    }
-
-    public abstract string GetConnectionString();
-  }
+  //  //protected DataBaseConnectionResolver(IConnection connection)
+  //  //{
+  //  //  Connection = connection;
+  //  //}
+  //  public DbType DatabaseType { get; }
+  //  public abstract string GetConnectionString();
+  //}
 }

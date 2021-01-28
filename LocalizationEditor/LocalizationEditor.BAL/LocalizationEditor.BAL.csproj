@@ -5,12 +5,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Commands\RequestsHandlers" />
       <Folder Include="Models" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac" Version="6.1.0" />
+      <PackageReference Include="FluentValidation" Version="9.4.0" />
       <PackageReference Include="MediatR" Version="9.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
+      <ProjectReference Include="..\LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj" />
     </ItemGroup>
 
 </Project>

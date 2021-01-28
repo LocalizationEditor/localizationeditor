@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Localization.ViewModels.LocalizationStrings;
+using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using System.Collections.Generic;
 
-namespace Localization.ViewMapperProfiles
+namespace LocalizationEditor.Web.ViewMapperProfiles
 {
   internal class LocalizationStringsConfigViewMapperProfile : Profile
   {

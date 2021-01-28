@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {LocalizationEditDialog} from "../localization-edit-dialog/localization-edit-dialog";
 import {MatDialog} from "@angular/material/dialog";
@@ -8,6 +8,8 @@ import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service
 import {BaseServerRoutes} from "../base/base-server-routes";
 import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
+import { MatPaginator } from '@angular/material';
+import { LocalizationDataService } from '../localization-edit-dialog/localization-data.service';
 
 @Component({
   selector: 'localization-table',
@@ -20,19 +22,34 @@ export class LocalizationTable implements OnInit {
   public columns = ['group', 'key'];
   public dataSource: MatTableDataSource<LocalizationDataRowView>;
   public config: LocalizationConfig;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  start: number = 0;
+  limit: number = 25;
+  end: number = this.limit + this.start;
+  searchValue: string = "";
+  totalCount = 0;
 
   constructor(private _dialog: MatDialog,
-              private _httpService: HttpRequestService) {
+    private _httpService: HttpRequestService,
+    private _localizationDataService: LocalizationDataService ) {
     this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit() {
+
     this.getConfig();
-    this.getList();
+    this._localizationDataService.localizationRows.subscribe(localizationRows => {
+      this.dataSource = new MatTableDataSource(localizationRows);
+    });
+    this._localizationDataService.totalCount.subscribe(count => {
+      this.totalCount = count;
+    });
+    this._localizationDataService.initialize();
+    this.dataSource.paginator = this.paginator;
   }
 
   private getConfig() {
-    //.subscribe(data => {
     let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/config`,
       false,
       null,
@@ -44,18 +61,7 @@ export class LocalizationTable implements OnInit {
       });
     this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
-
-  private getList() {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}`,
-      false,
-      null,
-      result => {
-        let rows = result.localizationStrings.map(LocalizationTable.mapRow);
-        this.dataSource = new MatTableDataSource(rows)
-      });
-    this._httpService.get<LocalizationDataRowsServerDto>(request);
-  }
-
+ 
   private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
     let row = {
       group: serverDto.group,
@@ -69,12 +75,8 @@ export class LocalizationTable implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.searchValue = (event.target as HTMLInputElement).value;
+    this._localizationDataService.loadListMore(this.limit, this.start, this.searchValue);
   }
 
   editLocalization(localizedRow: LocalizationDataRowView) {
@@ -89,9 +91,7 @@ export class LocalizationTable implements OnInit {
   }
 
   deleteLocalizationKey(localizedRow: LocalizationDataRowView) {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/${localizedRow.id}`,
-      true);
-    this._httpService.delete(request);
+    this._localizationDataService.deleteLocalizationKey(localizedRow);
   }
 
   addLocalizationString() {
@@ -103,5 +103,30 @@ export class LocalizationTable implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+  onTableScroll(e) {
+    const tableViewHeight = e.target.offsetHeight // viewport
+    const tableScrollHeight = e.target.scrollHeight // length of all table
+    const scrollLocation = e.target.scrollTop; // how far user scrolled
+
+    // If the user has scrolled within 200px of the bottom, add more data
+    const buffer = 200;
+    const limit = tableScrollHeight - tableViewHeight - buffer;
+    if (scrollLocation > limit) {
+      this.getTableData(this.end);;
+      this.updateIndex();
+    }
+  }
+
+  getTableData(end) {
+    if (end <= this.totalCount) {
+      this._localizationDataService.loadListMore(this.limit, end, this.searchValue);
+    }
+  }
+
+  
+  updateIndex() {
+    this.start = this.end;
+    this.end = this.limit + this.start;
   }
 }

@@ -1,17 +1,15 @@
-﻿<div id="fieldGroup">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. locale">
-    </label>
-  </mat-form-field>
-  <button mat-icon-button (click)="addLocalizationString()">
+<mat-form-field class="mat-elevation-z8 search-block" >
+  <label>
+    <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
+  </label>
+  <button mat-icon-button matSuffix (click)="addLocalizationString()"  >
     <mat-icon>add</mat-icon>
   </button>
-</div>
+</mat-form-field>
 
-<div class="mat-elevation-z8">
-  <mat-table [hidden]="dataSource.filteredData<=0" [dataSource]="dataSource">
+<div class="example-container mat-elevation-z8">
+
+  <mat-table [hidden]="dataSource.filteredData<=0" [dataSource]="dataSource"  (scroll)="onTableScroll($event)">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
       <mat-header-cell *matHeaderCellDef><span class="truncate-text ">{{column}}</span></mat-header-cell>
       <mat-cell *matCellDef="let element"><span class="truncate-text ">{{element[column]}}</span></mat-cell>
@@ -39,6 +37,7 @@
     <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true "></mat-header-row>
     <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
   </mat-table>
-  <h3 [hidden]="dataSource.filteredData.length > 0"  id="noRecords"> No records found </h3>
+  <h3 [hidden]="dataSource.filteredData.length > 0" id="noRecords"> No records found </h3>
+  <div id="footer"></div>
 </div>
 

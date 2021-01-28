@@ -1,7 +1,7 @@
-﻿import {Inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from "rxjs";
-import {SnackbarService} from "./snackbar-service";
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from "rxjs";
+import { SnackbarService } from "./snackbar-service";
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +10,8 @@ import {SnackbarService} from "./snackbar-service";
 
 export class HttpRequestService {
   constructor(private httpClient: HttpClient,
-              @Inject('BASE_URL') private  baseUrl: string,
-              private _snackBar: SnackbarService) {
+    @Inject('BASE_URL') private baseUrl: string,
+    private _snackBar: SnackbarService) {
   }
 
   public get<T>(requestObj: ITypedRequest<T>) {
@@ -42,11 +42,11 @@ export class HttpRequestService {
     observable
       .toPromise()
       .then(data => {
-        if (request.OnThenAction !== null)
+        if (request.OnThenAction)
           request.OnThenAction(data);
 
         if (request.UseSuccessSnackBar)
-           this._snackBar.success();
+          this._snackBar.success(request.SuccessSnackBarText);
 
         return data;
       })
@@ -59,7 +59,8 @@ export class HttpRequestService {
 
 export interface IRequest {
   Uri: string,
-  UseSuccessSnackBar: boolean
+  UseSuccessSnackBar: boolean,
+  SuccessSnackBarText: string
 }
 
 export interface ITypedRequest<T> extends IRequest {
@@ -69,17 +70,20 @@ export interface ITypedRequest<T> extends IRequest {
 
 export class TypedRequestImpl<T> implements ITypedRequest<T> {
   constructor(uri: string,
-              useSuccessSnackBar: boolean,
-              requestObject?: T,
-              onThenAction?: (result: T) => void) {
+    useSuccessSnackBar: boolean,
+    requestObject?: T,
+    onThenAction?: (result: T) => void,
+    successSnackBarText?: string) {
     this.Uri = uri;
     this.UseSuccessSnackBar = useSuccessSnackBar;
     this.RequestObject = requestObject;
     this.OnThenAction = onThenAction;
+    this.SuccessSnackBarText = successSnackBarText;
   }
 
   OnThenAction: (result: T) => void;
   RequestObject: T;
   Uri: string;
   UseSuccessSnackBar: boolean;
+  SuccessSnackBarText: string;
 }

@@ -3,6 +3,7 @@ using System.Reflection;
 using Autofac;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using LocalizationEditor.Base.Extensions;
+using LocalizationEditor.DAL.Models.LocalizationString;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -42,6 +43,7 @@ namespace LocalizationEditor.Web
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
+      var x = typeof(LocalizationStringDbModel);
       var executingAssembly = Assembly.GetExecutingAssembly();
       var assemblies = executingAssembly.GetAssemblies().ToArray();
       builder.RegisterAssemblyModules(assemblies);

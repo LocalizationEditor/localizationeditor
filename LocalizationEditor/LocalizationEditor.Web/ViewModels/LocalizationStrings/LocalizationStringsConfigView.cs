@@ -1,11 +1,17 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Localization.ViewModels.LocalizationStrings
+namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {
   public class LocalizationStringsConfigView
   {
     [JsonProperty("locales")]
     public IEnumerable<string> Locales { get; set; }
+  }
+
+  public class LocalizationStringsEditorConfig : LocalizationStringsConfigView
+  {
+    [JsonProperty("groups")]
+    public IEnumerable<string> Groups { get; set; }
   }
 }

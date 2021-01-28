@@ -15,15 +15,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.1.0" />
-    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.6" />
+    <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="5.2.0" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="7.1.0" />
+
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +34,8 @@
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
-  <ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\LocalizationEditor.DAL\LocalizationEditor.DAL.csproj" />
     <ProjectReference Include="..\LocalizationEditor.BAL\LocalizationEditor.BAL.csproj" />
     <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
     <ProjectReference Include="..\LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj" />

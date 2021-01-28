@@ -1,9 +1,10 @@
-﻿using Autofac;
+using Autofac;
 using LocalizationEditor.Base.Extensions;
 using LocalizationEditor.ConnectionStrings.Options;
 using LocalizationEditor.ConnectionStrings.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using LocalizationEditor.ConnectionStrings.Models;
 
 namespace LocalizationEditor.ConnectionStrings
 {
@@ -28,6 +29,8 @@ namespace LocalizationEditor.ConnectionStrings
       builder.RegisterType<ConnectionService>().As<IConnectionService>();
       builder.RegisterType<PathOptionsProvider>().As<IPathOptionsProvider>();
       builder.RegisterType<ConnectionStringResolverService>().As<IConnectionStringResolverService>();
+      builder.RegisterType<MssqlConnectionResolver>().As<IDataBaseConnectionResolver>();
+      builder.RegisterType<MySqlConnectionResolver>().As<IDataBaseConnectionResolver>();
     }
   }
 }

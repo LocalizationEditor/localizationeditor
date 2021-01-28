@@ -59,6 +59,7 @@ import {SnackbarService} from "./base/snackbar-service";
 import {ConnectionViewComponent} from "./connection/components/view/connection-view.component";
 import {ConnectionEditDialogComponent} from "./connection/components/dialogs/connection-edit-dialog.component";
 import {ConnectionComponent} from "./connection/components/base/connection.component";
+import { LocalizationDataService } from './localization-edit-dialog/localization-data.service';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,6 @@ import {ConnectionComponent} from "./connection/components/base/connection.compo
     PortalModule,
     ScrollingModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
     MonacoEditorModule.forRoot(),
     MatTableModule,
     ReactiveFormsModule,
@@ -134,7 +134,8 @@ import {ConnectionComponent} from "./connection/components/base/connection.compo
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     SpinnerHttpInterceptor,
     {provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true},
-    SnackbarService
+    SnackbarService,
+    LocalizationDataService
   ],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog, ConnectionEditDialogComponent],

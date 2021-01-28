@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using System;
 
-namespace Localization.ViewModels.LocalizationStrings
+namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {
   public class LocalizationPairView
   {
