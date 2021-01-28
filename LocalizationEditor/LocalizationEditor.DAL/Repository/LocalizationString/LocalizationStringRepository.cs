@@ -18,7 +18,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     public const string IdParameter = "@Id";
   }
 
-  internal class LocalizationStringRepository : SqlSeverDapperDao<ILocalizationString>, ILocalizationStringRepository
+  internal class LocalizationStringRepository : SqlServerDapperDao<ILocalizationString>, ILocalizationStringRepository
   {
     private const string query = @"select groups.[Id] as GroupId,
                         groups.[Name] as GroupName,

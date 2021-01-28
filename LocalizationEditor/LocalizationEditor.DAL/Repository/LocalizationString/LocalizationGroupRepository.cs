@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
-  internal class LocalizationGroupRepository : SqlSeverDapperDao<ILocalizationGroup>, ILocalizationGroupRepository
+  internal class LocalizationGroupRepository : SqlServerDapperDao<ILocalizationGroup>, ILocalizationGroupRepository
   {
     public LocalizationGroupRepository()
       : base(@"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;")

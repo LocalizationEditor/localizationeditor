@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
-  public class SqlSeverDapperDao<T>
+  public class SqlServerDapperDao<T>
   {
     protected string ConnectionString;
 
-    public SqlSeverDapperDao(string connectionString)
+    public SqlServerDapperDao(string connectionString)
     {
       ConnectionString = connectionString;
     }
