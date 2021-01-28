@@ -2,6 +2,7 @@ using AutoMapper;
 using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.BAL.Models.LocalizationString;
+using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,20 +18,27 @@ namespace LocalizationEditor.Web.Controllers
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
     private readonly ITablesConfigurationOptions _tablesConfigurationOptions;
+    private readonly IConnectionService _service;
 
     public LocalizationStringController(IMapper mapper,
-      IMediator mediator, ITablesConfigurationOptions tablesConfigurationOptions)
+      IMediator mediator,
+      ITablesConfigurationOptions tablesConfigurationOptions,
+      IConnectionService service)
     {
       _mapper = mapper;
       _mediator = mediator;
       _tablesConfigurationOptions = tablesConfigurationOptions;
+      _service = service;
     }
 
     [HttpPost]
     public async Task<ActionResult<LocalizationStringItemView>> Add(LocalizationStringItemView view)
     {
+      var connections = await _service.GetConnectionsAsync();
+      
+      var first = connections.First();
       var dto = _mapper.Map<ILocalizationString>(view);
-      var request = new AddLocalizationStringRequest(dto);
+      var request = new AddLocalizationStringRequest(dto) { ConnectionStringKey = first.ConnectionName };
       dto = await _mediator.Send(request);
       return _mapper.Map<LocalizationStringItemView>(dto);
     }
@@ -38,8 +46,11 @@ namespace LocalizationEditor.Web.Controllers
     [HttpPut("{id}")]
     public async Task<ActionResult<LocalizationStringItemView>> Update(long id, LocalizationStringItemView view)
     {
+      var connections = await _service.GetConnectionsAsync();
+
+      var first = connections.First();
       var dto = _mapper.Map<ILocalizationString>(view);
-      var request = new UpdateLocalizationStringRequest(id, dto);
+      var request = new UpdateLocalizationStringRequest(id, dto) { ConnectionStringKey = first.ConnectionName };
       dto = await _mediator.Send(request);
       view = _mapper.Map<LocalizationStringItemView>(dto);
       return view;
@@ -48,7 +59,10 @@ namespace LocalizationEditor.Web.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
-      var request = new DeleteLocalizationStringRequest(id);
+      var connections = await _service.GetConnectionsAsync();
+
+      var first = connections.First();
+      var request = new DeleteLocalizationStringRequest(id) { ConnectionStringKey = first.ConnectionName };
       await _mediator.Send(request);
       return Ok();
     }
@@ -56,9 +70,13 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet]
     public async Task<ActionResult<LocalizationStringListView>> GetAll(int limit, int offset, string search)
     {
+      var connections = await _service.GetConnectionsAsync();
+
+      var first = connections.First();
       var request = new GetAllLocalizationStringRequest
       {
-        Search = search
+        Search = search  ,
+        ConnectionStringKey = first.ConnectionName 
       };
       var items = await _mediator.Send(request);
 
@@ -75,7 +93,10 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet("editor")]
     public async Task<ActionResult<LocalizationStringItemView>> GetEditorModel(LocalizationEditorQueryView view)
     {
-      var request = new SearchLocalizationStringRequest(view.GroupKey, view.LocalizationStringKey);
+      var connections = await _service.GetConnectionsAsync();
+
+      var first = connections.First();
+      var request = new SearchLocalizationStringRequest(view.GroupKey, view.LocalizationStringKey) { ConnectionStringKey = first.ConnectionName };
       var localizationString = await _mediator.Send(request);
       return _mapper.Map<LocalizationStringItemView>(localizationString);
     }
@@ -90,7 +111,10 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet("editor/config")]
     public async Task<ActionResult<LocalizationStringsEditorConfig>> GetEditorConfig()
     {
-      var request = new GetAllLocalizationGroupsRequest();
+      var connections = await _service.GetConnectionsAsync();
+
+      var first = connections.First();
+      var request = new GetAllLocalizationGroupsRequest { ConnectionStringKey = first.ConnectionName};
       var results = await _mediator.Send(request);
       return new LocalizationStringsEditorConfig
       {
