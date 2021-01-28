@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using LocalizationEditor.BAL.Models.LocalizationString;
 
 namespace LocalizationEditor.BAL.Validators.LocalizableString
@@ -9,8 +9,6 @@ namespace LocalizationEditor.BAL.Validators.LocalizableString
     {
       RuleFor(row => row.Locale)
         .Must(locale => !string.IsNullOrWhiteSpace(locale));
-      RuleFor(row => row.Value)
-        .Must(value => !string.IsNullOrWhiteSpace(value));
     }
 
   }
