@@ -9,5 +9,6 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
     public int Limit { get; set; }
     public int Offset { get; set; }
     public string Search { get; set; }
+    public string ConnectionStringKey { get; set; }
   }
 }

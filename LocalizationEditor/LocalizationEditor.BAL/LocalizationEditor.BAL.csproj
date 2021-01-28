@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
+      <ProjectReference Include="..\LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj" />
     </ItemGroup>
 
 </Project>

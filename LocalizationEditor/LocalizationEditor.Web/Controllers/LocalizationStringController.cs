@@ -88,7 +88,7 @@ namespace LocalizationEditor.Web.Controllers
     }
 
     [HttpGet("editor/config")]
-    public async Task<ActionResult<LocalizationStringsEditorConfig>> GetEditroConfig()
+    public async Task<ActionResult<LocalizationStringsEditorConfig>> GetEditorConfig()
     {
       var request = new GetAllLocalizationGroupsRequest();
       var results = await _mediator.Send(request);

@@ -1,15 +1,17 @@
-﻿namespace LocalizationEditor.ConnectionStrings.Models
+namespace LocalizationEditor.ConnectionStrings.Models
 {
-  internal class MssqlConnectionResolver : DataBaseConnectionResolver
+  internal class MssqlConnectionResolver : IDataBaseConnectionResolver
   {
-    public MssqlConnectionResolver(IConnection connection) 
-      : base(connection)
-    {
-    }
+    public DbType DatabaseType => DbType.SqlServer;
 
-    public override string GetConnectionString()
+    public bool CanHandle(IConnection connection)
     {
-      return $"Server={Connection.Server};Database={Connection.DbName};User={Connection.UserName};Password={Connection.Password}";
+      return connection.DataBaseType == DatabaseType;
+    }
+    
+    public  string GetConnectionString(IConnection connection)
+    {
+      return $"Server={connection.Server};Database={connection.DbName};User={connection.UserName};Password={connection.Password}";
     }
   }
 }

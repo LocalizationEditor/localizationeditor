@@ -1,4 +1,5 @@
 using Dapper;
+using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Models.LocalizationString.Implementations;
 using LocalizationEditor.BAL.Repositories;
@@ -11,51 +12,67 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
   internal class LocalizationGroupRepository : SqlServerDapperDao<ILocalizationGroup>, ILocalizationGroupRepository
   {
-    public LocalizationGroupRepository()
-      : base(@"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;")
+    private readonly ITablesConfigurationOptions _tableNamingOptions;
+
+    public LocalizationGroupRepository(ITablesConfigurationOptions tableNamingOptions)
     {
+      _tableNamingOptions = tableNamingOptions;
+    }
+
+    private static DynamicParameters GetParameters(ILocalizationGroup model)
+    {
+      var parameters = new DynamicParameters { RemoveUnused = true };
+
+      parameters.Add(SQLParameterHelper.IdParameter, model.Id);
+      parameters.Add(SQLParameterHelper.NameParameter, model.Name);
+      return parameters;
     }
 
     public async override Task<ILocalizationGroup> AddAsync(ILocalizationGroup model)
     {
-      var dbModel = new LocalizationGroupDbModel
-      {
-        Id = model.Id,
-        Name = model.Name
-      };
+      var parameters = GetParameters(model);
 
-      var newId = await GetConnection().InsertAsync(dbModel);
-      model = new LocalizationGroup((long)newId, model.Name);
+      var sql = $@"insert {_tableNamingOptions.LocalizationGroupsTableName} ([Name])
+                  values ({SQLParameterHelper.NameParameter})
+                  select cast(scope_identity() as int) as Id";
+      var result = await GetConnection().QueryFirstAsync(sql, parameters);
+      model = new LocalizationGroup((long)result.Id, model.Name);
       return model;
+    }
+
+    public void SetConnectionString(string connectionString)
+    {
+      ConnectionString = connectionString;
     }
 
     public async override Task<ILocalizationGroup> UpdateAsync(ILocalizationGroup model)
     {
-      var dbModel = new LocalizationGroupDbModel
-      {
-        Id = model.Id,
-        Name = model.Name
-      };
-
-      await GetConnection().UpdateAsync(dbModel);
+      var parameters = GetParameters(model);
+      var sql = $@"update {_tableNamingOptions.LocalizationGroupsTableName} set
+                      [Name] = {SQLParameterHelper.NameParameter}
+                       where [Id] = {SQLParameterHelper.IdParameter}";
+      await GetConnection().QueryAsync(sql, parameters);
       return model;
     }
 
     public override async Task<IEnumerable<ILocalizationGroup>> GetAllAsync()
     {
-      var results = await GetConnection().GetListAsync<LocalizationGroupDbModel>();
-      var models = results.Select(i => new LocalizationGroup(i.Id, i.Name)).ToList();
-      return models;
+      var results = await GetConnection().QueryAsync($@"select * from {_tableNamingOptions.LocalizationGroupsTableName}");
+      return results.Select(i => new LocalizationGroup(i.Id, i.Name));
     }
 
     public async Task<ILocalizationGroup> SearchByGroupKeyAsync(string groupKey)
     {
-      var result = await GetConnection().QueryFirstOrDefaultAsync<LocalizationGroupDbModel>($"select * from [CORE_Localization_Type] where Name = '{groupKey}'");
+      var parameters = new DynamicParameters { RemoveUnused = true };
+      parameters.Add(SQLParameterHelper.NameParameter, groupKey);
+
+      var sql = $@"select * from {_tableNamingOptions.LocalizationGroupsTableName}
+                      where [Name] = {SQLParameterHelper.NameParameter}";
+      var result = await GetConnection().QueryFirstOrDefaultAsync<LocalizationGroupDbModel>(sql, parameters);
       if (result is null)
         return null;
-      
-      return new LocalizationGroup(result.Id, result.Name);
 
+      return new LocalizationGroup(result.Id, result.Name);
     }
   }
 }

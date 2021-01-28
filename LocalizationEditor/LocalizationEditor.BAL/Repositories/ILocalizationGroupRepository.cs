@@ -10,5 +10,6 @@ namespace LocalizationEditor.BAL.Repositories
     Task<IEnumerable<ILocalizationGroup>> GetAllAsync();
     Task<ILocalizationGroup> SearchByGroupKeyAsync(string groupKey);
     Task<ILocalizationGroup> UpdateAsync(ILocalizationGroup model);
+    void SetConnectionString(string connectionString);
   }
 }

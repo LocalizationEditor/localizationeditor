@@ -1,4 +1,7 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Models;
 
 namespace LocalizationEditor.ConnectionStrings.Services
@@ -6,16 +9,25 @@ namespace LocalizationEditor.ConnectionStrings.Services
   internal class ConnectionStringResolverService 
     : IConnectionStringResolverService
   {
-    public DataBaseConnectionResolver GetConnectionResolver(IConnection connection)
+    private readonly IConnectionService _connectionService;
+    private readonly IEnumerable<IDataBaseConnectionResolver> _resolvers;
+
+    public ConnectionStringResolverService(IConnectionService connectionService,
+      IEnumerable<IDataBaseConnectionResolver> resolvers)
     {
-      switch (connection.DataBaseType)
-      {
-        case DbType.SqlServer:
-          return new MssqlConnectionResolver(connection);
-        
-        default:
-          throw new ArgumentException(nameof(connection.DataBaseType));
-      }
+      _connectionService = connectionService;
+      _resolvers = resolvers;
+    }
+
+    private IDataBaseConnectionResolver GetConnectionResolver(IConnection connection)
+    {
+      return _resolvers.First(i => i.CanHandle(connection));
+    }
+
+    public async Task<string> GetConnectionStringAsync(string connectionKey)
+    {
+      var connection = await _connectionService.GetConnectionByNameAsync(connectionKey);
+      return GetConnectionResolver(connection).GetConnectionString(connection);
     }
   }
 }
