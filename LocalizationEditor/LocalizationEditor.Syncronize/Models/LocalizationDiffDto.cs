@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LocalizationEditor.Syncronize.Models
 {
-  internal class LocalizationDiffDto
+  internal class LocalizationDiffDto : ILocalizationDiffDto
   {
     public IReadOnlyCollection<ILocalizationString> AddKeys { get; }
     public IReadOnlyCollection<ILocalizationString> RemoveKeys { get; }
@@ -17,6 +17,25 @@ namespace LocalizationEditor.Syncronize.Models
       AddKeys = addKeys;
       RemoveKeys = removeKeys;
       EditKeys = editKeys;
+    }
+  }
+
+  public interface ILocalizationDiffDto
+  {
+    IReadOnlyCollection<ILocalizationString> AddKeys { get; }
+    IReadOnlyCollection<ILocalizationString> RemoveKeys { get; }
+    IReadOnlyCollection<ILocalizationString> EditKeys { get; }
+  }
+
+  public class LocalizationDiff
+  {
+    public IReadOnlyCollection<ILocalizationString> Sources { get; }
+    public IReadOnlyCollection<ILocalizationString> Destination { get; }
+
+    public LocalizationDiff(IReadOnlyCollection<ILocalizationString> sources, IReadOnlyCollection<ILocalizationString> destination)
+    {
+      Sources = sources;
+      Destination = destination;
     }
   }
 }

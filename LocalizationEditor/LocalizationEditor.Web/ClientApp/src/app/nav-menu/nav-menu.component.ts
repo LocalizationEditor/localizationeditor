@@ -1,10 +1,12 @@
 import {MediaMatcher} from '@angular/cdk/layout';
 import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {CustomRoute} from "../base/route";
+import { ConnectionHelper } from '../connection/components/wrapper/connection-wrapper.component';
 
 const Routes: CustomRoute[] = [
   new CustomRoute(1, "Localization", ""),
-  new CustomRoute(2, "Connection", "connections")
+  new CustomRoute(2, "Connection", "connections"),
+  new CustomRoute(3, "Syncronize", "sync"),
 ];
 
 @Component({

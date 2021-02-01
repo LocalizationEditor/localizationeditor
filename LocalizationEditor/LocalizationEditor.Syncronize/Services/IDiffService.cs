@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Models;
+using LocalizationEditor.Syncronize.Models;
 
 namespace LocalizationEditor.Syncronize.Service
 {
   public interface IDiffService
   {
-    Task<object> GetDiff(IConnection source, IConnection destination);
+    ILocalizationDiffDto GetDiff(string source, string destination);
+    Task<LocalizationDiff> GetDiffAsync(IConnection source, IConnection destination);
   }
 }

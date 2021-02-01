@@ -1,4 +1,4 @@
-﻿import {Component, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {IConnection} from "../../models/Connection/IConnection";
 import {MatDialog} from '@angular/material/dialog';
 import {ConnectionEditDialogComponent} from "../dialogs/connection-edit-dialog.component";

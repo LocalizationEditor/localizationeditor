@@ -65,7 +65,7 @@ export interface IRequest {
 
 export interface ITypedRequest<T> extends IRequest {
   OnThenAction: (result: T) => void,
-  RequestObject: T
+  RequestObject: T,
 }
 
 export class TypedRequestImpl<T> implements ITypedRequest<T> {

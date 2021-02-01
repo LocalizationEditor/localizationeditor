@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Repositories;
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
@@ -14,103 +13,38 @@ namespace LocalizationEditor.Syncronize.Service
   {
     private readonly ILocalizationStringRepository _localizationStringRepository;
     private readonly IConnectionStringResolverService _connectionStringResolverService;
+    private readonly IDiffService _diffService;
 
     public MergeService(
       ILocalizationStringRepository localizationStringRepository,
-      IConnectionStringResolverService connectionStringResolverService)
+      IConnectionStringResolverService connectionStringResolverService,
+      IDiffService diffService)
     {
       _localizationStringRepository = localizationStringRepository;
       _connectionStringResolverService = connectionStringResolverService;
+      _diffService = diffService;
     }
 
     public async Task Merge(IConnection sourceConnection, IConnection destinationConnection)
     {
-      var sourceConnectionResolver = _connectionStringResolverService.GetConnectionResolver(sourceConnection);
-      var destinationConnectionResolver = _connectionStringResolverService.GetConnectionResolver(destinationConnection);
+      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(sourceConnection).GetConnectionString();
+      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destinationConnection).GetConnectionString();
 
-      var sourceTask = _localizationStringRepository.GetAllAsync();
-      var destinationTask = _localizationStringRepository.GetAllAsync();
+      var localizationDto = _diffService.GetDiff(sourceConnectionString, destinationConnectionString);
 
-      Task.WaitAll(sourceTask, destinationTask);
-
-      var source = sourceTask.Result;
-      var destination = destinationTask.Result;
-
-      // exist in source and not exist in destination -> add
-      // not exist in source and exist in destination => remove
-      // exist in source and exist in destination => update
-
-      var removeKeys = GetAddOrRemoveKey(destination, source);
-      var addKeys = GetAddOrRemoveKey(source, destination);
-      var editKeys = GetEditKey(source, destination);
-
-      var dto = new LocalizationDiffDto(addKeys, removeKeys, editKeys);
-      await Synchronize(dto, null);
+      await Synchronize(localizationDto, destinationConnectionString);
     }
 
-    private async Task Synchronize(LocalizationDiffDto diffDto, IDbConnection destinationConnection)
+    private async Task Synchronize(ILocalizationDiffDto diffDto, string destinationConnection)
     {
       foreach (var addKey in diffDto.AddKeys)
-        await _localizationStringRepository.AddAsync(addKey);
+        await _localizationStringRepository.SetConnectionString(destinationConnection).AddAsync(addKey);
 
       foreach (var removeKey in diffDto.RemoveKeys)
-        await _localizationStringRepository.DeleteAsync(removeKey);
+        await _localizationStringRepository.SetConnectionString(destinationConnection).DeleteAsync(removeKey);
 
       foreach (var editKey in diffDto.EditKeys)
-        await _localizationStringRepository.UpdateAsync(editKey);
-    }
-
-    private IReadOnlyCollection<ILocalizationString> GetAddOrRemoveKey(
-      IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
-    {
-      var result = new List<ILocalizationString>();
-      foreach (var x in first)
-      {
-        var isFound = false;
-        foreach (var y in second)
-        {
-          if (x.CompareTo(y) == 0)
-          {
-            isFound = true;
-            break;
-          }
-        }
-
-        if (!isFound)
-          result.Add(x);
-      }
-
-      return result;
-    }
-
-    private IReadOnlyCollection<ILocalizationString> GetEditKey(
-      IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
-    {
-      var result = new List<ILocalizationString>();
-      foreach (var x in first)
-      {
-        foreach (var y in second)
-        {
-          if (x.CompareTo(y) == 0 && IsEditKey(x, y))
-          {
-            result.Add(x);
-            break;
-          }
-        }
-      }
-
-      return result;
-    }
-
-    private bool IsEditKey(ILocalizationString first, ILocalizationString second)
-    {
-      if (first.Localizations.Count != second.Localizations.Count)
-        return true;
-
-      return first.Localizations
-        .Any(i =>
-          second.Localizations
-            .Any(j => j.Locale == i.Locale && j.Value != i.Value));
+        await _localizationStringRepository.SetConnectionString(destinationConnection).UpdateAsync(editKey);
     }
   }
 }
