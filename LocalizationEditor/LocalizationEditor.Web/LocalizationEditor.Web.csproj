@@ -29,8 +29,16 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Area\NewFolder1\**" />
+    <Compile Remove="Area\NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Area\NewFolder1\**" />
+    <Content Remove="Area\NewFolder\**" />
+    <EmbeddedResource Remove="Area\NewFolder1\**" />
+    <EmbeddedResource Remove="Area\NewFolder\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Area\NewFolder1\**" />
+    <None Remove="Area\NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -41,11 +49,6 @@
     <ProjectReference Include="..\LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj" />
     <ProjectReference Include="..\LocalizationEditor.Syncronize\LocalizationEditor.Syncronize.csproj" />
   </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Area\NewFolder1\" />
-      <Folder Include="Area\NewFolder\" />
-    </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->

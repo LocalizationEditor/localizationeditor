@@ -14,5 +14,6 @@ namespace LocalizationEditor.BAL.Repositories
     Task<long> DeleteAsync(ILocalizationString localizationString);
     ILocalizationStringRepository SetConnectionString(string connectionString);
     Task<IReadOnlyCollection<ILocalizationString>> GetByKeysAsync(params LocalizationGroupKeyDto[] keys);
+    Task<IReadOnlyCollection<ILocalizationString>> GetByIdsAsync(IList<long> sourceIds);
   }
 }

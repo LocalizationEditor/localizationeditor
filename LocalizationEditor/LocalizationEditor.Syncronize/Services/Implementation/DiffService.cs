@@ -23,23 +23,18 @@ namespace LocalizationEditor.Syncronize.Service
       _connectionStringResolverService = connectionStringResolverService;
     }
 
-    public ILocalizationDiffDto GetDiff(string sourceConnection, string destinationConnection)
+    public async Task<ILocalizationDiffDto> GetDiffAsync(string sourceConnection, string destinationConnection)
     {
-      var sourceTask = _localizationStringRepository.SetConnectionString(sourceConnection).GetAllAsync();
-      var destinationTask = _localizationStringRepository.SetConnectionString(destinationConnection).GetAllAsync();
-
-      Task.WaitAll(sourceTask, destinationTask);
-
-      var source = sourceTask.Result;
-      var destination = destinationTask.Result;
+      var source = await _localizationStringRepository.SetConnectionString(sourceConnection).GetAllAsync();
+      var destination = await _localizationStringRepository.SetConnectionString(destinationConnection).GetAllAsync();
 
       // exist in source and not exist in destination -> add
       // not exist in source and exist in destination => remove
       // exist in source and exist in destination => update
 
-      var removeKeys = GetAddOrRemoveKey(destination, source);
-      var addKeys = GetAddOrRemoveKey(source, destination);
-      var editKeys = GetEditKey(source, destination);
+      var removeKeys = GetAddedOrRemovedKeys(destination, source);
+      var addKeys = GetAddedOrRemovedKeys(source, destination);
+      var editKeys = GetUpdatedKeys(source, destination);
 
       return new LocalizationDiffDto(addKeys, removeKeys, editKeys);
     }
@@ -48,7 +43,7 @@ namespace LocalizationEditor.Syncronize.Service
     {
       var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(source).GetConnectionString();
       var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destination).GetConnectionString();
-      var diff = GetDiff(sourceConnectionString, destinationConnectionString);
+      var diff = await GetDiffAsync(sourceConnectionString, destinationConnectionString);
 
       var localizationStrings = Enumerable.Empty<ILocalizationString>().Concat(diff.AddKeys).Concat(diff.EditKeys).Concat(diff.RemoveKeys).ToList();
       var localizationDesriptionDto = localizationStrings.Select(item => new LocalizationGroupKeyDto { Key = item.Key, Group = item.Group.Name }).ToArray();
@@ -59,7 +54,7 @@ namespace LocalizationEditor.Syncronize.Service
       return new LocalizationDiff(sources, destinations);
     }
 
-    private IReadOnlyCollection<ILocalizationString> GetAddOrRemoveKey(
+    private IReadOnlyCollection<ILocalizationString> GetAddedOrRemovedKeys(
       IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
     {
       var result = new List<ILocalizationString>();
@@ -82,7 +77,7 @@ namespace LocalizationEditor.Syncronize.Service
       return result;
     }
 
-    private IReadOnlyCollection<ILocalizationString> GetEditKey(
+    private IReadOnlyCollection<ILocalizationString> GetUpdatedKeys(
       IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
     {
       var result = new List<ILocalizationString>();

@@ -9,6 +9,16 @@
   list-style-type: none;
 }
 
-.child-node:hover {
+.node-key-span {
+  margin-left: 12px;
+}
+
+.node-key-span:hover {
   cursor: pointer;
+}
+
+.child-node-selector {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }

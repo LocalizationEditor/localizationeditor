@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Repositories;
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
@@ -25,26 +25,49 @@ namespace LocalizationEditor.Syncronize.Service
       _diffService = diffService;
     }
 
-    public async Task Merge(IConnection sourceConnection, IConnection destinationConnection)
+    public async Task MergeAsync(IConnection source, IConnection destination)
     {
-      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(sourceConnection).GetConnectionString();
-      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destinationConnection).GetConnectionString();
+      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(source).GetConnectionString();
+      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destination).GetConnectionString();
 
-      var localizationDto = _diffService.GetDiff(sourceConnectionString, destinationConnectionString);
+      var localizationDto = await _diffService.GetDiffAsync(sourceConnectionString, destinationConnectionString);
 
-      await Synchronize(localizationDto, destinationConnectionString);
+      await SynchronizeAsync(localizationDto, destinationConnectionString);
     }
 
-    private async Task Synchronize(ILocalizationDiffDto diffDto, string destinationConnection)
+    public async Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds)
     {
-      foreach (var addKey in diffDto.AddKeys)
-        await _localizationStringRepository.SetConnectionString(destinationConnection).AddAsync(addKey);
+      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(source).GetConnectionString();
+      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destination).GetConnectionString();
 
-      foreach (var removeKey in diffDto.RemoveKeys)
-        await _localizationStringRepository.SetConnectionString(destinationConnection).DeleteAsync(removeKey);
+      var localizationDto = await _diffService.GetDiffAsync(sourceConnectionString, destinationConnectionString);
 
-      foreach (var editKey in diffDto.EditKeys)
-        await _localizationStringRepository.SetConnectionString(destinationConnection).UpdateAsync(editKey);
+      var items = await _localizationStringRepository.SetConnectionString(sourceConnectionString).GetByIdsAsync(sourceIds.ToList());
+
+      await SynchronizeAsync(localizationDto, destinationConnectionString, items);
+    }
+
+    private async Task SynchronizeAsync(ILocalizationDiffDto diffDto, string destinationConnection, IReadOnlyCollection<ILocalizationString> sources = null)
+    {
+      _localizationStringRepository.SetConnectionString(destinationConnection);
+
+      foreach (var addKey in GetLocalizationStrings(diffDto.AddKeys, sources))
+        await _localizationStringRepository.AddAsync(addKey);
+
+      foreach (var removeKey in GetLocalizationStrings(diffDto.RemoveKeys, sources))
+        await _localizationStringRepository.DeleteAsync(removeKey);
+
+      foreach (var editKey in GetLocalizationStrings(diffDto.EditKeys, sources))
+        await _localizationStringRepository.UpdateAsync(editKey);
+    }
+
+
+    private IEnumerable<ILocalizationString> GetLocalizationStrings(
+      IReadOnlyCollection<ILocalizationString> localizationStrings, IReadOnlyCollection<ILocalizationString> sources)
+    {
+      return sources == null
+        ? localizationStrings
+        : localizationStrings.Where(i => sources.Any(j => i.Id == j.Id && i.Key == j.Key));
     }
   }
 }

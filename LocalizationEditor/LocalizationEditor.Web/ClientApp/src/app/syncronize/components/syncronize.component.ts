@@ -1,13 +1,14 @@
 import { SelectionModel } from "@angular/cdk/collections";
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { DiffEditorModel } from "ngx-monaco-editor";
-import { log } from "util";
 import { BaseServerRoutes } from "../../base/base-server-routes";
 import { HttpRequestService, TypedRequestImpl } from "../../base/http-request-service";
-import { ITreeNode } from "../../base/tree/tree-component";
+import { ITreeNode } from "../../base/tree/iTreeNode";
 import { ConnectionHelper } from "../../connection/components/wrapper/connection-wrapper.component";
 import { LocalizationDataRowServerDto } from "../../localization-table/models/localization-data-row-server-dto";
-import { DiffDto, IDiffDto } from "../models/diffDto";
+import { DiffDto } from "../models/diffDto";
+import { GroupedKeyNode } from "../models/groupedKeyNode";
+import { IDiffDto } from "../models/iDiffDto";
 
 
 @Component({
@@ -26,8 +27,8 @@ export class SyncronizeComponent {
   private modifiedModel: DiffEditorModel = { code: "", language: "html" };
   private originalFoundModel: LocalizationDataRowServerDto;
   private modifiedFoundModel: LocalizationDataRowServerDto;
-  private selectedKeys: SelectionModel<ITreeNode>;
-
+  private selectedKeys: Set<number> = new Set<number>();
+  
   constructor(
     private readonly _httpClient: HttpRequestService,
     private cdr: ChangeDetectorRef) {
@@ -39,16 +40,30 @@ export class SyncronizeComponent {
   }
 
   merge(): void {
+    debugger;
     if (this.isConnectionExist() === false)
       return;
 
-    const req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge`,
-      true,
-      {
-        "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
-        "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY)
-      },
-      result => { });
+    let req;
+    if (this.selectedKeys.size > 0) {
+      req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge/selected`,
+        true,
+        {
+          "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
+          "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY),
+          "localizationIds": this.selectedKeys
+        },
+        result => { });
+    }
+    else {
+      req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge`,
+        true,
+        {
+          "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
+          "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY)
+        },
+        result => { });
+    }
 
     this._httpClient.post(req);
   }
@@ -90,11 +105,8 @@ export class SyncronizeComponent {
       this.groupedKeys.push(group);
     });
     this.locales = this.diffModel.sources[0].localizations.map(item => item.locale);
-    console.log(this.groupedKeys);
     this.cdr.detectChanges();
   }
-
-  private hasChild = (_: number, node: GroupedKeyNode) => !!node.keys && node.keys.length > 0;
 
   getLocalization($event) {
     this.originalFoundModel = this.diffModel.sources.find(elem => elem.id === $event.id);
@@ -108,18 +120,12 @@ export class SyncronizeComponent {
     this.modifiedModel = { code: this.modifiedFoundModel.localizations.find(item => item.locale == locale).value, language: "html" };
     this.originalModel = { code: this.originalFoundModel.localizations.find(item => item.locale == locale).value, language: "html" };
   }
-}
 
-export class GroupedKeyNode implements ITreeNode {
-  public parent?: GroupedKeyNode;
-  public keys?: GroupedKeyNode[];
-  public key: string;
-  public id: number;
+  select($event) {
+    this.selectedKeys.add($event.id);
+  }
 
-  constructor(key: string, id: number, keys?: GroupedKeyNode[], parent?: GroupedKeyNode) {
-    this.keys = keys;
-    this.key = key;
-    this.id = id;
-    this.parent = parent;
+  deselect($event) {
+    this.selectedKeys.delete($event.id);
   }
 }

@@ -116,18 +116,42 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       return GetLocalizationString(result);
     }
 
-    public async Task<IReadOnlyCollection<ILocalizationString>> GetByKeysAsync(params LocalizationGroupKeyDto[] dto)
+    public async Task<IReadOnlyCollection<ILocalizationString>> GetByKeysAsync(params LocalizationGroupKeyDto[] keys)
     {
+      if (keys.Length == 0)
+        return Enumerable.Empty<ILocalizationString>().ToList();
+
       var localesForQuery = _tableNamingOptions.Locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
 
       var sql = string.Format(query, string.Join(",", localesForQuery), _tableNamingOptions.LocalizationStringsTableName, _tableNamingOptions.LocalizationGroupsTableName);
 
       var sb = new StringBuilder();
 
-      sb.Append($"(strings.[StringKey] = '{dto[0].Key}' and groups.[Name] = '{dto[0].Group}')");
-      for(var i = 1; i < dto.Length; i++)
+      sb.Append($"(strings.[StringKey] = '{keys[0].Key}' and groups.[Name] = '{keys[0].Group}')");
+      foreach (var item in keys.Skip(1))
       {
-        sb.Append($" or (strings.[StringKey] = '{dto[i].Key}' and groups.[Name] = '{dto[i].Group}')");
+        sb.Append($" or (strings.[StringKey] = '{item.Key}' and groups.[Name] = '{item.Group}')");
+      }
+
+      var result = await GetConnection().QueryAsync($"{sql} where {sb}");
+      return result.Select(GetLocalizationString).ToList();
+    }
+
+    public async Task<IReadOnlyCollection<ILocalizationString>> GetByIdsAsync(IList<long> sourceIds)
+    {
+      if (sourceIds.Count == 0)
+        return Enumerable.Empty<ILocalizationString>().ToList();
+
+      var localesForQuery = _tableNamingOptions.Locales.Select(i => $"strings.[{i}] as [{i}]").ToList();
+
+      var sql = string.Format(query, string.Join(",", localesForQuery), _tableNamingOptions.LocalizationStringsTableName, _tableNamingOptions.LocalizationGroupsTableName);
+
+      var sb = new StringBuilder();
+
+      sb.Append($"strings.[Id] = '{sourceIds[0]}'");
+      foreach (var item in sourceIds.Skip(1))
+      {
+        sb.Append($" or strings.[Id] = '{item}'");
       }
 
       var result = await GetConnection().QueryAsync($"{sql} where {sb}");

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Models;
 
@@ -5,6 +6,7 @@ namespace LocalizationEditor.Syncronize.Service
 {
   public interface IMergeService
   {
-    Task Merge(IConnection source, IConnection destination);
+    Task MergeAsync(IConnection source, IConnection destination);
+    Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds);
   }
 }

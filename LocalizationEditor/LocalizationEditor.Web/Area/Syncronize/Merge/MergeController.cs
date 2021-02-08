@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using LocalizationEditor.Syncronize.Service;
 using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Services;
-using System;
-using Newtonsoft.Json;
 
 namespace LocalizationEditor.Web.Area.Syncronize.Merge
 {
@@ -28,16 +26,18 @@ namespace LocalizationEditor.Web.Area.Syncronize.Merge
       var sourceConnection = await _connectionService.GetConnectionByIdAsync(connectionsId.SourceId);
       var destinationConnection = await _connectionService.GetConnectionByIdAsync(connectionsId.DestinationId);
 
-      await _mergeService.Merge(sourceConnection, destinationConnection);
+      await _mergeService.MergeAsync(sourceConnection, destinationConnection);
       return NoContent();
     }
-  }
 
-  public class MergeConnectionIdView
-  {
-    [JsonProperty("sourceId")]
-    public Guid SourceId { get; set; }
-    [JsonProperty("destinationId")]
-    public Guid DestinationId { get; set; }
+    [HttpPost("selected")]
+    public async Task<IActionResult> Merge(SelectedMergeViewModel selectedMergeModel)
+    {
+      var sourceConnection = await _connectionService.GetConnectionByIdAsync(selectedMergeModel.SourceId);
+      var destinationConnection = await _connectionService.GetConnectionByIdAsync(selectedMergeModel.DestinationId);
+
+      await _mergeService.MergeAsync(sourceConnection, destinationConnection, selectedMergeModel.SourceLocalizationIds);
+      return NoContent();
+    }
   }
 }

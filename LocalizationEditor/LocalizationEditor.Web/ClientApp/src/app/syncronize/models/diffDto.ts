@@ -1,9 +1,5 @@
 import { LocalizationDataRowServerDto } from "../../localization-table/models/localization-data-row-server-dto";
-
-export interface IDiffDto {
-  sources: LocalizationDataRowServerDto[];
-  destinations: LocalizationDataRowServerDto[];
-}
+import { IDiffDto } from "./iDiffDto";
 
 export class DiffDto implements IDiffDto {
   sources: LocalizationDataRowServerDto[];

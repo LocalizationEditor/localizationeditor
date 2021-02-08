@@ -6,7 +6,7 @@ namespace LocalizationEditor.Syncronize.Service
 {
   public interface IDiffService
   {
-    ILocalizationDiffDto GetDiff(string source, string destination);
+    Task<ILocalizationDiffDto> GetDiffAsync(string sourceConnection, string destinationConnection);
     Task<LocalizationDiff> GetDiffAsync(IConnection source, IConnection destination);
   }
 }

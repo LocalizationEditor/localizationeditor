@@ -13,7 +13,7 @@
     <div class="wrapper">
       <div class="localization-changed-wrapper" *ngIf="showDiff">
         <div class="tree-wrapper">
-          <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)">
+          <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)" (deselectEmitter)="deselect($event)" (selectEmitter)="select($event)">
           </tree>
         </div>
       </div>
