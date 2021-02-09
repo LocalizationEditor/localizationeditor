@@ -20,7 +20,7 @@ export class LocalizationDataService {
   }
 
   public save(localizationString: LocalizationDataRowServerDto): void {
-    let request = new TypedRequestImpl(
+    const request = new TypedRequestImpl(
       localizationString.id ?
         `${BaseServerRoutes.Localization}/${localizationString.id}` :
         `${BaseServerRoutes.Localization}`,
@@ -41,7 +41,7 @@ export class LocalizationDataService {
     let enabledSearch = ``;
     if (search)
       enabledSearch = `&search=${search}`
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${limit}&offset=${offset}${enabledSearch}`,
+    const request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${limit}&offset=${offset}${enabledSearch}`,
       false,
       null,
       result => {
@@ -53,7 +53,7 @@ export class LocalizationDataService {
   }
 
   public deleteLocalizationKey(localizedRow: LocalizationDataRowView) {
-    let request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/${localizedRow.id}`,
+    const request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/${localizedRow.id}`,
       true,
       null,
       result => {

@@ -1,9 +1,10 @@
-﻿using LocalizationEditor.ConnectionStrings.Models;
+using LocalizationEditor.ConnectionStrings.Models;
+using System.Threading.Tasks;
 
 namespace LocalizationEditor.ConnectionStrings.Services
 {
   public interface IConnectionStringResolverService
   {
-    DataBaseConnectionResolver GetConnectionResolver(IConnection connection);
+    Task<string> GetConnectionStringAsync(string connectionKey);
   }
 }

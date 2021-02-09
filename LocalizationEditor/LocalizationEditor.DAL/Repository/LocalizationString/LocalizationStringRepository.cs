@@ -18,6 +18,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     public const string KeyParameter = "@Key";
     public const string GroupParameter = "@GroupId";
     public const string IdParameter = "@Id";
+    public const string NameParameter = "@Name";
   }
 
   internal class LocalizationStringRepository : SqlServerDapperDao<ILocalizationString>, ILocalizationStringRepository
@@ -33,17 +34,9 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     private readonly ITablesConfigurationOptions _tableNamingOptions;
 
 
-    public LocalizationStringRepository(ITablesConfigurationOptions tableNamingOptions,
-      string connectionString)
-      : base(connectionString)
-    {
-
-      _tableNamingOptions = tableNamingOptions;
-    }
-
     public LocalizationStringRepository(ITablesConfigurationOptions tableNamingOptions)
-      : base(string.Empty)
     {
+
       _tableNamingOptions = tableNamingOptions;
     }
 
@@ -52,8 +45,6 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       ConnectionString = connectionString;
       return this;
     }
-
-
 
     public async override Task<ILocalizationString> AddAsync(ILocalizationString model)
     {

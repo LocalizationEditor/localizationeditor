@@ -12,5 +12,6 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
     }
     public long Id { get; }
     public ILocalizationString LocalizationString { get; }
+    public string ConnectionStringKey { get; set; }
   }
 }

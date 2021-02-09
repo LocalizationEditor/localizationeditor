@@ -8,12 +8,8 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
   public class SqlServerDapperDao<T>
   {
-    protected string ConnectionString;
+    protected string ConnectionString { get; set; }
 
-    public SqlServerDapperDao(string connectionString)
-    {
-      ConnectionString = connectionString;
-    }
     public virtual async Task<T> AddAsync(T model)
     {
       var newId = await GetConnection().InsertAsync(model);

@@ -10,5 +10,6 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
       GroupName = groupName;
     }
     public string GroupName { get; }
+    public string ConnectionStringKey { get; set; }
   }
 }

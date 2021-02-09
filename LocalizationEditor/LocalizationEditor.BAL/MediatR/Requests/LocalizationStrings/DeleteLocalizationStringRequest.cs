@@ -11,6 +11,7 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
     }
 
     public long Id { get; }
+    public string ConnectionStringKey { get; set; }
   }
 
   public class SearchLocalizationStringRequest : IRequest<ILocalizationString>
@@ -23,5 +24,6 @@ namespace LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings
 
     public string GroupKey { get; }
     public string LocalizationStringKey { get; }
+    public string ConnectionStringKey { get; set; }
   }
 }
