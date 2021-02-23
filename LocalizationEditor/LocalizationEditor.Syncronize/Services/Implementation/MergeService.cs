@@ -25,24 +25,14 @@ namespace LocalizationEditor.Syncronize.Service
       _diffService = diffService;
     }
 
-    public async Task MergeAsync(IConnection source, IConnection destination)
+    public async Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds = null)
     {
-      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(source).GetConnectionString();
-      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destination).GetConnectionString();
+      var sourceConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(source.ConnectionName);
+      var destinationConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(destination.ConnectionName);
 
       var localizationDto = await _diffService.GetDiffAsync(sourceConnectionString, destinationConnectionString);
 
-      await SynchronizeAsync(localizationDto, destinationConnectionString);
-    }
-
-    public async Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds)
-    {
-      var sourceConnectionString = _connectionStringResolverService.GetConnectionResolver(source).GetConnectionString();
-      var destinationConnectionString = _connectionStringResolverService.GetConnectionResolver(destination).GetConnectionString();
-
-      var localizationDto = await _diffService.GetDiffAsync(sourceConnectionString, destinationConnectionString);
-
-      var items = await _localizationStringRepository.SetConnectionString(sourceConnectionString).GetByIdsAsync(sourceIds.ToList());
+      var items = await _localizationStringRepository.SetConnectionString(sourceConnectionString).GetByIdsAsync(sourceIds?.ToList());
 
       await SynchronizeAsync(localizationDto, destinationConnectionString, items);
     }
@@ -65,7 +55,7 @@ namespace LocalizationEditor.Syncronize.Service
     private IEnumerable<ILocalizationString> GetLocalizationStrings(
       IReadOnlyCollection<ILocalizationString> localizationStrings, IReadOnlyCollection<ILocalizationString> sources)
     {
-      return sources == null
+      return sources == null || sources.Count == 0
         ? localizationStrings
         : localizationStrings.Where(i => sources.Any(j => i.Id == j.Id && i.Key == j.Key));
     }

@@ -130,7 +130,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 
     public async Task<IReadOnlyCollection<ILocalizationString>> GetByIdsAsync(IList<long> sourceIds)
     {
-      if (sourceIds.Count == 0)
+      if (sourceIds == null || sourceIds.Count == 0)
         return Enumerable.Empty<ILocalizationString>().ToList();
 
       var localesForQuery = _tableNamingOptions.Locales.Select(i => $"strings.[{i}] as [{i}]").ToList();

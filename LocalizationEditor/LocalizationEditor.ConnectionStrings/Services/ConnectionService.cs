@@ -80,7 +80,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
     {
       var connections = await GetConnectionsAsync();
       return connections
-        .FirstOrDefault(item => item.Id == id);
+        .SingleOrDefault(item => item.Id == id);
     }
   }
 }

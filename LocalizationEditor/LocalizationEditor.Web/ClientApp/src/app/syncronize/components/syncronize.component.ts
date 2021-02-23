@@ -28,7 +28,7 @@ export class SyncronizeComponent {
   private originalFoundModel: LocalizationDataRowServerDto;
   private modifiedFoundModel: LocalizationDataRowServerDto;
   private selectedKeys: Set<number> = new Set<number>();
-  
+
   constructor(
     private readonly _httpClient: HttpRequestService,
     private cdr: ChangeDetectorRef) {
@@ -44,26 +44,14 @@ export class SyncronizeComponent {
     if (this.isConnectionExist() === false)
       return;
 
-    let req;
-    if (this.selectedKeys.size > 0) {
-      req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge/selected`,
-        true,
-        {
-          "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
-          "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY),
-          "localizationIds": this.selectedKeys
-        },
-        result => { });
-    }
-    else {
-      req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge`,
-        true,
-        {
-          "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
-          "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY)
-        },
-        result => { });
-    }
+    const req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/merge`,
+      true,
+      {
+        "sourceId": localStorage.getItem(this.connectionHelper.SOURCE_KEY),
+        "destinationId": localStorage.getItem(this.connectionHelper.DESTINATION_KEY),
+        "localizationIds": this.selectedKeys
+      },
+      result => { });
 
     this._httpClient.post(req);
   }

@@ -6,7 +6,6 @@ namespace LocalizationEditor.Syncronize.Service
 {
   public interface IMergeService
   {
-    Task MergeAsync(IConnection source, IConnection destination);
-    Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds);
+    Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds = null);
   }
 }
