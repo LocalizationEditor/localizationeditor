@@ -23,7 +23,6 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
     public async Task<ILocalizationString> Handle(AddLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      const string ConnectionString = @"Server=slukashov\sqlexpress;User=prockstest;Database=RocksTestV3;Password=F@mj8p2*~I0WZyRj;";
       var connectionString = await _connectionStringResolverService.GetConnectionStringAsync(request.ConnectionStringKey);
       _repository.SetConnectionString(connectionString);
       return await _repository.AddAsync(request.LocalizationString);

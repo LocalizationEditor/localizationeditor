@@ -1,0 +1,8 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{name}}</mat-label>
+  <mat-select (selectionChange)="sendOnChange($event)">
+    <mat-option *ngFor="let connection of connections" [value]="connection.id">
+      {{connection.connectionName}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

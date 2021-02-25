@@ -39,6 +39,7 @@
     <ProjectReference Include="..\LocalizationEditor.BAL\LocalizationEditor.BAL.csproj" />
     <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
     <ProjectReference Include="..\LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj" />
+    <ProjectReference Include="..\LocalizationEditor.Syncronize\LocalizationEditor.Syncronize.csproj" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

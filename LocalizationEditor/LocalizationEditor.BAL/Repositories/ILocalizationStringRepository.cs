@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using System.Threading.Tasks;
+using LocalizationEditor.BAL.Models;
 
 namespace LocalizationEditor.BAL.Repositories
 {
@@ -11,6 +12,8 @@ namespace LocalizationEditor.BAL.Repositories
     Task<ILocalizationString> GetByIdAsync(long id);
     Task<IEnumerable<ILocalizationString>> GetAllAsync();
     Task<long> DeleteAsync(ILocalizationString localizationString);
-    void SetConnectionString(string connectionString);
+    ILocalizationStringRepository SetConnectionString(string connectionString);
+    Task<IReadOnlyCollection<ILocalizationString>> GetByKeysAsync(params LocalizationGroupKeyDto[] keys);
+    Task<IReadOnlyCollection<ILocalizationString>> GetByIdsAsync(IList<long> sourceIds);
   }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,6 +74,13 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var data = JsonConvert.SerializeObject(list);
       var encryptData = _encryptService.Encrypt(data);
       await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
+    }
+
+    public async Task<IConnection> GetConnectionByIdAsync(Guid id)
+    {
+      var connections = await GetConnectionsAsync();
+      return connections
+        .SingleOrDefault(item => item.Id == id);
     }
   }
 }

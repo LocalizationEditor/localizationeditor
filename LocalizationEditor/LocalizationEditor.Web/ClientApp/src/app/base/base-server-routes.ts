@@ -1,4 +1,5 @@
-﻿export enum BaseServerRoutes {
-    Localization = `localization`,
-    Connection = `connection`,
+export enum BaseServerRoutes {
+  Localization = `localization`,
+  Connection = `connection`,
+  Syncronize = 'syncronize'
 }

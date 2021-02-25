@@ -60,6 +60,9 @@ import {ConnectionViewComponent} from "./connection/components/view/connection-v
 import {ConnectionEditDialogComponent} from "./connection/components/dialogs/connection-edit-dialog.component";
 import {ConnectionComponent} from "./connection/components/base/connection.component";
 import { LocalizationDataService } from './localization-edit-dialog/localization-data.service';
+import { ConnectionWrapperComponent } from './connection/components/wrapper/connection-wrapper.component';
+import { SyncronizeComponent } from './syncronize/components/syncronize.component';
+import { TreeComponent } from './base/tree/tree-component';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,10 @@ import { LocalizationDataService } from './localization-edit-dialog/localization
     SafeHtmlPipe,
     ConnectionViewComponent,
     ConnectionEditDialogComponent,
-    ConnectionComponent
+    ConnectionComponent,
+    ConnectionWrapperComponent,
+    SyncronizeComponent,
+    TreeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -79,7 +85,8 @@ import { LocalizationDataService } from './localization-edit-dialog/localization
     FormsModule,
     RouterModule.forRoot([
       {path: '', component: LocalizationTable, pathMatch: 'full'},
-      {path: 'connections', component: ConnectionViewComponent, pathMatch: 'full'},
+      { path: 'connections', component: ConnectionViewComponent, pathMatch: 'full' },
+      { path: 'sync', component: SyncronizeComponent, pathMatch: 'full' }
     ]),
     BrowserAnimationsModule,
     A11yModule,
@@ -133,7 +140,7 @@ import { LocalizationDataService } from './localization-edit-dialog/localization
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     SpinnerHttpInterceptor,
-    {provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true },
     SnackbarService,
     LocalizationDataService
   ],

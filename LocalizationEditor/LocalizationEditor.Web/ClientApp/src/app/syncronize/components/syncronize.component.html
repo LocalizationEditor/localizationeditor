@@ -1,0 +1,29 @@
+<div class="syncronize-wrapper">
+  <div class="connections-string-selector">
+    <div class="connection-selector-wrapper">
+      <connection-wrapper [name]="'source'" [key]="connectionHelper.SOURCE_KEY"></connection-wrapper>
+      <connection-wrapper [name]="'destination'" [key]="connectionHelper.DESTINATION_KEY"></connection-wrapper>
+    </div>
+    <div class="bttn-wrapper">
+      <button mat-raised-button color="primary" (click)="merge()">Merge</button>
+      <button mat-raised-button (click)="diff()">Diff</button>
+    </div>
+  </div>
+  <div class="diff-wrapper">
+    <div class="wrapper">
+      <div class="localization-changed-wrapper" *ngIf="showDiff">
+        <div class="tree-wrapper">
+          <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)" (deselectEmitter)="deselect($event)" (selectEmitter)="select($event)">
+          </tree>
+        </div>
+      </div>
+      <div class="monaco-wrapper" *ngIf="showDiff">
+        <mat-tab-group class="locale-groups" mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+          <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales"></mat-tab>
+        </mat-tab-group>
+        <ngx-monaco-diff-editor class="diff-viewer" [options]="editorOptions" [originalModel]="originalModel" [modifiedModel]="modifiedModel">
+        </ngx-monaco-diff-editor>
+      </div>
+    </div>
+  </div>
+</div>
