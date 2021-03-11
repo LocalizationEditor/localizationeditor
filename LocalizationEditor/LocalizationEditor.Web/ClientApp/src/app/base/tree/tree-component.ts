@@ -26,7 +26,7 @@ export class TreeComponent implements AfterViewInit {
 
   hasChild = (_: number, node: ITreeNode) => !!node.keys && node.keys.length > 0;
 
-  onClick(value: ITreeNode) {
+  onClick(value) {
     this.emitter.emit(value);
   }
 

@@ -33,12 +33,9 @@ namespace LocalizationEditor.Syncronize.Service
       // not exist in source and exist in destination => remove
       // exist in source and exist in destination => update
 
-      static bool isAddOrRemoveKey(ILocalizationString str1, ILocalizationString str2)
-        => str1.CompareTo(str2) == 0;
-
-      var removeKeys = GetChangedKeys(destination, source, isAddOrRemoveKey);
-      var addKeys = GetChangedKeys(source, destination, isAddOrRemoveKey);
-      var editKeys = GetChangedKeys(source, destination, (str1, str2) => str1.CompareTo(str2) == 0 && IsEditKey(str1, str2));
+      var removeKeys = GetAddedOrRemovedKeys(destination, source);
+      var addKeys = GetAddedOrRemovedKeys(source, destination);
+      var editKeys = GetChangedKeys(source, destination);
 
       return new LocalizationDiffDto(addKeys, removeKeys, editKeys);
     }
@@ -61,11 +58,19 @@ namespace LocalizationEditor.Syncronize.Service
       return new LocalizationDiff(sources, destinations);
     }
 
-    private IReadOnlyCollection<ILocalizationString> GetChangedKeys(
-      IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second, Func<ILocalizationString, ILocalizationString, bool> functor)
+    private IReadOnlyCollection<ILocalizationString> GetAddedOrRemovedKeys(
+      IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
     {
       return first
-        .Where(i => second.Any(j => functor.Invoke(i, j)))
+        .Where(i => !second.Any(j => i.CompareTo(j) == 0))
+        .ToList();
+    }
+
+    private IReadOnlyCollection<ILocalizationString> GetChangedKeys(
+     IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
+    {
+      return first
+        .Where(i => second.Any(j => i.CompareTo(j) == 0 && IsEditKey(i, j)))
         .ToList();
     }
 

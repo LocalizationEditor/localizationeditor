@@ -1,9 +1,7 @@
-import { SelectionModel } from "@angular/cdk/collections";
 import { ChangeDetectorRef, Component } from "@angular/core";
 import { DiffEditorModel } from "ngx-monaco-editor";
 import { BaseServerRoutes } from "../../base/base-server-routes";
 import { HttpRequestService, TypedRequestImpl } from "../../base/http-request-service";
-import { ITreeNode } from "../../base/tree/iTreeNode";
 import { ConnectionHelper } from "../../connection/components/wrapper/connection-wrapper.component";
 import { LocalizationDataRowServerDto } from "../../localization-table/models/localization-data-row-server-dto";
 import { DiffDto } from "../models/diffDto";
@@ -20,8 +18,8 @@ export class SyncronizeComponent {
   private locales: string[];
   private readonly connectionHelper: ConnectionHelper = new ConnectionHelper();
   private diffModel: DiffDto;
-  private showDiff: boolean = false;
-  public editorOptions = { theme: 'vs-dark', language: 'html', automaticLayout: true, fontSize: "12px" };
+  private shouldShowDiff: boolean = false;
+  public editorOptions = { theme: 'vs-dark', language: 'html', automaticLayout: true, fontSize: "12px", renderSideBySide: false };
   private groupedKeys: GroupedKeyNode[] = new Array<GroupedKeyNode>();
   private originalModel: DiffEditorModel = { code: "", language: "html" };
   private modifiedModel: DiffEditorModel = { code: "", language: "html" };
@@ -40,7 +38,6 @@ export class SyncronizeComponent {
   }
 
   merge(): void {
-    debugger;
     if (this.isConnectionExist() === false)
       return;
 
@@ -57,7 +54,6 @@ export class SyncronizeComponent {
   }
 
   diff(): void {
-    debugger;
     if (this.isConnectionExist() === false)
       return;
 
@@ -76,7 +72,7 @@ export class SyncronizeComponent {
 
   setDiffModel(diff: IDiffDto): void {
     this.diffModel = diff;
-    this.showDiff = true;
+    this.shouldShowDiff = true;
 
     const groupArr = this.diffModel.sources.reduce((r, { group }) => {
       if (!r.some(o => o.group == group)) {
@@ -92,6 +88,7 @@ export class SyncronizeComponent {
       });
       this.groupedKeys.push(group);
     });
+
     this.locales = this.diffModel.sources[0].localizations.map(item => item.locale);
     this.cdr.detectChanges();
   }
@@ -99,8 +96,14 @@ export class SyncronizeComponent {
   getLocalization($event) {
     this.originalFoundModel = this.diffModel.sources.find(elem => elem.id === $event.id);
     this.modifiedFoundModel = this.diffModel.destinations.find(elem => elem.id === $event.id);
-    this.modifiedModel = { code: this.originalFoundModel.localizations[0].value, language: "html" };
-    this.originalModel = { code: this.modifiedFoundModel.localizations[0].value, language: "html" };
+
+    if (this.originalFoundModel !== undefined)
+      this.originalModel = { code: this.originalFoundModel.localizations[0].value, language: "html" };
+    else this.originalModel.code = "";
+
+    if (this.modifiedFoundModel !== undefined)
+      this.modifiedModel = { code: this.modifiedFoundModel.localizations[0].value, language: "html" };
+    else this.originalModel.code = "";
   }
 
   tabChanged($event) {
@@ -115,5 +118,25 @@ export class SyncronizeComponent {
 
   deselect($event) {
     this.selectedKeys.delete($event.id);
+  }
+
+  connectionSelected($event) {
+    if (this.isKeyExistInLocalSotrage(this.connectionHelper.SOURCE_KEY) &&
+      this.isKeyExistInLocalSotrage(this.connectionHelper.DESTINATION_KEY)) {
+      this.diff();
+    }
+  }
+
+  private isKeyExistInLocalSotrage(key: string): boolean {
+    const value = localStorage.getItem(key);
+    return value !== null && value !== undefined;
+  }
+
+  private selectSideBySide() {
+    debugger;
+    this.editorOptions = {
+      ...this.editorOptions,
+      renderSideBySide: !this.editorOptions.renderSideBySide
+    };
   }
 }

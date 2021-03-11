@@ -1,7 +1,6 @@
 using AutoMapper;
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Syncronize.Service;
-using LocalizationEditor.Web.Area.Syncronize.Merge;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using Microsoft.AspNetCore.Mvc;
 using System;

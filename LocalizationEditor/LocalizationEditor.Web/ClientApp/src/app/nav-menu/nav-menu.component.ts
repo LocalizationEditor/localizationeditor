@@ -6,7 +6,7 @@ import { ConnectionHelper } from '../connection/components/wrapper/connection-wr
 const Routes: CustomRoute[] = [
   new CustomRoute(1, "Localization", ""),
   new CustomRoute(2, "Connection", "connections"),
-  new CustomRoute(3, "Syncronize", "sync"),
+  new CustomRoute(3, "Synchronize", "sync"),
 ];
 
 @Component({

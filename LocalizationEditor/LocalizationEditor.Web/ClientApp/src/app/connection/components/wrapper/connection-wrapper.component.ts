@@ -1,11 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { IConnection } from "../../models/Connection/IConnection";
 import { HttpRequestService, TypedRequestImpl } from "../../../base/http-request-service";
 import { BaseServerRoutes } from "../../../base/base-server-routes";
 import { FormControl, Validators } from "@angular/forms";
 
-export class ConnectionHelper
-{
+export class ConnectionHelper {
   public DESTINATION_KEY: string = "destination";
   public SOURCE_KEY: string = "source";
 }
@@ -15,14 +14,21 @@ export class ConnectionHelper
   selector: 'connection-wrapper',
   templateUrl: '/connection-wrapper.component.html'
 })
-export class ConnectionWrapperComponent implements OnInit {
+export class ConnectionWrapperComponent implements OnInit, AfterViewInit {
   @Input() name: string;
   @Input() key: string;
+  @Output() connectionSelected = new EventEmitter<string>();
+
   public connections: IConnection[] = new Array<IConnection>();
 
   selectControl = new FormControl('', Validators.required);
 
   constructor(private _httpClient: HttpRequestService) {
+  }
+
+  ngAfterViewInit(): void {
+    debugger;
+    localStorage.removeItem(this.name);
   }
 
   ngOnInit(): void {
@@ -43,7 +49,9 @@ export class ConnectionWrapperComponent implements OnInit {
   }
 
   private sendOnChange($event): void {
+    var dbConnectionId = $event.value.toString();
     localStorage.removeItem(this.key);
-    localStorage.setItem(this.key, $event.value.toString());
+    localStorage.setItem(this.key, dbConnectionId);
+    this.connectionSelected.emit(dbConnectionId);
   }
 }
