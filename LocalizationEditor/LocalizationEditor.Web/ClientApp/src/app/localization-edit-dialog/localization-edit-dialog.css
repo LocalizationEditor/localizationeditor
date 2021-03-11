@@ -1,0 +1,6 @@
+.editor {
+  height: 73vh !important;
+  display: flex;
+  flex-direction: column;
+}
+

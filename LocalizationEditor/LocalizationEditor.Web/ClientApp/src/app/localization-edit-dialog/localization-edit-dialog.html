@@ -1,0 +1,50 @@
+
+<mat-form-field style="width:25vw;margin-right:5px; ">
+  <mat-label>Group name</mat-label>
+  <input type="text"
+         placeholder="Group name"
+         aria-label="group"
+         matInput
+         [formControl]="myControl"
+         [matAutocomplete]="auto" style=" width: 23vw;">
+  <mat-autocomplete #auto="matAutocomplete" style="    width: 23vw; ">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onClick)="onSelectedValue($event)" style="   width: 23vw;">
+      {{option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field style="width: 25vw;">
+  <mat-label>Localization key</mat-label>
+  <input matInput type="text"
+         [(ngModel)]="localizationKey"
+         style="width: 23vw;">
+  <button mat-button *ngIf="localizationKey"
+          matSuffix
+          mat-icon-button aria-label="Clear"
+          (click)="localizationKey=''"
+          style="width: 10%;">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
+
+<mat-button-toggle-group value="false" style="float:right;">
+  <mat-button-toggle value="false" (change)="onValueChanged($event.value)"><mat-icon>edit</mat-icon><span>Editor</span></mat-button-toggle>
+  <mat-button-toggle value="true" (change)="onValueChanged($event.value)"><mat-icon>remove_red_eye</mat-icon><span>Preview</span></mat-button-toggle>
+</mat-button-toggle-group>
+
+<hr />
+<mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales"></mat-tab>
+</mat-tab-group>
+<div *ngIf="!isPreview">
+  <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
+</div>
+<div *ngIf="isPreview">
+  <div class="editor" [innerHTML]="code | safeHtml :code"></div>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()" [mat-dialog-close]="true">Save</button>
+</mat-dialog-actions>
