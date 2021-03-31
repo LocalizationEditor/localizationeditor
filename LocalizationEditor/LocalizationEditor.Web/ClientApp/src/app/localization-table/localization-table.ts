@@ -89,7 +89,7 @@ export class LocalizationTable implements OnInit {
 
   addLocalizationString() {
     const dialogRef = this._dialog.open(LocalizationEditDialog, {
-      width: '99%',
+      width: '90%',
       data: {locales: this.config.locales, localizedString: {}}
     });
     dialogRef.afterClosed().subscribe(result => {
