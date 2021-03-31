@@ -27,9 +27,11 @@ export class LocalizationDataService {
       true,
       localizationString,
       result => {
-        let view = LocalizationDataService.mapRow(result);
-        this._rows.push(view);
-        this.localizationRows.next(this._rows);
+        if (!localizationString.id) {
+          let view = LocalizationDataService.mapRow(result);
+          this._rows.push(view);
+          this.localizationRows.next(this._rows);
+        }
       });
     if (localizationString.id)
       this._httpService.put(request);

@@ -7,12 +7,12 @@ import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'connection-view',
-  templateUrl: '/connection-view.component.html',
+  templateUrl: 'connection-view.component.html',
   styleUrls: ['./connection-view.component.css']
 })
 export class ConnectionViewComponent implements OnInit {
   public dataSource: MatTableDataSource<IConnection>;
-  private displayedColumns: string[];
+  public displayedColumns: string[];
 
   constructor(public dialog: MatDialog,
     private _dataServce: ConnectionDataService) {
@@ -27,10 +27,29 @@ export class ConnectionViewComponent implements OnInit {
     this.displayedColumns = ["connectionName", "dbName", "userName", "serverName", "password", "dbType", "actions"];
 
   }
+  public add() {
+    let connection = {
+      connectionName: "",
+      dbName: "",
+      password: "",
+      dbType: { id: 0, name: "" },
+      serverName: "",
+      id: undefined,
+      userName: ""
+    };
+
+    this.save(connection);
+  }
+
+  public edit(connection: IConnection) {
+    this.save(connection);
+  }
 
   private save(connection: IConnection) {
     let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
-      data: { connection },
+      data: {
+        connection
+      },
     });
   }
 

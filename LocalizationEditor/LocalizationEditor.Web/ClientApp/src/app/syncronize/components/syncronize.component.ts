@@ -14,18 +14,18 @@ import { IDiffDto } from "../models/iDiffDto";
 
 @Component({
   selector: "syncronize",
-  templateUrl: "./syncronize.component.html",
+  templateUrl: "syncronize.component.html",
   styleUrls: ['./syncronize.component.css']
 })
 export class SyncronizeComponent {
   private locales: string[];
   private readonly connectionHelper: ConnectionHelper = new ConnectionHelper();
   private diffModel: DiffDto;
-  private shouldShowDiff: boolean = false;
+  public shouldShowDiff: boolean = false;
   public editorOptions = { theme: 'vs-dark', language: 'html', automaticLayout: true, fontSize: "12px", renderSideBySide: false };
   private groupedKeys: GroupedKeyNode[] = new Array<GroupedKeyNode>();
-  private originalModel: DiffEditorModel = { code: "", language: "html" };
-  private modifiedModel: DiffEditorModel = { code: "", language: "html" };
+  public originalModel: DiffEditorModel = { code: "", language: "html" };
+  public modifiedModel: DiffEditorModel = { code: "", language: "html" };
   private originalFoundModel: LocalizationDataRowServerDto;
   private modifiedFoundModel: LocalizationDataRowServerDto;
   private selectedKeys: Set<number> = new Set<number>();

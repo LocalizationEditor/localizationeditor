@@ -1,8 +1,8 @@
-﻿import {Component, Input} from "@angular/core";
+import {Component, Input} from "@angular/core";
 import {IConnection} from "../../models/Connection/IConnection";
 
 @Component({
-  templateUrl: '/connection.component.html',
+  templateUrl: 'connection.component.html',
   selector: 'connection-model'
 })
 export class ConnectionComponent {

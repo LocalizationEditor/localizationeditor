@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,26 +7,24 @@ using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Base.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using LocalizationEditor.Web.Controllers;
 
 namespace LocalizationEditor.Web.Area.ConnectionStrings
 {
-  [ApiController]
   [Route("connection")]
-  public class ConnectionController : ControllerBase
+  public class ConnectionController : LocalizationEditorController
   {
-    private readonly IConnectionService _service;
     private readonly IMapper _mapper;
 
-    public ConnectionController(IConnectionService service, IMapper mapper)
+    public ConnectionController(IConnectionService service, IMapper mapper) : base(service)
     {
-      _service = service;
       _mapper = mapper;
     }
 
     [HttpGet]
     public async Task<ActionResult<IReadOnlyCollection<ConnectionViewModel>>> GetConnectionsAsync()
     {
-      var connections = await _service.GetConnectionsAsync();
+      var connections = await ConnectionService.GetConnectionsAsync();
       return connections != null
         ? connections.Select(_mapper.Map<ConnectionViewModel>).ToList()
         : null;
@@ -44,7 +42,7 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     public async Task<ActionResult<ConnectionViewModel>> CreateConnectionString(ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
-      await _service.SaveConnectionAsync(dto);
+      await ConnectionService.SaveConnectionAsync(dto);
       return _mapper.Map<ConnectionViewModel>(dto);
     }
 
@@ -52,14 +50,14 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     public async Task<ActionResult<ConnectionViewModel>> Update(Guid id, ConnectionViewModel model)
     {
       var dto = _mapper.Map<IConnection>(model);
-      await _service.UpdateConnection(id, dto);
+      await ConnectionService.UpdateConnection(id, dto);
       return model;
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<Guid>> Delete(Guid id)
     {
-      await _service.Remove(id);
+      await ConnectionService.Remove(id);
       return id;
     }
   }

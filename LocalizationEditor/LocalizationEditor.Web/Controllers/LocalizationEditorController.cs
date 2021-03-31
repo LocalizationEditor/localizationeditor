@@ -18,7 +18,7 @@ namespace LocalizationEditor.Web.Controllers
 
     private IConnection GetConnectionName()
     {
-      var isParsed = Guid.TryParse(Request.Headers["X-Connection"], out var guid);
+      var isParsed = Guid.TryParse(Request.Headers["x-connection"], out var guid);
       if (isParsed)
         return ConnectionService.GetConnectionByIdAsync(guid).GetAwaiter().GetResult();
       throw new ConnectionNotFoundException();

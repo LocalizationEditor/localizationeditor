@@ -9,7 +9,7 @@ import { ConnectionDataService } from "../../connection-data.service";
 
 @Component({
   styleUrls: ['./connection-edit-dialog.component.css'],
-  templateUrl: "/connection-edit-dialog.component.html"
+  templateUrl: "connection-edit-dialog.component.html"
 })
 export class ConnectionEditDialogComponent implements OnInit {
   dialogData: IConnection;

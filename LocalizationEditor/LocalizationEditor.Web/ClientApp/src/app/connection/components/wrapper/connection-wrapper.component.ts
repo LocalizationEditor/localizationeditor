@@ -12,7 +12,7 @@ export class ConnectionHelper {
 @Component({
   styleUrls: ['connection-wrapper.component.css'],
   selector: 'connection-wrapper',
-  templateUrl: '/connection-wrapper.component.html'
+  templateUrl: 'connection-wrapper.component.html'
 })
 export class ConnectionWrapperComponent implements OnInit, AfterViewInit {
   @Input() name: string;
@@ -47,7 +47,7 @@ export class ConnectionWrapperComponent implements OnInit, AfterViewInit {
     this.connections = result;
   }
 
-  private sendOnChange($event): void {
+  public sendOnChange($event): void {
     var dbConnectionId = $event.value.toString();
     localStorage.removeItem(this.key);
     localStorage.setItem(this.key, dbConnectionId);

@@ -7,7 +7,7 @@ import { SyncronizeComponent } from '../syncronize/components/syncronize.compone
 
 @Component({
   selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
+  templateUrl: 'nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit {
@@ -26,8 +26,15 @@ export class NavMenuComponent implements OnInit {
     this._dataServce.connections.subscribe(
       connections => {
         this.connections = connections;
+        
         let connectionId = localStorage.getItem("connectionId");
-        this.updateSelected(connectionId);
+        if (connectionId)
+          this.updateSelected(connectionId);
+        else {
+          if (this.connections.length > 0) {
+            this.updateSelected(this.connections[0].id.toString());
+          }
+        }
       });
     this._dataServce.initialize();
   }
