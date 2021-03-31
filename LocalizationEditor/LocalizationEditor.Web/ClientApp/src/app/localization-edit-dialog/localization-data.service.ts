@@ -45,7 +45,11 @@ export class LocalizationDataService {
       false,
       null,
       result => {
-        this._rows = this._rows.concat(result.localizationStrings.map(LocalizationDataService.mapRow));
+        let rows = result.localizationStrings.map(LocalizationDataService.mapRow);
+        if (offset === 0)
+          this._rows = rows;
+        else
+          this._rows = this._rows.concat(rows);
         this.localizationRows.next(this._rows);
         this.totalCount.next(result.count);
       });

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { SnackbarService } from "./snackbar-service";
 
@@ -15,27 +15,33 @@ export class HttpRequestService {
   }
 
   public get<T>(requestObj: ITypedRequest<T>) {
-    const request = this.httpClient.get<T>(this.getRequestString(requestObj));
+    const request = this.httpClient.get<T>(this.getRequestString(requestObj), { headers: this.getHeaders() });
     this.processRequest(request, requestObj);
   }
 
   public delete<T>(requestObj: ITypedRequest<T>) {
-    const request = this.httpClient.delete<T>(this.getRequestString(requestObj));
+    const request = this.httpClient.delete<T>(this.getRequestString(requestObj), { headers: this.getHeaders() });
     this.processRequest(request, requestObj);
   }
 
   public post<T>(requestConfig: ITypedRequest<T>) {
-    const request = this.httpClient.post<T>(this.getRequestString(requestConfig), requestConfig.RequestObject)
+    const request = this.httpClient.post<T>(this.getRequestString(requestConfig), requestConfig.RequestObject, { headers: this.getHeaders() })
     this.processRequest(request, requestConfig);
   }
 
   public put<T>(requestConfig: ITypedRequest<T>) {
-    const request = this.httpClient.put<T>(this.getRequestString(requestConfig), requestConfig.RequestObject)
+    const request = this.httpClient.put<T>(this.getRequestString(requestConfig), requestConfig.RequestObject, { headers: this.getHeaders() })
     this.processRequest(request, requestConfig)
   }
 
   private getRequestString(request: IRequest): string {
     return `${this.baseUrl}${request.Uri}`
+  }
+
+  private getHeaders(): HttpHeaders {
+    let headers = new HttpHeaders();
+    headers = headers.append('X-Connection', localStorage.getItem("connectionId"));
+    return headers;
   }
 
   private processRequest<T>(observable: Observable<T>, request: ITypedRequest<T>) {

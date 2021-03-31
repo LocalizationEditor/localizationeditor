@@ -27,7 +27,6 @@ export class ConnectionWrapperComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    debugger;
     localStorage.removeItem(this.name);
   }
 

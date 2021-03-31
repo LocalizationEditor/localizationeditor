@@ -63,6 +63,7 @@ import { LocalizationDataService } from './localization-edit-dialog/localization
 import { ConnectionWrapperComponent } from './connection/components/wrapper/connection-wrapper.component';
 import { SyncronizeComponent } from './syncronize/components/syncronize.component';
 import { TreeComponent } from './base/tree/tree-component';
+import { ConnectionDataService } from './connection/connection-data.service';
 
 @NgModule({
   declarations: [
@@ -142,7 +143,8 @@ import { TreeComponent } from './base/tree/tree-component';
     SpinnerHttpInterceptor,
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true },
     SnackbarService,
-    LocalizationDataService
+    LocalizationDataService,
+    ConnectionDataService
   ],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog, ConnectionEditDialogComponent],

@@ -43,7 +43,9 @@ namespace LocalizationEditor.Web
 
     public void ConfigureContainer(ContainerBuilder builder)
     {
-      var x = typeof(LocalizationStringDbModel);
+#pragma warning disable S1481 // Unused local variables should be removed
+      var hack = typeof(LocalizationStringDbModel);
+#pragma warning restore S1481 // Unused local variables should be removed
       var executingAssembly = Assembly.GetExecutingAssembly();
       var assemblies = executingAssembly.GetAssemblies().ToArray();
       builder.RegisterAssemblyModules(assemblies);
@@ -56,8 +58,12 @@ namespace LocalizationEditor.Web
     {
       if (env.IsDevelopment())
       {
-        app.UseDeveloperExceptionPage();
-        UseSwagger(app);
+        app.UseDeveloperExceptionPage()
+           .UseSwagger()
+           .UseSwaggerUI(option =>
+           {
+             option.SwaggerEndpoint("/swagger/v1/swagger.json", "Localization Editor Api V1");
+           });
       }
       else
       {
@@ -90,15 +96,6 @@ namespace LocalizationEditor.Web
         {
           spa.UseAngularCliServer(npmScript: "start");
         }
-      });
-    }
-
-    private void UseSwagger(IApplicationBuilder app)
-    {
-      app.UseSwagger();
-      app.UseSwaggerUI(option =>
-      {
-        option.SwaggerEndpoint("/swagger/v1/swagger.json", "Localization Editor Api V1");
       });
     }
   }

@@ -1,32 +1,70 @@
-import {MediaMatcher} from '@angular/cdk/layout';
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
-import {CustomRoute} from "../base/route";
-import { ConnectionHelper } from '../connection/components/wrapper/connection-wrapper.component';
-
-const Routes: CustomRoute[] = [
-  new CustomRoute(1, "Localization", ""),
-  new CustomRoute(2, "Connection", "connections"),
-  new CustomRoute(3, "Synchronize", "sync"),
-];
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { ConnectionViewComponent } from '../connection/components/view/connection-view.component';
+import { ConnectionDataService } from '../connection/connection-data.service';
+import { IConnection } from '../connection/models/Connection/IConnection';
+import { SyncronizeComponent } from '../syncronize/components/syncronize.component';
 
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
   styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnDestroy{
-  // @ts-ignore
-  mobileQuery: MediaQueryList;
-  routes: CustomRoute[] = Routes;
-  private readonly _mobileQueryListener: () => void;
+export class NavMenuComponent implements OnInit {
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+  selectedConnection: IConnection;
+  public connections: IConnection[] = new Array<IConnection>();
+  selectedConnectionName: string;
+  selectedConnectionId: number;
+
+  constructor(
+    private _dialog: MatDialog,
+    private _dataServce: ConnectionDataService) {
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  private getConnections() {
+    this._dataServce.connections.subscribe(
+      connections => {
+        this.connections = connections;
+        let connectionId = localStorage.getItem("connectionId");
+        this.updateSelected(connectionId);
+      });
+    this._dataServce.initialize();
+  }
+
+  ngOnInit(): void {
+    this.getConnections();
+  }
+
+  public onchangedValue(value) {
+    this.updateSelected(value.value);
+    location.reload();
+  }
+
+  syncLocalization() {
+    const dialogRef = this._dialog.open(SyncronizeComponent, {
+      width: '90%',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  showConnections() {
+    const dialogRef = this._dialog.open(ConnectionViewComponent, {
+      width: '90%'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  private updateSelected(connectionId: string) {
+    this.selectedConnection = this.connections.find(i => i.id.toString() == connectionId);
+    if (this.selectedConnection) {
+      this.selectedConnectionId = this.selectedConnection.id;
+      this.selectedConnectionName = this.selectedConnection.connectionName;
+      localStorage.setItem("connectionId", this.selectedConnectionId.toString());
+    }
   }
 }

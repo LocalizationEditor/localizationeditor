@@ -1,68 +1,58 @@
 using AutoMapper;
 using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
-using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.ConnectionStrings.Services;
+using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace LocalizationEditor.Web.Controllers
 {
-  [ApiController, Route("localization")]
-  public class LocalizationStringController : ControllerBase
+  [Route("localization")]
+  public class LocalizationStringController : LocalizationEditorController
   {
     private readonly IMapper _mapper;
     private readonly IMediator _mediator;
     private readonly ITablesConfigurationOptions _tablesConfigurationOptions;
-    private readonly IConnectionService _service;
+    private readonly ILocalizationItemViewMapper _localizationItemViewMapper;
 
     public LocalizationStringController(IMapper mapper,
       IMediator mediator,
       ITablesConfigurationOptions tablesConfigurationOptions,
-      IConnectionService service)
+      IConnectionService service,
+      ILocalizationItemViewMapper localizationItemViewMapper) : base(service)
     {
       _mapper = mapper;
       _mediator = mediator;
       _tablesConfigurationOptions = tablesConfigurationOptions;
-      _service = service;
+      _localizationItemViewMapper = localizationItemViewMapper;
     }
 
     [HttpPost]
     public async Task<ActionResult<LocalizationStringItemView>> Add(LocalizationStringItemView view)
     {
-      var connections = await _service.GetConnectionsAsync();
-      
-      var first = connections.First();
-      var dto = _mapper.Map<ILocalizationString>(view);
-      var request = new AddLocalizationStringRequest(dto) { ConnectionStringKey = first.ConnectionName };
+      var dto = await _localizationItemViewMapper.GetDomain(view, Connection);
+      var request = new AddLocalizationStringRequest(dto,Connection);
       dto = await _mediator.Send(request);
-      return _mapper.Map<LocalizationStringItemView>(dto);
+      return _localizationItemViewMapper.GetView(dto);
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<LocalizationStringItemView>> Update(long id, LocalizationStringItemView view)
     {
-      var connections = await _service.GetConnectionsAsync();
-
-      var first = connections.First();
-      var dto = _mapper.Map<ILocalizationString>(view);
-      var request = new UpdateLocalizationStringRequest(id, dto) { ConnectionStringKey = first.ConnectionName };
+      var dto = await _localizationItemViewMapper.GetDomain(view, Connection);
+      var request = new UpdateLocalizationStringRequest(id, dto, Connection );
       dto = await _mediator.Send(request);
-      view = _mapper.Map<LocalizationStringItemView>(dto);
-      return view;
+      return _localizationItemViewMapper.GetView(dto);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(long id)
     {
-      var connections = await _service.GetConnectionsAsync();
-
-      var first = connections.First();
-      var request = new DeleteLocalizationStringRequest(id) { ConnectionStringKey = first.ConnectionName };
+      var request = new DeleteLocalizationStringRequest(id, Connection);
       await _mediator.Send(request);
       return Ok();
     }
@@ -70,13 +60,10 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet]
     public async Task<ActionResult<LocalizationStringListView>> GetAll(int limit, int offset, string search)
     {
-      var connections = await _service.GetConnectionsAsync();
-
-      var first = connections.First();
       var request = new GetAllLocalizationStringRequest
       {
-        Search = search  ,
-        ConnectionStringKey = first.ConnectionName 
+        Search = search,
+        Connection = Connection
       };
       var items = await _mediator.Send(request);
 
@@ -85,7 +72,7 @@ namespace LocalizationEditor.Web.Controllers
         LocalizationStrings = items
           .Skip(offset)
           .Take(limit)
-          .Select(_mapper.Map<LocalizationStringItemView>).OrderBy(i=>i.Group).ThenBy(i=>i.Key),
+          .Select(_localizationItemViewMapper.GetView).OrderBy(i => i.Group).ThenBy(i => i.Key),
         Count = items.Count()
       };
     }
@@ -93,14 +80,10 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet("editor")]
     public async Task<ActionResult<LocalizationStringItemView>> GetEditorModel(LocalizationEditorQueryView view)
     {
-      var connections = await _service.GetConnectionsAsync();
-
-      var first = connections.First();
-      var request = new SearchLocalizationStringRequest(view.GroupKey, view.LocalizationStringKey) { ConnectionStringKey = first.ConnectionName };
+      var request = new SearchLocalizationStringRequest(view.GroupKey, view.LocalizationStringKey, Connection);
       var localizationString = await _mediator.Send(request);
       return _mapper.Map<LocalizationStringItemView>(localizationString);
     }
-
 
     [HttpGet("config")]
     public ActionResult<LocalizationStringsConfigView> GetConfig()
@@ -111,10 +94,7 @@ namespace LocalizationEditor.Web.Controllers
     [HttpGet("editor/config")]
     public async Task<ActionResult<LocalizationStringsEditorConfig>> GetEditorConfig()
     {
-      var connections = await _service.GetConnectionsAsync();
-
-      var first = connections.First();
-      var request = new GetAllLocalizationGroupsRequest { ConnectionStringKey = first.ConnectionName};
+      var request = new GetAllLocalizationGroupsRequest(Connection);
       var results = await _mediator.Send(request);
       return new LocalizationStringsEditorConfig
       {
@@ -122,13 +102,5 @@ namespace LocalizationEditor.Web.Controllers
         Groups = results.Select(i => i.Name)
       };
     }
-  }
-
-  public class LocalizationEditorQueryView
-  {
-    [JsonProperty("groupKey")]
-    public string GroupKey { get; set; }
-    [JsonProperty("localizationStringKey")]
-    public string LocalizationStringKey { get; set; }
   }
 }

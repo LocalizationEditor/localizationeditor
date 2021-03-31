@@ -6,5 +6,6 @@ namespace LocalizationEditor.ConnectionStrings.Services
   public interface IConnectionStringResolverService
   {
     Task<string> GetConnectionStringAsync(string connectionKey);
+    string GetConnectionString(IConnection connection);
   }
 }

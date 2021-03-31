@@ -1,4 +1,4 @@
-﻿export const dialogConfig = {
-  width:"500px",
+export const dialogConfig = {
+  width:"",
   height: "650px"
 }

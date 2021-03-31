@@ -45,3 +45,22 @@ h1.example-app-name {
 .example-is-mobile .example-sidenav-container {
   flex: 1 0 auto;
 }
+
+.example-button-row {
+  display: table-cell;
+  float: right;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+.mat-dialog-content {
+  max-height: initial;
+}
+
+.mat-dialog-content1 {
+  max-height: 99%;
+  
+}
