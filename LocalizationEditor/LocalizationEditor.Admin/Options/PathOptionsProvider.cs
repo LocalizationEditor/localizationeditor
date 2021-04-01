@@ -1,14 +1,14 @@
 using Microsoft.Extensions.Options;
 
-namespace LocalizationEditor.ConnectionStrings.Options
+namespace LocalizationEditor.Admin.Options
 {
   internal class PathOptionsProvider : IPathOptionsProvider
   {
-    public string FileName { get; }
+    public string Auth { get; }
 
     public PathOptionsProvider(IOptions<PathOptions> options)
     {
-      FileName = options.Value.FileName;
+      Auth = options.Value.Auth;
     }
   }
 }

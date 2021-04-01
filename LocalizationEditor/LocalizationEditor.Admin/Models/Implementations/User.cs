@@ -1,0 +1,28 @@
+using System;
+
+namespace LocalizationEditor.Admin.Models.Implementations
+{
+  internal class User : IUser
+  {
+    public User(Guid id,
+      string email,
+      string password,
+      IRole role)
+    {
+      Id = id == Guid.Empty ? Guid.NewGuid() : id;
+      Email = email;
+      Password = password;
+      Role = role;
+    }
+
+    public Guid Id { get; }
+    public string Email { get; }
+    public string Password { get; }
+    public IRole Role { get; private set; }
+
+    public void Update(IUser user)
+    {
+      Role = user.Role;
+    }
+  }
+}
