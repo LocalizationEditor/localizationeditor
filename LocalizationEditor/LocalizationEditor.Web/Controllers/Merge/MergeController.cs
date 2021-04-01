@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using LocalizationEditor.Syncronize.Service;
 using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Services;
-using LocalizationEditor.Web.Controllers;
+using LocalizationEditor.Web.ViewModels.Merge;
+using LocalizationEditor.Web.Controllers.Core;
 
-namespace LocalizationEditor.Web.Area.Syncronize.Merge
+namespace LocalizationEditor.Web.Controllers.Merge
 {
   [Route("syncronize/merge")]
   [ApiController]
@@ -14,13 +15,13 @@ namespace LocalizationEditor.Web.Area.Syncronize.Merge
 
     public MergeController(
       IMergeService mergeService,
-      IConnectionService connectionService): base(connectionService)
+      IConnectionService connectionService) : base(connectionService)
     {
       _mergeService = mergeService;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Merge([FromBody] SelectedMergeViewModel  mergeViewModel)
+    public async Task<IActionResult> Merge([FromBody] SelectedMergeViewModel mergeViewModel)
     {
       var sourceConnection = Connection;
       var destinationConnection = await ConnectionService.GetConnectionByIdAsync(mergeViewModel.DestinationId);

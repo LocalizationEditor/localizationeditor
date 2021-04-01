@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace LocalizationEditor.Web.Area.Syncronize.Merge
+namespace LocalizationEditor.Web.ViewModels.Merge
 {
   public class MergeConnectionIdView
   {

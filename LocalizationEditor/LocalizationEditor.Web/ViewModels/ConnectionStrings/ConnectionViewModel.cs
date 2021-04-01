@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 
-namespace LocalizationEditor.Web.Area.ConnectionStrings
+namespace LocalizationEditor.Web.ViewModels.ConnectionStrings
 {
   public class ConnectionViewModel
   {
@@ -12,12 +12,12 @@ namespace LocalizationEditor.Web.Area.ConnectionStrings
     [JsonProperty("serverName")]
     public string ServerName { get; set; }
     [JsonProperty("dbName")]
-    public string DbName { get; set;}
+    public string DbName { get; set; }
     [JsonProperty("userName")]
-    public string UserName { get; set;}
+    public string UserName { get; set; }
     [JsonProperty("password")]
-    public string Password { get; set;}
+    public string Password { get; set; }
     [JsonProperty("dbType")]
-    public ConnectionDbTypeViewModel DbType { get; set;}
+    public ConnectionDbTypeViewModel DbType { get; set; }
   }
 }

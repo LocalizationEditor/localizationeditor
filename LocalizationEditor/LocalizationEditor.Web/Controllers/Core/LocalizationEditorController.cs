@@ -1,9 +1,10 @@
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
+using LocalizationEditor.Web.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace LocalizationEditor.Web.Controllers
+namespace LocalizationEditor.Web.Controllers.Core
 {
   [ApiController]
   public class LocalizationEditorController : ControllerBase

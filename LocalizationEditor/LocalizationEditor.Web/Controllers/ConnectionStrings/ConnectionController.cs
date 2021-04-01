@@ -7,9 +7,10 @@ using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Base.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using LocalizationEditor.Web.Controllers;
+using LocalizationEditor.Web.ViewModels.ConnectionStrings;
+using LocalizationEditor.Web.Controllers.Core;
 
-namespace LocalizationEditor.Web.Area.ConnectionStrings
+namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {
   [Route("connection")]
   public class ConnectionController : LocalizationEditorController

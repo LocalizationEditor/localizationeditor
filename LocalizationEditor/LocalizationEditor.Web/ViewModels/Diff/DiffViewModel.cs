@@ -1,8 +1,8 @@
-﻿using LocalizationEditor.Web.ViewModels.LocalizationStrings;
+using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace LocalizationEditor.Web.Area.Syncronize.Diff
+namespace LocalizationEditor.Web.ViewModels.Diff
 {
   public class DiffViewModel
   {

@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace LocalizationEditor.Web.Controllers
+namespace LocalizationEditor.Web.Exceptions
 {
   public class ConnectionNotFoundException : Exception
   {

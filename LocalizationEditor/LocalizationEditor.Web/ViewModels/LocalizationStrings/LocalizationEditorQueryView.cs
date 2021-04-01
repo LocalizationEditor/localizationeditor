@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace LocalizationEditor.Web.Controllers
+namespace LocalizationEditor.Web.ViewModels.LocalizationStrings
 {
   public class LocalizationEditorQueryView
   {

@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
-namespace LocalizationEditor.Web.Area.ConnectionStrings
+namespace LocalizationEditor.Web.ViewModels.ConnectionStrings
 {
   public class ConnectionDbTypeViewModel
   {

@@ -1,13 +1,14 @@
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Syncronize.Service;
-using LocalizationEditor.Web.Controllers;
+using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
+using LocalizationEditor.Web.ViewModels.Diff;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Web.Area.Syncronize.Diff
+namespace LocalizationEditor.Web.Controllers.Diff
 {
   [Route("syncronize/diff")]
   public class DiffController : LocalizationEditorController

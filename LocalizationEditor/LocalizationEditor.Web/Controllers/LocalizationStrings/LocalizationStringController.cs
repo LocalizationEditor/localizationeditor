@@ -2,6 +2,7 @@ using AutoMapper;
 using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.ConnectionStrings.Services;
+using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
 using MediatR;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Web.Controllers
+namespace LocalizationEditor.Web.Controllers.LocalizationStrings
 {
   [Route("localization")]
   public class LocalizationStringController : LocalizationEditorController
@@ -35,7 +36,7 @@ namespace LocalizationEditor.Web.Controllers
     public async Task<ActionResult<LocalizationStringItemView>> Add(LocalizationStringItemView view)
     {
       var dto = await _localizationItemViewMapper.GetDomain(view, Connection);
-      var request = new AddLocalizationStringRequest(dto,Connection);
+      var request = new AddLocalizationStringRequest(dto, Connection);
       dto = await _mediator.Send(request);
       return _localizationItemViewMapper.GetView(dto);
     }
@@ -44,7 +45,7 @@ namespace LocalizationEditor.Web.Controllers
     public async Task<ActionResult<LocalizationStringItemView>> Update(long id, LocalizationStringItemView view)
     {
       var dto = await _localizationItemViewMapper.GetDomain(view, Connection);
-      var request = new UpdateLocalizationStringRequest(id, dto, Connection );
+      var request = new UpdateLocalizationStringRequest(id, dto, Connection);
       dto = await _mediator.Send(request);
       return _localizationItemViewMapper.GetView(dto);
     }

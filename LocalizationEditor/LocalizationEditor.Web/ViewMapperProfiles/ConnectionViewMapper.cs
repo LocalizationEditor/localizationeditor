@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using AutoMapper;
 using LocalizationEditor.ConnectionStrings.Models;
+using LocalizationEditor.Web.ViewModels.ConnectionStrings;
 
-namespace LocalizationEditor.Web.Area.ConnectionStrings.ViewMapperProfiles
+namespace LocalizationEditor.Web.ViewMapperProfiles
 {
   internal class ConnectionViewMapper : Profile
   {
