@@ -40,7 +40,8 @@ export class HttpRequestService {
 
   private getHeaders(): HttpHeaders {
     let headers = new HttpHeaders();
-    headers = headers.append('X-Connection', localStorage.getItem("connectionId"));
+    if (localStorage.getItem("connectionId"))
+      headers = headers.append('X-Connection', localStorage.getItem("connectionId"));
     return headers;
   }
 

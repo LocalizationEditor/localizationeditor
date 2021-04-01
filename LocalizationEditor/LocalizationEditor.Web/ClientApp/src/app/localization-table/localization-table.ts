@@ -44,7 +44,7 @@ export class LocalizationTable implements OnInit {
     this._localizationDataService.totalCount.subscribe(count => {
       this.totalCount = count;
     });
-    this._localizationDataService.initialize();
+    //this._localizationDataService.initialize();
     this.dataSource.paginator = this.paginator;
   }
 

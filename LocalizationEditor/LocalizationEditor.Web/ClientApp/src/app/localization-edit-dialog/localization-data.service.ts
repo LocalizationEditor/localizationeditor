@@ -43,6 +43,9 @@ export class LocalizationDataService {
     let enabledSearch = ``;
     if (search)
       enabledSearch = `&search=${search}`
+    if (!localStorage.getItem("connectionId"))
+      return;
+
     const request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${limit}&offset=${offset}${enabledSearch}`,
       false,
       null,

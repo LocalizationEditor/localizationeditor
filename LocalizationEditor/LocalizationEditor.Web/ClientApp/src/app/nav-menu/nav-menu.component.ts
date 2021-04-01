@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 import { ConnectionViewComponent } from '../connection/components/view/connection-view.component';
 import { ConnectionDataService } from '../connection/connection-data.service';
 import { IConnection } from '../connection/models/Connection/IConnection';
+import { LocalizationDataService } from '../localization-edit-dialog/localization-data.service';
 import { SyncronizeComponent } from '../syncronize/components/syncronize.component';
 
 @Component({
@@ -19,7 +20,8 @@ export class NavMenuComponent implements OnInit {
 
   constructor(
     private _dialog: MatDialog,
-    private _dataServce: ConnectionDataService) {
+    private _dataServce: ConnectionDataService,
+    private _localizationDataService: LocalizationDataService ) {
   }
 
   private getConnections() {
@@ -28,11 +30,14 @@ export class NavMenuComponent implements OnInit {
         this.connections = connections;
         
         let connectionId = localStorage.getItem("connectionId");
-        if (connectionId)
+        if (connectionId) {
           this.updateSelected(connectionId);
+          this._localizationDataService.initialize();
+        }
         else {
           if (this.connections.length > 0) {
             this.updateSelected(this.connections[0].id.toString());
+            this._localizationDataService.initialize();
           }
         }
       });
