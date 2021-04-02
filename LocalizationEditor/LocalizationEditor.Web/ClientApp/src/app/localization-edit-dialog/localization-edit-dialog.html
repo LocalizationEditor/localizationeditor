@@ -44,7 +44,7 @@
   <ngx-monaco-editor class="editor" [options]="editorOptions" [(ngModel)]="code"></ngx-monaco-editor>
 </div>
 <div *ngIf="isPreview">
-  <div class="editor" [innerHTML]="code | safeHtml :code"></div>
+  <div class="editor"  style="background-color:white" [innerHTML]="code | safeHtml :code"></div>
 </div>
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close>Cancel</button>
