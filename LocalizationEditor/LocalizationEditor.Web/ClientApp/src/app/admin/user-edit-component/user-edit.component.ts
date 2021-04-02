@@ -9,13 +9,12 @@ import { UsersListComponent } from "../usersList/users-list.component";
 
 
 @Component({
-  styleUrls: ['./connection-edit-dialog.component.css'],
-  templateUrl: "connection-edit-dialog.component.html"
+  styleUrls: ['./user-edit.component.css'],
+  templateUrl: "user-edit.component.html"
 })
 export class UserEditDialogComponent implements OnInit {
   dialogData: IUser;
-  dbTypes: Role[];
-
+  roles: Role[];
 
   constructor(
     private _httpService: HttpRequestService,
@@ -26,7 +25,7 @@ export class UserEditDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConfig();
-    this.dialogData = this.data.connection;
+    this.dialogData = this.data.user;
     if (!this.dialogData) {
       this.dialogData = {
         password: "",
@@ -56,7 +55,7 @@ export class UserEditDialogComponent implements OnInit {
       false,
       null,
       result => {
-        this.dbTypes = result;
+        this.roles = result;
       }
     );
     this._httpService.get<Role[]>(request);

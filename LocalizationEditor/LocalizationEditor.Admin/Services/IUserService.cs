@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Admin
+namespace LocalizationEditor.Admin.Services
 {
   public interface IUserService
   {

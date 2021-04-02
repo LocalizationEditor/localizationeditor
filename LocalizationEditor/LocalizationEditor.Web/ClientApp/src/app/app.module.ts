@@ -66,6 +66,8 @@ import { TreeComponent } from './base/tree/tree-component';
 import { ConnectionDataService } from './connection/connection-data.service';
 import { UsersDataService } from './admin/usersList/users-data.service';
 import { UsersListComponent } from './admin/usersList/users-list.component';
+import { UserEditDialogComponent } from './admin/user-edit-component/user-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -81,7 +83,8 @@ import { UsersListComponent } from './admin/usersList/users-list.component';
     ConnectionWrapperComponent,
     SyncronizeComponent,
     TreeComponent,
-    UsersListComponent
+    UsersListComponent,
+    UserEditDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

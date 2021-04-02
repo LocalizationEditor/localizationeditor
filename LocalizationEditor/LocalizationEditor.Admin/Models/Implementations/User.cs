@@ -3,7 +3,7 @@ using System;
 
 namespace LocalizationEditor.Admin.Models.Implementations
 {
-  internal class User : IUser
+  public class User : IUser
   {
     [JsonConstructor]
     public User(Guid id,

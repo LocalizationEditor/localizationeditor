@@ -11,7 +11,7 @@ using LocalizationEditor.Web.ViewModels.ConnectionStrings;
 using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Admin.Models.Implementations;
 using LocalizationEditor.Admin.Models;
-using LocalizationEditor.Admin;
+using LocalizationEditor.Admin.Services;
 
 namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {

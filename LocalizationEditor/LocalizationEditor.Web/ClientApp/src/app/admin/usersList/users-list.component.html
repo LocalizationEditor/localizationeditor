@@ -17,7 +17,7 @@
       </ng-container>
       <ng-container matColumnDef="role">
         <mat-header-cell *matHeaderCellDef><span class="truncate-text ">Role</span></mat-header-cell>
-        <mat-cell *matCellDef="let element"> <span class="truncate-text ">{{element.role}} </span></mat-cell>
+        <mat-cell *matCellDef="let element"> <span class="truncate-text ">{{element.role.name}} </span></mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="actions" stickyEnd>

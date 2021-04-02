@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from "@angular/material/table";
-import { ConnectionEditDialogComponent } from "../../connection/components/dialogs/connection-edit-dialog.component";
+import { UserEditDialogComponent } from "../user-edit-component/user-edit.component";
 import { IUser } from "./IUser";
 import { UsersDataService } from "./users-data.service";
 
@@ -27,29 +27,29 @@ export class UsersListComponent implements OnInit {
 
   }
   public add() {
-    let connection = {
+    let user = {
       password: "",
       role: { id: 0, name: "" },
       id: undefined,
       userName: ""
     };
 
-    this.save(connection);
+    this.save(user);
   }
 
-  public edit(connection: IUser) {
-    this.save(connection);
+  public edit(user: IUser) {
+    this.save(user);
   }
 
-  private save(connection: IUser) {
-    let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
+  private save(user: IUser) {
+    let dialogRef = this.dialog.open(UserEditDialogComponent, {
       data: {
-        connection
+        user
       },
     });
   }
 
-  private handleRemove(connection: IUser) {
-    this._dataService.deleteLocalizationKey(connection);
+  private handleRemove(user: IUser) {
+    this._dataService.deleteLocalizationKey(user);
   }
 }

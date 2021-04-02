@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Admin
+namespace LocalizationEditor.Admin.Services.Implementation
 {
   internal class UserService : IUserService
   {
@@ -23,7 +23,7 @@ namespace LocalizationEditor.Admin
     {
       var users = await GetUsersAsync();
       users.Add(user);
-      var data = JsonConvert.SerializeObject(user);
+      var data = JsonConvert.SerializeObject(users);
       await File.WriteAllTextAsync(_pathOptionsProvider.Auth, data);
       return user;
     }
