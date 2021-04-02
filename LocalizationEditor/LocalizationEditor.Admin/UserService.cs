@@ -1,4 +1,5 @@
 using LocalizationEditor.Admin.Models;
+using LocalizationEditor.Admin.Models.Implementations;
 using LocalizationEditor.Admin.Options;
 using Newtonsoft.Json;
 using System;
@@ -67,7 +68,7 @@ namespace LocalizationEditor.Admin
         return new List<IUser>();
 
       var json = await File.ReadAllTextAsync(_pathOptionsProvider.Auth);
-      return JsonConvert.DeserializeObject<List<IUser>>(json);
+      return JsonConvert.DeserializeObject<List<User>>(json).Cast<IUser>().ToList();
     }
   }
 }

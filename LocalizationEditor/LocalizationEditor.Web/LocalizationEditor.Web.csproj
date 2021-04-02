@@ -35,6 +35,7 @@
   </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\LocalizationEditor.Admin\LocalizationEditor.Admin.csproj" />
       <ProjectReference Include="..\LocalizationEditor.DAL\LocalizationEditor.DAL.csproj" />
     <ProjectReference Include="..\LocalizationEditor.BAL\LocalizationEditor.BAL.csproj" />
     <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />

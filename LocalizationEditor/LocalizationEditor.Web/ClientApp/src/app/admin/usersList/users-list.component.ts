@@ -2,8 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from "@angular/material/table";
 import { ConnectionEditDialogComponent } from "../../connection/components/dialogs/connection-edit-dialog.component";
-import { ConnectionDataService } from "../../connection/connection-data.service";
-import { IConnection } from "../../connection/models/Connection/IConnection";
+import { IUser } from "./IUser";
+import { UsersDataService } from "./users-data.service";
 
 @Component({
   selector: 'users-list',
@@ -12,14 +12,14 @@ import { IConnection } from "../../connection/models/Connection/IConnection";
 })
 export class UsersListComponent implements OnInit {
   public displayedColumns: string[];
-    dataSource: MatTableDataSource<IConnection>;
+  dataSource: MatTableDataSource<IUser>;
 
-  constructor(public dialog: MatDialog, private _dataService: ConnectionDataService) {
-    this.dataSource = new MatTableDataSource<IConnection>([]);
+  constructor(public dialog: MatDialog, private _dataService: UsersDataService) {
+    this.dataSource = new MatTableDataSource<IUser>([]);
   }
 
   ngOnInit(): void {
-    this._dataService.connections.subscribe(connections => {
+    this._dataService.users.subscribe(connections => {
       this.dataSource = new MatTableDataSource(connections);
     });
     this._dataService.initialize();
@@ -28,11 +28,8 @@ export class UsersListComponent implements OnInit {
   }
   public add() {
     let connection = {
-      connectionName: "",
-      dbName: "",
       password: "",
-      dbType: { id: 0, name: "" },
-      serverName: "",
+      role: { id: 0, name: "" },
       id: undefined,
       userName: ""
     };
@@ -40,11 +37,11 @@ export class UsersListComponent implements OnInit {
     this.save(connection);
   }
 
-  public edit(connection: IConnection) {
+  public edit(connection: IUser) {
     this.save(connection);
   }
 
-  private save(connection: IConnection) {
+  private save(connection: IUser) {
     let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
       data: {
         connection
@@ -52,7 +49,7 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  private handleRemove(connection: IConnection) {
+  private handleRemove(connection: IUser) {
     this._dataService.deleteLocalizationKey(connection);
   }
 }

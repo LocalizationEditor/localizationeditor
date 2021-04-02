@@ -1,0 +1,62 @@
+<mat-vertical-stepper #stepper>
+  <mat-step label="Fill connection name">
+    <mat-form-field>
+      <mat-label>Connection name</mat-label>
+      <input matInput placeholder="Connection name" [(ngModel)]="dialogData.connectionName" required/>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Fill database type">
+    <mat-form-field appearance="fill" class="mat-form-field-dialog">
+      <mat-label>Db Type</mat-label>
+      <mat-select [(ngModel)]="dialogData.dbType.name">
+        <mat-option [value]="item.name" *ngFor="let item of dbTypes">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Fill username">
+    <mat-form-field>
+      <mat-label>User name</mat-label>
+      <input matInput placeholder="User name" [(ngModel)]="dialogData.userName"  required/>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Fill server name">
+    <mat-form-field>
+      <mat-label>Server name</mat-label>
+      <input matInput placeholder="Server name" [(ngModel)]="dialogData.serverName" required/>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Fill database name">
+    <mat-form-field>
+      <mat-label>Db name</mat-label>
+      <input matInput placeholder="Db name" [(ngModel)]="dialogData.dbName" required/>
+    </mat-form-field>
+    <div>
+      <button mat-button matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Fill password to database">
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput placeholder="Password" type="password" [(ngModel)]="dialogData.password" required/>
+    </mat-form-field>
+  </mat-step>
+</mat-vertical-stepper>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onOkClick()">Save</button>
+</mat-dialog-actions>

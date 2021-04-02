@@ -64,6 +64,7 @@ import { ConnectionWrapperComponent } from './connection/components/wrapper/conn
 import { SyncronizeComponent } from './syncronize/components/syncronize.component';
 import { TreeComponent } from './base/tree/tree-component';
 import { ConnectionDataService } from './connection/connection-data.service';
+import { UsersDataService } from './admin/usersList/users-data.service';
 import { UsersListComponent } from './admin/usersList/users-list.component';
 
 @NgModule({
@@ -146,7 +147,8 @@ import { UsersListComponent } from './admin/usersList/users-list.component';
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true },
     SnackbarService,
     LocalizationDataService,
-    ConnectionDataService
+    ConnectionDataService,
+    UsersDataService
   ],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog, ConnectionEditDialogComponent],
