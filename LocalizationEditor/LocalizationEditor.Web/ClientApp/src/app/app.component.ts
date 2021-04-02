@@ -1,13 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { LoginComponent } from './login/login.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
+  public hasAccess: boolean = false;
+  
+  constructor(private _dialog: MatDialog) {
+  }
 
-  constructor() {
-    //localStorage.setItem("connectionId", "");
+  ngOnInit(): void {
+    this._dialog.open(LoginComponent, {
+      width: '360px',
+      height: '460px'
+    });
   }
 }

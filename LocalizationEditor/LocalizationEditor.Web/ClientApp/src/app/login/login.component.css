@@ -1,0 +1,27 @@
+.login-form{
+    height: 80%;
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.welcome-text{
+    margin-bottom: 25px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.email, .password{
+    margin-bottom: 26px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 60%;
+}
