@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalizationEditor.Admin.Models;
 using LocalizationEditor.ConnectionStrings.Models;
 
 namespace LocalizationEditor.ConnectionStrings.Services
@@ -23,9 +24,9 @@ namespace LocalizationEditor.ConnectionStrings.Services
       return _resolvers.First(i => i.CanHandle(connection));
     }
 
-    public async Task<string> GetConnectionStringAsync(string connectionKey)
+    public async Task<string> GetConnectionStringAsync(string connectionKey, IUser user)
     {
-      var connection = await _connectionService.GetConnectionByNameAsync(connectionKey);
+      var connection = await _connectionService.GetConnectionByNameAsync(connectionKey, user);
       return GetConnectionString(connection);
     }
 

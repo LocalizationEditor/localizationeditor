@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LocalizationEditor.Admin\LocalizationEditor.Admin.csproj" />
     <ProjectReference Include="..\LocalizationEditor.Base\LocalizationEditor.Base.csproj" />
   </ItemGroup>
 

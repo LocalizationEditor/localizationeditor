@@ -11,13 +11,13 @@
     <h1>)</h1>
     <span class="example-spacer"></span>
     <div class="example-button-row">
-      <button mat-icon-button (click)="showConnections()">
+      <button mat-icon-button (click)="showConnections()" *ngIf="isDev">
         <mat-icon>storage</mat-icon>
       </button>
       <button mat-icon-button (click)="syncLocalization()">
         <mat-icon>sync</mat-icon>
       </button>
-      <button mat-icon-button (click)="showUserManagment()">
+      <button mat-icon-button (click)="showUserManagment()" *ngIf="isDev">
         <mat-icon>people</mat-icon>
       </button>
     </div>

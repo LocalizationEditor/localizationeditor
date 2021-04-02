@@ -18,6 +18,7 @@ export class NavMenuComponent implements OnInit {
   public connections: IConnection[] = new Array<IConnection>();
   selectedConnectionName: string;
   selectedConnectionId: number;
+  isDev: boolean = +localStorage.getItem('role') === 2 || +localStorage.getItem('role') === 3;
 
   constructor(
     private _dialog: MatDialog,

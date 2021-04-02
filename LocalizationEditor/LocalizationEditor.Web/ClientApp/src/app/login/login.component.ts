@@ -33,12 +33,14 @@ export class LoginComponent {
   onLogin(): void {
     const login = new Login(this.login, this.password);
     const request = new TypedRequestImpl<ILogin>(
-      BaseServerRoutes.Login,
+      `${BaseServerRoutes.Users}/login`,
       true,
       login,
       res => {
-        this.router.navigateByUrl('/');
-      }, "Success");
+        localStorage.setItem("role", res.toString());
+        location.reload();
+      },
+      "Success");
 
     this._httpService.post(request);
   }

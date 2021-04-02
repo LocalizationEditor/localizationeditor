@@ -25,8 +25,8 @@ export class ConnectionViewComponent implements OnInit {
     });
     this._dataServce.initialize();
     this.displayedColumns = ["connectionName", "dbName", "userName", "serverName", "password", "dbType", "actions"];
-
   }
+
   public add() {
     let connection = {
       connectionName: "",

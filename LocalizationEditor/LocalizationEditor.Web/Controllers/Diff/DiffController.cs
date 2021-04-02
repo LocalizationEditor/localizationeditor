@@ -1,5 +1,6 @@
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Syncronize.Service;
+using LocalizationEditor.Web.Attribute;
 using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.Diff;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace LocalizationEditor.Web.Controllers.Diff
 {
   [Route("syncronize/diff")]
+  [LocalizationAuth]
   public class DiffController : LocalizationEditorController
   {
     private readonly IDiffService _diffService;
@@ -28,9 +30,9 @@ namespace LocalizationEditor.Web.Controllers.Diff
     public async Task<DiffViewModel> GetDiff([FromQuery] Guid destinationId)
     {
       var sourceConnection = Connection;
-      var destinationConnection = await ConnectionService.GetConnectionByIdAsync(destinationId);
+      var destinationConnection = await ConnectionService.GetConnectionByIdAsync(destinationId, CurrentUser);
 
-      var dto = await _diffService.GetDiffAsync(sourceConnection, destinationConnection);
+      var dto = await _diffService.GetDiffAsync(sourceConnection, destinationConnection, CurrentUser);
       return new DiffViewModel
       {
         Destinations = dto.Destination.Select(_localizationStringItemViewMapper.GetView).ToList(),

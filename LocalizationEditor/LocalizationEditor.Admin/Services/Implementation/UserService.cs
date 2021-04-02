@@ -1,13 +1,15 @@
 using LocalizationEditor.Admin.Models;
+using LocalizationEditor.Admin.Models.Implementations;
 using LocalizationEditor.Admin.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Admin
+namespace LocalizationEditor.Admin.Services.Implementation
 {
   internal class UserService : IUserService
   {
@@ -22,7 +24,7 @@ namespace LocalizationEditor.Admin
     {
       var users = await GetUsersAsync();
       users.Add(user);
-      var data = JsonConvert.SerializeObject(user);
+      var data = JsonConvert.SerializeObject(users);
       await File.WriteAllTextAsync(_pathOptionsProvider.Auth, data);
       return user;
     }
@@ -61,13 +63,28 @@ namespace LocalizationEditor.Admin
         .FirstOrDefault(item => string.Equals(item.Email, email, StringComparison.InvariantCultureIgnoreCase));
     }
 
+    public async Task<IUser> Login(ILoginDto login)
+    {
+      if (!File.Exists(_pathOptionsProvider.Auth))
+        throw new AuthenticationException("Invalid email or password");
+
+      var users = await GetUsersAsync();
+      return users.FirstOrDefault(i => i.Email == login.Email && i.Password == login.Password);
+    }
+
+    public async Task<IUser> GetById(Guid id)
+    {
+      var users = await GetUsersAsync();
+      return users.FirstOrDefault(i => i.Id == id);
+    }
+
     private async Task<List<IUser>> GetUsersAsync()
     {
       if (!File.Exists(_pathOptionsProvider.Auth))
         return new List<IUser>();
 
       var json = await File.ReadAllTextAsync(_pathOptionsProvider.Auth);
-      return JsonConvert.DeserializeObject<List<IUser>>(json);
+      return JsonConvert.DeserializeObject<List<User>>(json).Cast<IUser>().ToList();
     }
   }
 }

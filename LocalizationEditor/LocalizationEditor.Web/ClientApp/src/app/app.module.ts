@@ -64,8 +64,10 @@ import { ConnectionWrapperComponent } from './connection/components/wrapper/conn
 import { SyncronizeComponent } from './syncronize/components/syncronize.component';
 import { TreeComponent } from './base/tree/tree-component';
 import { ConnectionDataService } from './connection/connection-data.service';
+import { UsersDataService } from './admin/usersList/users-data.service';
 import { UsersListComponent } from './admin/usersList/users-list.component';
 import { LoginComponent } from './login/login.component';
+import { UserEditDialogComponent } from './admin/user-edit-component/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import { LoginComponent } from './login/login.component';
     SyncronizeComponent,
     TreeComponent,
     UsersListComponent,
-    LoginComponent
+    LoginComponent,
+    UserEditDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -148,7 +151,8 @@ import { LoginComponent } from './login/login.component';
     { provide: HTTP_INTERCEPTORS, useClass: SpinnerHttpInterceptor, multi: true },
     SnackbarService,
     LocalizationDataService,
-    ConnectionDataService
+    ConnectionDataService,
+    UsersDataService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [LocalizationEditDialog, ConnectionEditDialogComponent],

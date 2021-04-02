@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LocalizationEditor.Admin
+namespace LocalizationEditor.Admin.Services
 {
   public interface IUserService
   {
@@ -12,5 +12,7 @@ namespace LocalizationEditor.Admin
     Task<IUser> GetByEmail(string email);
     Task<Guid> Remove(Guid id);
     Task<IUser> Update(Guid id, IUser user);
+    Task<IUser> Login(ILoginDto login);
+    Task<IUser> GetById(Guid id);
   }
 }

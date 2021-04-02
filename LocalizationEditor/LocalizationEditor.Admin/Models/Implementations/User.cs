@@ -1,13 +1,15 @@
+using Newtonsoft.Json;
 using System;
 
 namespace LocalizationEditor.Admin.Models.Implementations
 {
-  internal class User : IUser
+  public class User : IUser
   {
+    [JsonConstructor]
     public User(Guid id,
       string email,
       string password,
-      IRole role)
+      RoleType role)
     {
       Id = id == Guid.Empty ? Guid.NewGuid() : id;
       Email = email;
@@ -18,7 +20,7 @@ namespace LocalizationEditor.Admin.Models.Implementations
     public Guid Id { get; }
     public string Email { get; }
     public string Password { get; }
-    public IRole Role { get; private set; }
+    public RoleType Role { get; private set; }
 
     public void Update(IUser user)
     {

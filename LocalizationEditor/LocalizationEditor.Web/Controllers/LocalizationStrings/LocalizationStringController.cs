@@ -2,6 +2,7 @@ using AutoMapper;
 using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.ConnectionStrings.Services;
+using LocalizationEditor.Web.Attribute;
 using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 namespace LocalizationEditor.Web.Controllers.LocalizationStrings
 {
   [Route("localization")]
+  [LocalizationAuth]
   public class LocalizationStringController : LocalizationEditorController
   {
     private readonly IMapper _mapper;

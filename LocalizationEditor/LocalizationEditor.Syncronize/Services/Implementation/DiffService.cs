@@ -8,6 +8,7 @@ using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.BAL.Models;
 using LocalizationEditor.Syncronize.Models;
 using System;
+using LocalizationEditor.Admin.Models;
 
 namespace LocalizationEditor.Syncronize.Service
 {
@@ -40,10 +41,10 @@ namespace LocalizationEditor.Syncronize.Service
       return new LocalizationDiffDto(addKeys, removeKeys, editKeys);
     }
 
-    public async Task<LocalizationDiff> GetDiffAsync(IConnection source, IConnection destination)
+    public async Task<LocalizationDiff> GetDiffAsync(IConnection source, IConnection destination, IUser user)
     {
-      var sourceConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(source.ConnectionName);
-      var destinationConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(destination.ConnectionName);
+      var sourceConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(source.ConnectionName, user);
+      var destinationConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(destination.ConnectionName, user);
 
       var diff = await GetDiffAsync(sourceConnectionString, destinationConnectionString);
 

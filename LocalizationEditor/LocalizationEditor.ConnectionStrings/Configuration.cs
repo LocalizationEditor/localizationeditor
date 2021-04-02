@@ -31,6 +31,9 @@ namespace LocalizationEditor.ConnectionStrings
       builder.RegisterType<ConnectionStringResolverService>().As<IConnectionStringResolverService>();
       builder.RegisterType<MssqlConnectionResolver>().As<IDataBaseConnectionResolver>();
       builder.RegisterType<MySqlConnectionResolver>().As<IDataBaseConnectionResolver>();
+      builder.RegisterType<DevConnectionFileProvider>().As<IConnectionFileProvider>();
+      builder.RegisterType<UserConnectionFileProvider>().As<IConnectionFileProvider>();
+      builder.RegisterType<ConnectionManager>().As<IConnectionManager>();
     }
   }
 }

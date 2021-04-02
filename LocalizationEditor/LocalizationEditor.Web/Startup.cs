@@ -12,6 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using LocalizationEditor.Base.Infrastructure;
+using LocalizationEditor.Web.Infrastrucutre;
 
 namespace LocalizationEditor.Web
 {
@@ -19,19 +24,19 @@ namespace LocalizationEditor.Web
   {
     private readonly IConfiguration _configuration;
     private readonly IWebHostEnvironment _hostEnvironment;
+
     public Startup(IConfiguration configuration, IWebHostEnvironment hostEnvironment)
     {
       _configuration = configuration;
       _hostEnvironment = hostEnvironment;
     }
 
-    private ILifetimeScope AutofacContainer { get; set; }
-
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc();
       services.AddSwaggerGen();
       services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
+      services.AddTransient<ILoginService, LoginService>();
       services.AddOptions(
         _configuration,
         Assembly.GetExecutingAssembly(),
@@ -39,6 +44,15 @@ namespace LocalizationEditor.Web
           _hostEnvironment.IsProduction(),
           _hostEnvironment.IsStaging(),
           _hostEnvironment.IsDevelopment()));
+
+      services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie();
+
+      services.AddOptions<CookieAuthenticationOptions>(CookieAuthenticationDefaults.AuthenticationScheme)
+        .Configure<ICookiesOptionProvider>((options, myService) =>
+        {
+          options.Cookie.Name = myService.Key;
+        });
     }
 
     public void ConfigureContainer(ContainerBuilder builder)
@@ -79,6 +93,16 @@ namespace LocalizationEditor.Web
       }
 
       app.UseRouting();
+
+      app.UseCookiePolicy(new CookiePolicyOptions
+      {
+        MinimumSameSitePolicy = SameSiteMode.Strict,
+        HttpOnly = HttpOnlyPolicy.Always,
+        Secure = CookieSecurePolicy.Always
+      });
+
+      app.UseAuthentication();
+      app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>
       {

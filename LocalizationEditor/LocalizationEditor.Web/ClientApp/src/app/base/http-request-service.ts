@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { SnackbarService } from "./snackbar-service";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -59,6 +60,7 @@ export class HttpRequestService {
       })
       .catch(error => {
         this._snackBar.fail();
+        localStorage.removeItem("role");
         console.log(error)
       });
   }
@@ -87,7 +89,6 @@ export class TypedRequestImpl<T> implements ITypedRequest<T> {
     this.OnThenAction = onThenAction;
     this.SuccessSnackBarText = successSnackBarText;
   }
-
   OnThenAction: (result: T) => void;
   RequestObject: T;
   Uri: string;
