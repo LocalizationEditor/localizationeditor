@@ -1,13 +1,14 @@
+<h5>
+  Sync from {{selectedSourceConnectionName}} to <mat-select style="width:111px"
+                                                            [(value)]="selectedConnectionId"
+                                                            (selectionChange)="onchangedValue($event)">
+    <mat-option *ngFor="let connection of connections"
+                value="{{connection.id}}">{{connection.connectionName}}</mat-option>
+  </mat-select>
+</h5>
 <mat-sidenav-container class="example-container">
   <mat-sidenav mode="side" opened>
     <div class="options-monaco">
-      <mat-form-field>
-        <mat-select [(value)]="selectedConnectionId"
-                    (selectionChange)="onchangedValue($event)">
-          <mat-option *ngFor="let connection of connections"
-                      value="{{connection.id}}">{{connection.connectionName}}</mat-option>
-        </mat-select>
-      </mat-form-field>
       <div *ngIf="shouldShowDiff">
         <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)" (deselectEmitter)="deselect($event)" (selectEmitter)="select($event)">
         </tree>

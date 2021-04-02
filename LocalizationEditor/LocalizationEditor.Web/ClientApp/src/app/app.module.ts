@@ -64,6 +64,7 @@ import { ConnectionWrapperComponent } from './connection/components/wrapper/conn
 import { SyncronizeComponent } from './syncronize/components/syncronize.component';
 import { TreeComponent } from './base/tree/tree-component';
 import { ConnectionDataService } from './connection/connection-data.service';
+import { UsersListComponent } from './admin/usersList/users-list.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,8 @@ import { ConnectionDataService } from './connection/connection-data.service';
     ConnectionComponent,
     ConnectionWrapperComponent,
     SyncronizeComponent,
-    TreeComponent
+    TreeComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),

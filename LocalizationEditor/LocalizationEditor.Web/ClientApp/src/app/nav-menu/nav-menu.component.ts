@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { UsersListComponent } from '../admin/usersList/users-list.component';
 import { ConnectionViewComponent } from '../connection/components/view/connection-view.component';
 import { ConnectionDataService } from '../connection/connection-data.service';
 import { IConnection } from '../connection/models/Connection/IConnection';
@@ -61,6 +62,17 @@ export class NavMenuComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
     });
   }
+
+  showUserManagment() {
+    const dialogRef = this._dialog.open(UsersListComponent, {
+      width: '90%',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  
 
   showConnections() {
     const dialogRef = this._dialog.open(ConnectionViewComponent, {

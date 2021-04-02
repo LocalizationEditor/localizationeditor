@@ -33,6 +33,7 @@ export class SyncronizeComponent {
   selectedConnection: IConnection;
   public connections: IConnection[] = new Array<IConnection>();
   selectedConnectionName: string;
+  selectedSourceConnectionName: string;
   selectedConnectionId: number;
 
   constructor(
@@ -47,6 +48,7 @@ export class SyncronizeComponent {
         this.connections = connections;
         let connectionId = localStorage.getItem("connectionId");
         this.updateSelected(connectionId);
+        this.setSourceConectionName(connectionId);
       });
     this._dataServce.initialize();
   }
@@ -169,7 +171,13 @@ export class SyncronizeComponent {
       this.selectedConnectionName = this.selectedConnection.connectionName;
       this.diff();
     }
+  }
 
+  private setSourceConectionName(connectionId: string) {
+    let selectedConnection = this.connections.find(i => i.id.toString() == connectionId);
+    if (selectedConnection) {
+      this.selectedSourceConnectionName = selectedConnection.connectionName;
+    }
   }
 
   public onchangedValue(value) {
