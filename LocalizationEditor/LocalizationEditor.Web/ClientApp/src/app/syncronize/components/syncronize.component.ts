@@ -47,7 +47,8 @@ export class SyncronizeComponent {
       connections => {
         this.connections = connections;
         let connectionId = localStorage.getItem("connectionId");
-        this.updateSelected(connectionId);
+        let diff = this.connections.find(i => i.id.toString() != connectionId);
+        this.updateSelected(diff.id.toString());
         this.setSourceConectionName(connectionId);
       });
     this._dataServce.initialize();
@@ -165,7 +166,7 @@ export class SyncronizeComponent {
   }
 
   private updateSelected(connectionId: string) {
-    this.selectedConnection = this.connections.find(i => i.id.toString() != connectionId);
+    this.selectedConnection = this.connections.find(i => i.id.toString() == connectionId);
     if (this.selectedConnection) {
       this.selectedConnectionId = this.selectedConnection.id;
       this.selectedConnectionName = this.selectedConnection.connectionName;
