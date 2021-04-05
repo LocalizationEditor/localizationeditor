@@ -131,44 +131,4 @@ namespace LocalizationEditor.ConnectionStrings.Services
       return _connectionFileProviders.FirstOrDefault(i => i.CanHandle(user.Role))?.GetFilesPath(user);
     }
   }
-
-  public interface IConnectionFileProvider
-  {
-    bool CanHandle(RoleType roleType);
-    HashSet<string> GetFilesPath(IUser user);
-  }
-
-  internal class UserConnectionFileProvider : IConnectionFileProvider
-  {
-    private readonly IPathOptionsProvider _pathOptionsProvider;
-
-    public bool CanHandle(RoleType roleType) => RoleType.User == roleType;
-
-    public UserConnectionFileProvider(IPathOptionsProvider pathOptionsProvider)
-    {
-      _pathOptionsProvider = pathOptionsProvider;
-    }
-
-    public HashSet<string> GetFilesPath(IUser user)
-    {
-      return new HashSet<string> { _pathOptionsProvider.FileName };
-    }
-  }
-
-  internal class DevConnectionFileProvider : IConnectionFileProvider
-  {
-    private readonly IPathOptionsProvider _pathOptionsProvider;
-
-    public bool CanHandle(RoleType roleType) => roleType == RoleType.Dev || roleType == RoleType.Admin;
-
-    public DevConnectionFileProvider(IPathOptionsProvider pathOptionsProvider)
-    {
-      _pathOptionsProvider = pathOptionsProvider;
-    }
-
-    public HashSet<string> GetFilesPath(IUser user)
-    {
-      return new HashSet<string> { _pathOptionsProvider.FileName, user.Id.ToString() };
-    }
-  }
 }
