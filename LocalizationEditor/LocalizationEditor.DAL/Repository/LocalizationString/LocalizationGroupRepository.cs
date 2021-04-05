@@ -23,8 +23,8 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     {
       var parameters = new DynamicParameters { RemoveUnused = true };
 
-      parameters.Add(SQLParameterHelper.IdParameter, model.Id);
-      parameters.Add(SQLParameterHelper.NameParameter, model.Name);
+      parameters.Add(SqlParameterHelper.IdParameter, model.Id);
+      parameters.Add(SqlParameterHelper.NameParameter, model.Name);
       return parameters;
     }
 
@@ -33,7 +33,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       var parameters = GetParameters(model);
 
       var sql = $@"insert {_tableNamingOptions.LocalizationGroupsTableName} ([Name])
-                  values ({SQLParameterHelper.NameParameter})
+                  values ({SqlParameterHelper.NameParameter})
                   select cast(scope_identity() as int) as Id";
       var result = await GetConnection().QueryFirstAsync(sql, parameters);
       model = new LocalizationGroup((long)result.Id, model.Name);
@@ -49,8 +49,8 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     {
       var parameters = GetParameters(model);
       var sql = $@"update {_tableNamingOptions.LocalizationGroupsTableName} set
-                      [Name] = {SQLParameterHelper.NameParameter}
-                       where [Id] = {SQLParameterHelper.IdParameter}";
+                      [Name] = {SqlParameterHelper.NameParameter}
+                       where [Id] = {SqlParameterHelper.IdParameter}";
       await GetConnection().QueryAsync(sql, parameters);
       return model;
     }
@@ -64,10 +64,10 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     public async Task<ILocalizationGroup> SearchByGroupKeyAsync(string groupKey)
     {
       var parameters = new DynamicParameters { RemoveUnused = true };
-      parameters.Add(SQLParameterHelper.NameParameter, groupKey);
+      parameters.Add(SqlParameterHelper.NameParameter, groupKey);
 
       var sql = $@"select * from {_tableNamingOptions.LocalizationGroupsTableName}
-                      where [Name] = {SQLParameterHelper.NameParameter}";
+                      where [Name] = {SqlParameterHelper.NameParameter}";
       var result = await GetConnection().QueryFirstOrDefaultAsync<LocalizationGroupDbModel>(sql, parameters);
       if (result is null)
         return null;

@@ -9,7 +9,7 @@ using LocalizationEditor.Base.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using LocalizationEditor.Web.ViewModels.ConnectionStrings;
 using LocalizationEditor.Web.Controllers.Core;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 
 namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {

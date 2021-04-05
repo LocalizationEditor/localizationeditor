@@ -10,8 +10,7 @@ using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Admin.Models.Implementations;
 using LocalizationEditor.Admin.Models;
 using LocalizationEditor.Admin.Services;
-using Microsoft.AspNetCore.Authorization;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 
 namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {

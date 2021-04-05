@@ -2,7 +2,7 @@ using AutoMapper;
 using LocalizationEditor.BAL.Configurations;
 using LocalizationEditor.BAL.MediatR.Requests.LocalizationStrings;
 using LocalizationEditor.ConnectionStrings.Services;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.LocalizationStrings;

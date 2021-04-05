@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 using LocalizationEditor.Base.Encrypt;
 using Newtonsoft.Json;
 using LocalizationEditor.ConnectionStrings.Models;
-using LocalizationEditor.ConnectionStrings.Options;
 using LocalizationEditor.Admin.Models;
 using LocalizationEditor.Admin.Models.Implementations;
-using LocalizationEditor.Admin.Options;
 using IPathOptionsProvider = LocalizationEditor.ConnectionStrings.Options.IPathOptionsProvider;
 
 namespace LocalizationEditor.ConnectionStrings.Services
@@ -27,16 +25,24 @@ namespace LocalizationEditor.ConnectionStrings.Services
       _connectionFileProviders = connectionFileProviders;
     }
 
-    public async Task<IConnection> SaveConnectionAsync(IConnection connection, IUser user)
+    public async Task<IConnection> SaveConnectionAsync(IConnection connections, IUser user)
     {
-      var existConnections = new List<IConnection>(await GetConnectionsAsync(user))
-      {
-        connection
-      };
+      if (connections.Server == "internaldb" && user.Role == RoleType.Admin)
+        return await SaveAsync(connections, _pathOptionsProvider.FileName);
+
+      return await SaveAsync(connections, user.Id.ToString());
+    }
+
+    private async Task<IConnection> SaveAsync(IConnection connection, string file)
+    {
+      var existConnections = new List<IConnection>(await GetConnectionsAsync(file))
+        {
+          connection
+        };
       var data = JsonConvert.SerializeObject(existConnections);
       var encryptData = _encryptService.Encrypt(data);
 
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
+      await File.WriteAllTextAsync(file, encryptData);
       return connection;
     }
 
@@ -57,7 +63,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
     {
       var files = GetFilesPath(user);
       var connections = new List<IConnection>();
-      foreach(var file in files)
+      foreach (var file in files)
         connections.AddRange(await GetConnectionsAsync(file));
 
       return connections;
@@ -70,12 +76,12 @@ namespace LocalizationEditor.ConnectionStrings.Services
       {
         var filesByPath = await GetConnectionsAsync(file);
         var foundFile = filesByPath.FirstOrDefault(i => i.Id == id);
-        if(foundFile != null)
+        if (foundFile != null)
         {
           return file;
         }
       }
-       
+
       return null;
     }
 

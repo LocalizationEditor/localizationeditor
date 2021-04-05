@@ -1,6 +1,6 @@
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Syncronize.Service;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 using LocalizationEditor.Web.Controllers.Core;
 using LocalizationEditor.Web.ViewMapperProfiles;
 using LocalizationEditor.Web.ViewModels.Diff;

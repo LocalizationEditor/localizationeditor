@@ -3,7 +3,7 @@ using LocalizationEditor.Admin.Services;
 using LocalizationEditor.Base.Infrastructure;
 using LocalizationEditor.ConnectionStrings.Models;
 using LocalizationEditor.ConnectionStrings.Services;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 using LocalizationEditor.Web.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

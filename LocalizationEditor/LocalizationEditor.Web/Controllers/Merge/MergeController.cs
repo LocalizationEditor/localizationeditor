@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using LocalizationEditor.ConnectionStrings.Services;
 using LocalizationEditor.Web.ViewModels.Merge;
 using LocalizationEditor.Web.Controllers.Core;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 
 namespace LocalizationEditor.Web.Controllers.Merge
 {

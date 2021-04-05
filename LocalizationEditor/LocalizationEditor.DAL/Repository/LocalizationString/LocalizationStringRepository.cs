@@ -13,7 +13,7 @@ using LocalizationStringModel = LocalizationEditor.BAL.Models.LocalizationString
 namespace LocalizationEditor.DAL.Repository.LocalizationString
 {
 
-  public static class SQLParameterHelper
+  public static class SqlParameterHelper
   {
     public const string KeyParameter = "@Key";
     public const string GroupParameter = "@GroupId";
@@ -53,7 +53,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
       var parameters = GetParameters(model);
 
       var sql = $@"insert {_tableNamingOptions.LocalizationStringsTableName} ([StringKey], [LocalizationTypeId], {columns})
-                  values ({SQLParameterHelper.KeyParameter},{SQLParameterHelper.GroupParameter},{columnParametres})
+                  values ({SqlParameterHelper.KeyParameter},{SqlParameterHelper.GroupParameter},{columnParametres})
                   select cast(scope_identity() as int) as Id";
       var newId = await GetConnection().QueryFirstAsync(sql, parameters);
       model = await GetByIdAsync(newId.Id);
@@ -65,27 +65,27 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
     public async override Task<ILocalizationString> UpdateAsync(ILocalizationString model)
     {
       var sql = $@"update {_tableNamingOptions.LocalizationStringsTableName} set
-                      [StringKey] = {SQLParameterHelper.KeyParameter},
-                      [LocalizationTypeId] = {SQLParameterHelper.GroupParameter},
+                      [StringKey] = {SqlParameterHelper.KeyParameter},
+                      [LocalizationTypeId] = {SqlParameterHelper.GroupParameter},
                       {string.Join(",", model.Localizations.Select(i => $"[{i.Locale }] = @{i.Locale}"))}
-                       where [Id] = {SQLParameterHelper.IdParameter}";
+                       where [Id] = {SqlParameterHelper.IdParameter}";
 
       var parameters = GetParameters(model);
-      parameters.Add(SQLParameterHelper.IdParameter, model.Id);
+      parameters.Add(SqlParameterHelper.IdParameter, model.Id);
 
       await GetConnection().QueryAsync(sql, parameters);
       return model;
     }
 
-    public async override Task<long> DeleteAsync(ILocalizationString model)
+    public async override Task<long> DeleteAsync(ILocalizationString localizationString)
     {
-      var sql = $@"delete FROM {_tableNamingOptions.LocalizationStringsTableName} where [Id] = {SQLParameterHelper.IdParameter}";
+      var sql = $@"delete FROM {_tableNamingOptions.LocalizationStringsTableName} where [Id] = {SqlParameterHelper.IdParameter}";
 
-      var parameters = GetParameters(model);
-      parameters.Add(SQLParameterHelper.IdParameter, model.Id);
+      var parameters = GetParameters(localizationString);
+      parameters.Add(SqlParameterHelper.IdParameter, localizationString.Id);
 
       await GetConnection().QueryAsync(sql, parameters);
-      return model.Id;
+      return localizationString.Id;
     }
 
     public override async Task<IEnumerable<ILocalizationString>> GetAllAsync()
@@ -173,8 +173,8 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
         parameters.Add($"@{item.Locale}", item.Value);
       }
 
-      parameters.Add(SQLParameterHelper.GroupParameter, model.Group.Id);
-      parameters.Add(SQLParameterHelper.KeyParameter, model.Key);
+      parameters.Add(SqlParameterHelper.GroupParameter, model.Group.Id);
+      parameters.Add(SqlParameterHelper.KeyParameter, model.Key);
       return parameters;
     }
   }

@@ -1,13 +1,13 @@
 using System;
-using System.Web.Mvc;
 using LocalizationEditor.Admin.Services;
 using LocalizationEditor.Base.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace LocalizationEditor.Web.Attribute
+namespace LocalizationEditor.Web.Attributes
 {
-  public class LocalizationAuthAttribute : AuthorizeAttribute, Microsoft.AspNetCore.Mvc.Filters.IAuthorizationFilter
+  [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+  public class LocalizationAuthAttribute : Attribute, IAuthorizationFilter
   {
     private readonly bool _allowAnonymus;
 

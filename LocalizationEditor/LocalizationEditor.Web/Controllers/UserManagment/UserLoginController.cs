@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using AutoMapper;
 using LocalizationEditor.ConnectionStrings.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +7,7 @@ using LocalizationEditor.Admin.Models;
 using LocalizationEditor.Admin.Services;
 using LocalizationEditor.Web.ViewModels.Users;
 using LocalizationEditor.Web.Infrastrucutre;
-using LocalizationEditor.Web.Attribute;
+using LocalizationEditor.Web.Attributes;
 
 namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {
