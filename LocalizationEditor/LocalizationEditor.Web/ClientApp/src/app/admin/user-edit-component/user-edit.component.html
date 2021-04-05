@@ -1,0 +1,25 @@
+
+<div style="display:flex;flex-direction: column;">
+  <mat-form-field>
+    <mat-label>User name</mat-label>
+    <input matInput placeholder="User name" [(ngModel)]="dialogData.userName" required />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput placeholder="Password" type="password" [(ngModel)]="dialogData.password" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="mat-form-field-dialog">
+    <mat-label>Role</mat-label>
+    <mat-select [(ngModel)]="dialogData.role.name">
+      <mat-option [value]="item.name" *ngFor="let item of roles">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onOkClick()">Save</button>
+</mat-dialog-actions>

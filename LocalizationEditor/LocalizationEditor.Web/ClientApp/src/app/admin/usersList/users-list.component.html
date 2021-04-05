@@ -1,0 +1,49 @@
+<div class="example-container">
+  <div class="table-add-action">
+    <button mat-menu-item (click)="add()">
+      <mat-icon>group_add</mat-icon>
+      <span>Add</span>
+    </button>
+  </div>
+  <div class="example-container mat-elevation-z8">
+    <mat-table [dataSource]="dataSource" aria-describedby="connections">
+      <ng-container matColumnDef="userName">
+        <mat-header-cell *matHeaderCellDef><span class="truncate-text ">User name</span></mat-header-cell>
+        <mat-cell *matCellDef="let element"><span class="truncate-text "> {{element.userName}} </span></mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="password">
+        <mat-header-cell *matHeaderCellDef>Password</mat-header-cell>
+        <mat-cell *matCellDef="let element"> &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull; </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="role">
+        <mat-header-cell *matHeaderCellDef><span class="truncate-text ">Role</span></mat-header-cell>
+        <mat-cell *matCellDef="let element"> <span class="truncate-text ">{{element.role.name}} </span></mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" stickyEnd>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">
+          <button mat-icon-button [matMenuTriggerFor]="matMenu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #matMenu="matMenu">
+            <button mat-menu-item (click)="edit(element)">
+              <mat-icon>edit</mat-icon>
+              <span>Edit</span>
+            </button>
+            <button mat-menu-item (click)="handleRemove(element)">
+              <mat-icon>delete</mat-icon>
+              <span>Remove</span>
+            </button>
+          </mat-menu>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns;sticky:true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

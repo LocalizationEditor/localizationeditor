@@ -1,0 +1,43 @@
+<mat-form-field class="mat-elevation-z8 search-block">
+  <label>
+    <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
+  </label>
+  <button mat-icon-button matSuffix (click)="addLocalizationString()">
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-form-field>
+
+<div class="example-container mat-elevation-z8">
+
+  <mat-table [hidden]="dataSource.filteredData.length<=0" [dataSource]="dataSource" (scroll)="onTableScroll($event)">
+    <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
+      <mat-header-cell *matHeaderCellDef><span class="truncate-text ">{{column}}</span></mat-header-cell>
+      <mat-cell *matCellDef="let element"><span class="truncate-text ">{{element[column]}}</span></mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions" stickyEnd>
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="editLocalization(element)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="deleteLocalizationKey(element)">
+            <mat-icon>delete</mat-icon>
+            <span>Remove</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true "></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnsToDisplay;"></mat-row>
+  </mat-table>
+  <h3 [hidden]="dataSource.filteredData.length > 0" id="noRecords"> No records found </h3>
+  <div id="footer"></div>
+</div>
+

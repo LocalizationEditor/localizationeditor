@@ -1,0 +1,26 @@
+<div class="example-container">
+  <mat-toolbar color="primary" class="example-toolbar">
+    <h1 class="example-app-name">Localization Editor (</h1>
+    <div style="width:111px">
+      <mat-select [(value)]="selectedConnectionId"
+                  (selectionChange)="onchangedValue($event)">
+        <mat-option *ngFor="let connection of connections"
+                    value="{{connection.id}}">{{connection.connectionName}}</mat-option>
+      </mat-select>
+    </div>
+    <h1>)</h1>
+    <span class="example-spacer"></span>
+    <div class="example-button-row">
+      <button mat-icon-button (click)="showConnections()" *ngIf="isDev">
+        <mat-icon>storage</mat-icon>
+      </button>
+      <button mat-icon-button (click)="syncLocalization()">
+        <mat-icon>sync</mat-icon>
+      </button>
+      <button mat-icon-button (click)="showUserManagment()" *ngIf="isAdmin">
+        <mat-icon>people</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</div>

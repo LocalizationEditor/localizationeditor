@@ -1,7 +1,32 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Localization", "Localization\Localization.csproj", "{97FE75D7-A715-40C3-A515-EB0D21EF55CB}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.Web", "LocalizationEditor.Web\LocalizationEditor.Web.csproj", "{97FE75D7-A715-40C3-A515-EB0D21EF55CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39CB195D-A454-4869-B783-FDD11BC232DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConnectionStrings", "ConnectionStrings", "{90B62617-D013-4D6A-B754-495E65BC5588}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{DC099606-2398-4F79-9A14-73E571F5E0C9}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.Base", "LocalizationEditor.Base\LocalizationEditor.Base.csproj", "{E8459FA5-0FF0-403A-A98E-B9ECA4267095}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.ConnectionStrings", "LocalizationEditor.ConnectionStrings\LocalizationEditor.ConnectionStrings.csproj", "{04AA0660-0863-445F-8039-2C089EF48DF7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.BAL", "LocalizationEditor.BAL\LocalizationEditor.BAL.csproj", "{60BEAA6C-7D18-40D2-8CB5-C97799337E94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.DAL", "LocalizationEditor.DAL\LocalizationEditor.DAL.csproj", "{CF214BC5-95A7-41C5-B65D-34C13D38AC14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Syncronize", "Syncronize", "{BCBEA8AD-FD54-46BD-8C70-413A4FA7FDCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LocalizationEditor.Syncronize", "LocalizationEditor.Syncronize\LocalizationEditor.Syncronize.csproj", "{154F904A-F63F-4AC5-9A18-919DF5CFD5B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalizationEditor.Admin", "LocalizationEditor.Admin\LocalizationEditor.Admin.csproj", "{86F94CFF-7414-456B-8163-2C59F515370B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,8 +38,46 @@ Global
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8459FA5-0FF0-403A-A98E-B9ECA4267095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8459FA5-0FF0-403A-A98E-B9ECA4267095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8459FA5-0FF0-403A-A98E-B9ECA4267095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8459FA5-0FF0-403A-A98E-B9ECA4267095}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04AA0660-0863-445F-8039-2C089EF48DF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04AA0660-0863-445F-8039-2C089EF48DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04AA0660-0863-445F-8039-2C089EF48DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04AA0660-0863-445F-8039-2C089EF48DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60BEAA6C-7D18-40D2-8CB5-C97799337E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60BEAA6C-7D18-40D2-8CB5-C97799337E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60BEAA6C-7D18-40D2-8CB5-C97799337E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60BEAA6C-7D18-40D2-8CB5-C97799337E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{154F904A-F63F-4AC5-9A18-919DF5CFD5B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{154F904A-F63F-4AC5-9A18-919DF5CFD5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{154F904A-F63F-4AC5-9A18-919DF5CFD5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{154F904A-F63F-4AC5-9A18-919DF5CFD5B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86F94CFF-7414-456B-8163-2C59F515370B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86F94CFF-7414-456B-8163-2C59F515370B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86F94CFF-7414-456B-8163-2C59F515370B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86F94CFF-7414-456B-8163-2C59F515370B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{97FE75D7-A715-40C3-A515-EB0D21EF55CB} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{90B62617-D013-4D6A-B754-495E65BC5588} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{E8459FA5-0FF0-403A-A98E-B9ECA4267095} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{04AA0660-0863-445F-8039-2C089EF48DF7} = {90B62617-D013-4D6A-B754-495E65BC5588}
+		{60BEAA6C-7D18-40D2-8CB5-C97799337E94} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{CF214BC5-95A7-41C5-B65D-34C13D38AC14} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{BCBEA8AD-FD54-46BD-8C70-413A4FA7FDCA} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+		{154F904A-F63F-4AC5-9A18-919DF5CFD5B7} = {BCBEA8AD-FD54-46BD-8C70-413A4FA7FDCA}
+		{86F94CFF-7414-456B-8163-2C59F515370B} = {39CB195D-A454-4869-B783-FDD11BC232DE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1516943F-31C3-46D9-8DCF-0E7AC93961F7}
 	EndGlobalSection
 EndGlobal

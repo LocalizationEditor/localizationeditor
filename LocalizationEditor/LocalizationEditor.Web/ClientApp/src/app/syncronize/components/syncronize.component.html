@@ -1,0 +1,45 @@
+<h5>
+  Sync from {{selectedSourceConnectionName}} to <mat-select style="width:111px"
+                                                            [(value)]="selectedConnectionId"
+                                                            (selectionChange)="onchangedValue($event)">
+    <mat-option *ngFor="let connection of connections"
+                value="{{connection.id}}">{{connection.connectionName}}</mat-option>
+  </mat-select>
+</h5>
+<mat-sidenav-container class="example-container">
+  <mat-sidenav mode="side" opened>
+    <div class="options-monaco">
+      <div *ngIf="shouldShowDiff">
+        <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)" (deselectEmitter)="deselect($event)" (selectEmitter)="select($event)">
+        </tree>
+      </div>
+      <div *ngIf="!shouldShowDiff">
+        <p>No diff found</p>
+      </div>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="test" *ngIf="shouldShowDiff">
+      <div class="tabgroup">
+        <mat-tab-group class="locale-groups" mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="tabChanged($event)">
+          <mat-tab label="{{locale}}" id="{{ locale }}" *ngFor="let locale of locales"></mat-tab>
+        </mat-tab-group>
+      </div>
+      <div class="options-wrapper-side">
+        <button mat-button [matMenuTriggerFor]="menu"> <mat-icon>settings</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <mat-slide-toggle [checked]="editorOptions.renderSideBySide" (change)="selectSideBySide()" style="margin-right:5px;">
+            Side by side diff
+          </mat-slide-toggle>
+        </mat-menu>
+      </div>
+    </div>
+    <ngx-monaco-diff-editor class="diff-viewer" [options]="editorOptions" [originalModel]="originalModel" [modifiedModel]="modifiedModel">
+    </ngx-monaco-diff-editor>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" (click)="merge()">Merge</button>
+</mat-dialog-actions>
