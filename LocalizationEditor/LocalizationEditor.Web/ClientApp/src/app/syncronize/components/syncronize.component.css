@@ -22,16 +22,22 @@ connection-wrapper {
   overflow: hidden;
 }
 
-
-.localization-changed-wrapper {
-  width: 20%;
-  height: 60%;
-  overflow: auto;
+.content-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
 }
 
+.content {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 20px;
+}
 
-.monaco-wrapper {
-  width: 80%;
+.localization-changed-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .diff-wrapper {
@@ -45,12 +51,8 @@ connection-wrapper {
   flex-direction: row;
 }
 
-button{
-    height: 42px;
-}
-
-.localization-changed-wrapper {
-  height: 100%;
+button {
+  height: 42px;
 }
 
 .monaco-wrapper {
@@ -58,19 +60,54 @@ button{
 }
 
 .diff-viewer {
-  height: 50vh !important;
+  height: 73vh !important;
+  display: flex;
+  flex-direction: column;
 }
 
-.tree-wrapper {
-  margin-top: 60px;
-  height: 360px;
-  overflow: hidden;
-}
 
-  .tree-wrapper:hover {
-    overflow: auto;
-  }
+.tree-wrapper:hover {
+  overflow: auto;
+}
 
 .locale-groups {
   height: 60px;
+}
+
+
+mat-drawer-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.test {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.tabgroup{
+  width:95%;
+}
+.options-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
+.options-wrapper-side {
+  width: 5%;
+}
+
+.options-monaco {
+  display: flex;
+  flex-direction: column;
+  margin-right: 5px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
 }

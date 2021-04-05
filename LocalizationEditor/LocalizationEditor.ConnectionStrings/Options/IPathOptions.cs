@@ -1,4 +1,4 @@
-﻿namespace LocalizationEditor.ConnectionStrings.Options
+namespace LocalizationEditor.ConnectionStrings.Options
 {
   public interface IPathOptions
   {

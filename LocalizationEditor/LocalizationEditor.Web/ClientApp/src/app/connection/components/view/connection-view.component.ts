@@ -1,85 +1,59 @@
-import {Component, OnInit} from "@angular/core";
-import {IConnection} from "../../models/Connection/IConnection";
-import {MatDialog} from '@angular/material/dialog';
-import {ConnectionEditDialogComponent} from "../dialogs/connection-edit-dialog.component";
-import {dialogConfig} from "../dialogs/dialog-config";
-import {HttpRequestService, TypedRequestImpl} from "../../../base/http-request-service";
-import {BaseServerRoutes} from "../../../base/base-server-routes";
+import { Component, OnInit } from "@angular/core";
+import { IConnection } from "../../models/Connection/IConnection";
+import { MatDialog } from '@angular/material/dialog';
+import { ConnectionEditDialogComponent } from "../dialogs/connection-edit-dialog.component";
+import { ConnectionDataService } from "../../connection-data.service";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'connection-view',
-  templateUrl: '/connection-view.component.html',
+  templateUrl: 'connection-view.component.html',
   styleUrls: ['./connection-view.component.css']
 })
 export class ConnectionViewComponent implements OnInit {
-  public connections: IConnection[] = new Array<IConnection>();
-  private displayedColumns: string[];
+  public dataSource: MatTableDataSource<IConnection>;
+  public displayedColumns: string[];
 
   constructor(public dialog: MatDialog,
-              private _httpService: HttpRequestService) {
+    private _dataServce: ConnectionDataService) {
+    this.dataSource = new MatTableDataSource();
   }
 
   ngOnInit(): void {
-    this.getConnections();
+    this._dataServce.connections.subscribe(connections => {
+      this.dataSource = new MatTableDataSource(connections);
+    });
+    this._dataServce.initialize();
     this.displayedColumns = ["connectionName", "dbName", "userName", "serverName", "password", "dbType", "actions"];
   }
 
-  private onEdit(connection: IConnection) {
-    const indexBefore = this.connections
-      .findIndex(item => item.connectionName === connection.connectionName);
+  public add() {
+    let connection = {
+      connectionName: "",
+      dbName: "",
+      password: "",
+      dbType: { id: 0, name: "" },
+      serverName: "",
+      id: undefined,
+      userName: ""
+    };
 
-    let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
-      ...dialogConfig,
-      data: {
-        connection},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined) {
-        console.log(this.connections);
-        this.connections[indexBefore] = result;
-      }
-    });
+    this.save(connection);
   }
 
-  private onAdd(connection: IConnection) {
-    connection = <IConnection>{};
+  public edit(connection: IConnection) {
+    this.save(connection);
+  }
 
+  private save(connection: IConnection) {
     let dialogRef = this.dialog.open(ConnectionEditDialogComponent, {
-      ...dialogConfig,
       data: {
-        connection},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      if (result !== undefined)
-        this.connections.push(result);
+        connection
+      },
     });
   }
 
   private handleRemove(connection: IConnection) {
-    const index = this.connections.findIndex(item => item.id === connection.id);
-    const request = new TypedRequestImpl<number>(
-      `${BaseServerRoutes.Connection}/${connection.id}`,
-      true,
-      null,
-      result => {
-        this.connections.splice(index, 1);
-      });
-
-    this._httpService.delete<number>(request);
-  }
-
-  private getConnections() {
-    const request = new TypedRequestImpl<IConnection[]>(
-      `${BaseServerRoutes.Connection}`,
-      false,
-      null,
-      result => {
-        this.connections = result;
-      });
-
-    this._httpService.get<IConnection[]>(request);
+    this._dataServce.deleteLocalizationKey(connection);
   }
 }

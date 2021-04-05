@@ -1,0 +1,32 @@
+<main class="login-form">
+  <span class="welcome-text">Welcome in localization editor</span>
+  <div class="form">
+    <mat-form-field class="email">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" placeholder="email@email.com" [formControl]="emailFormControl" [errorStateMatcher]="matcher" [(ngModel)]="login">
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="password">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password..." [formControl]="passwordFormControl" [errorStateMatcher]="matcher" [(ngModel)]="password" />
+      <mat-error *ngIf="passwordFormControl.hasError('required')">
+        Password is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <div class="login-button" *ngIf="!emailFormControl.hasError('email') && !emailFormControl.hasError('required') && !passwordFormControl.hasError('required')">
+      <button mat-raised-button color="primary" (click)="onLogin()">
+        Login
+      </button>
+    </div>
+    <div class="login-button" *ngIf="emailFormControl.hasError('email') || emailFormControl.hasError('required') || passwordFormControl.hasError('required')">
+      <button mat-raised-button color="primary" disabled>
+        Login
+      </button>
+    </div>
+  </div>
+</main>

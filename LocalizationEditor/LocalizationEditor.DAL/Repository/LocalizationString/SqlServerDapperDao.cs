@@ -12,7 +12,7 @@ namespace LocalizationEditor.DAL.Repository.LocalizationString
 
     public virtual async Task<T> AddAsync(T model)
     {
-      var newId = await GetConnection().InsertAsync(model);
+      await GetConnection().InsertAsync(model);
       return model;
     }
 

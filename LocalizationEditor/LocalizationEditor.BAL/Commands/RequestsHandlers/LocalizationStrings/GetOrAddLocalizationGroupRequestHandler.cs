@@ -22,7 +22,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
 
     public async Task<ILocalizationGroup> Handle(GetOrAddLocalizationGroupRequest request, CancellationToken cancellationToken)
     {
-      var connectionString = await _connectionStringResolverService.GetConnectionStringAsync(request.ConnectionStringKey);
+      var connectionString = _connectionStringResolverService.GetConnectionString(request.Connection);
       _repository.SetConnectionString(connectionString);
 
       var group = await _repository.SearchByGroupKeyAsync(request.GroupName);

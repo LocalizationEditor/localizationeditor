@@ -1,6 +1,26 @@
 .editor {
-  height: 73vh !important;
+  height: 60vh !important;
   display: flex;
   flex-direction: column;
 }
 
+.test {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.tabgroup {
+  width: 80%;
+}
+
+.options-wrapper {
+  align-items: center;
+  justify-content: center;
+}
+
+.options-wrapper-side {
+  width: 20%;
+}

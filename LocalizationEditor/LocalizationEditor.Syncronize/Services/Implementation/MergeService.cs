@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LocalizationEditor.Admin.Models;
 using LocalizationEditor.BAL.Models.LocalizationString;
 using LocalizationEditor.BAL.Repositories;
 using LocalizationEditor.ConnectionStrings.Models;
@@ -25,10 +26,10 @@ namespace LocalizationEditor.Syncronize.Service
       _diffService = diffService;
     }
 
-    public async Task MergeAsync(IConnection source, IConnection destination, IReadOnlyCollection<long> sourceIds = null)
+    public async Task MergeAsync(IConnection source, IConnection destination, IUser user, IReadOnlyCollection<long> sourceIds = null)
     {
-      var sourceConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(source.ConnectionName);
-      var destinationConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(destination.ConnectionName);
+      var sourceConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(source.ConnectionName, user);
+      var destinationConnectionString = await _connectionStringResolverService.GetConnectionStringAsync(destination.ConnectionName, user);
 
       var localizationDto = await _diffService.GetDiffAsync(sourceConnectionString, destinationConnectionString);
 

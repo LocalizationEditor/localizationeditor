@@ -1,4 +1,4 @@
-﻿namespace LocalizationEditor.Base.Models
+namespace LocalizationEditor.Base.Models
 {
   public interface IIdentityModel
   {

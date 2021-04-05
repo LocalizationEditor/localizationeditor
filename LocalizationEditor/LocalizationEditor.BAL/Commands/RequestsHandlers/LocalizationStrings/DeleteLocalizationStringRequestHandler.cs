@@ -21,7 +21,7 @@ namespace LocalizationEditor.BAL.Commands.RequestsHandlers.LocalizationStrings
     public async Task<long> Handle(DeleteLocalizationStringRequest request,
       CancellationToken cancellationToken)
     {
-      var connectionString = await _connectionStringResolverService.GetConnectionStringAsync(request.ConnectionStringKey);
+      var connectionString = _connectionStringResolverService.GetConnectionString(request.Connection);
       _repository.SetConnectionString(connectionString);
       var localizationRow = await _repository.GetByIdAsync(request.Id);
       return await _repository.DeleteAsync(localizationRow);

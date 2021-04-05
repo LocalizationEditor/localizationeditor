@@ -6,7 +6,6 @@ import {LocalizationDataRowView} from "./models/localization-data-row-view";
 import {LocalizationConfig} from "./models/localization-config";
 import {HttpRequestService, TypedRequestImpl} from "../base/http-request-service";
 import {BaseServerRoutes} from "../base/base-server-routes";
-import {LocalizationDataRowServerDto} from "./models/localization-data-row-server-dto";
 import {LocalizationDataRowsServerDto} from "./models/localization-data-rows-server-dto";
 import { MatPaginator } from '@angular/material';
 import { LocalizationDataService } from '../localization-edit-dialog/localization-data.service';
@@ -45,7 +44,7 @@ export class LocalizationTable implements OnInit {
     this._localizationDataService.totalCount.subscribe(count => {
       this.totalCount = count;
     });
-    this._localizationDataService.initialize();
+    //this._localizationDataService.initialize();
     this.dataSource.paginator = this.paginator;
   }
 
@@ -62,26 +61,20 @@ export class LocalizationTable implements OnInit {
     this._httpService.get<LocalizationDataRowsServerDto>(request);
   }
  
-  private static mapRow(serverDto: LocalizationDataRowServerDto): LocalizationDataRowView {
-    let row = {
-      group: serverDto.group,
-      key: serverDto.key,
-      id: serverDto.id
-    }
-    return serverDto.localizations.reduce((obj, item) => {
-      obj[item.locale] = item.value;
-      return obj;
-    }, row);
-  }
-
+  
   applyFilter(event: Event) {
-    this.searchValue = (event.target as HTMLInputElement).value;
-    this._localizationDataService.loadListMore(this.limit, this.start, this.searchValue);
+    let newSearchValue = (event.target as HTMLInputElement).value;
+
+    if (newSearchValue === this.searchValue)
+      this._localizationDataService.loadListMore(this.limit, this.start, this.searchValue);
+    else {
+      this.searchValue = newSearchValue;
+      this._localizationDataService.loadListMore(this.limit, 0, this.searchValue);
+    }
   }
 
   editLocalization(localizedRow: LocalizationDataRowView) {
     const dialogRef = this._dialog.open(LocalizationEditDialog, {
-      height: '99%',
       width: '90%',
       data: {locales: this.config.locales, localizedString: localizedRow}
     });
@@ -96,8 +89,7 @@ export class LocalizationTable implements OnInit {
 
   addLocalizationString() {
     const dialogRef = this._dialog.open(LocalizationEditDialog, {
-      height: '99%',
-      width: '99%',
+      width: '90%',
       data: {locales: this.config.locales, localizedString: {}}
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -105,11 +97,10 @@ export class LocalizationTable implements OnInit {
     });
   }
   onTableScroll(e) {
-    const tableViewHeight = e.target.offsetHeight // viewport
-    const tableScrollHeight = e.target.scrollHeight // length of all table
-    const scrollLocation = e.target.scrollTop; // how far user scrolled
+    const tableViewHeight = e.target.offsetHeight;
+    const tableScrollHeight = e.target.scrollHeight;
+    const scrollLocation = e.target.scrollTop;
 
-    // If the user has scrolled within 200px of the bottom, add more data
     const buffer = 200;
     const limit = tableScrollHeight - tableViewHeight - buffer;
     if (scrollLocation > limit) {

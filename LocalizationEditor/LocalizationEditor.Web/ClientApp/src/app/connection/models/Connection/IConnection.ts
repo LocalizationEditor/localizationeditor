@@ -1,4 +1,4 @@
-﻿import {DbType} from "./DbType";
+import {DbType} from "./DbType";
 
 export interface IConnection {
   id: number;

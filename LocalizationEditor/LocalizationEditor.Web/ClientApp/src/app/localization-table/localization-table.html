@@ -1,15 +1,15 @@
-<mat-form-field class="mat-elevation-z8 search-block" >
+<mat-form-field class="mat-elevation-z8 search-block">
   <label>
     <input matInput placeholder="Ex. locale" (keyup)="applyFilter($event)">
   </label>
-  <button mat-icon-button matSuffix (click)="addLocalizationString()"  >
+  <button mat-icon-button matSuffix (click)="addLocalizationString()">
     <mat-icon>add</mat-icon>
   </button>
 </mat-form-field>
 
 <div class="example-container mat-elevation-z8">
 
-  <mat-table [hidden]="dataSource.filteredData<=0" [dataSource]="dataSource"  (scroll)="onTableScroll($event)">
+  <mat-table [hidden]="dataSource.filteredData.length<=0" [dataSource]="dataSource" (scroll)="onTableScroll($event)">
     <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
       <mat-header-cell *matHeaderCellDef><span class="truncate-text ">{{column}}</span></mat-header-cell>
       <mat-cell *matCellDef="let element"><span class="truncate-text ">{{element[column]}}</span></mat-cell>

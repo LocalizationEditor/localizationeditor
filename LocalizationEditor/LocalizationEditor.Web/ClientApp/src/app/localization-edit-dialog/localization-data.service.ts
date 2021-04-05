@@ -27,9 +27,11 @@ export class LocalizationDataService {
       true,
       localizationString,
       result => {
-        let view = LocalizationDataService.mapRow(result);
-        this._rows.push(view);
-        this.localizationRows.next(this._rows);
+        if (!localizationString.id) {
+          let view = LocalizationDataService.mapRow(result);
+          this._rows.push(view);
+          this.localizationRows.next(this._rows);
+        }
       });
     if (localizationString.id)
       this._httpService.put(request);
@@ -41,11 +43,18 @@ export class LocalizationDataService {
     let enabledSearch = ``;
     if (search)
       enabledSearch = `&search=${search}`
+    if (!localStorage.getItem("connectionId"))
+      return;
+
     const request = new TypedRequestImpl(`${BaseServerRoutes.Localization}/?limit=${limit}&offset=${offset}${enabledSearch}`,
       false,
       null,
       result => {
-        this._rows = this._rows.concat(result.localizationStrings.map(LocalizationDataService.mapRow));
+        let rows = result.localizationStrings.map(LocalizationDataService.mapRow);
+        if (offset === 0)
+          this._rows = rows;
+        else
+          this._rows = this._rows.concat(rows);
         this.localizationRows.next(this._rows);
         this.totalCount.next(result.count);
       });
