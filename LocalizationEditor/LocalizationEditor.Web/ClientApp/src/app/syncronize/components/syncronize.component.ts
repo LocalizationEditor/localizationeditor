@@ -101,24 +101,37 @@ export class SyncronizeComponent {
     this.diffModel = diff;
     this.shouldShowDiff = this.diffModel.sources.length > 0;
 
-    const groupArr = this.diffModel.sources.reduce((r, { group }) => {
-      if (!r.some(o => o.group == group)) {
-        r.push({ group, groupItem: this.diffModel.sources.filter(v => v.group == group) });
-      }
-      return r;
-    }, []);
+    const groupArr = this.groupBy(this.diffModel.sources, i => i.group);
 
     this.groupedKeys = new Array<GroupedKeyNode>();
-    groupArr.forEach(item => {
-      
-      let group = new GroupedKeyNode(item.group, item.id, new Array<GroupedKeyNode>(), null);
-      item.groupItem.forEach(child => {
-        group.keys.push(new GroupedKeyNode(child.key, child.id, null, group));
-      });
-      this.groupedKeys.push(group);
+    if (groupArr) {
+
+      for (let [key, value] of groupArr) {
+        let group = new GroupedKeyNode(key, key + value.length, new Array<GroupedKeyNode>(), null);
+        value.forEach(child => {
+          group.keys.push(new GroupedKeyNode(child.key, child.id, null, group));
+        });
+        this.groupedKeys.push(group);
+      }
+
+
       this.cdr.detectChanges();
-    });
+    }
   }
+
+  private groupBy(list, keyGetter) {
+  const map = new Map();
+  list.forEach((item) => {
+    const key = keyGetter(item);
+    const collection = map.get(key);
+    if (!collection) {
+      map.set(key, [item]);
+    } else {
+      collection.push(item);
+    }
+  });
+  return map;
+}
 
   getLocalization($event) {
     this.originalFoundModel = this.diffModel.destinations.find(elem => elem.id === $event.id);
