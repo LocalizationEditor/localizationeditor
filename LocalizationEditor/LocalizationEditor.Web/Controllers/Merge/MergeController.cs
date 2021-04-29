@@ -27,7 +27,7 @@ namespace LocalizationEditor.Web.Controllers.Merge
       var sourceConnection = Connection;
       var destinationConnection = await ConnectionService.GetConnectionByIdAsync(mergeViewModel.DestinationId, CurrentUser);
 
-      await _mergeService.MergeAsync(sourceConnection, destinationConnection, CurrentUser, mergeViewModel.SourceLocalizationIds);
+      await _mergeService.MergeAsync(sourceConnection, destinationConnection, CurrentUser, mergeViewModel.LocalizationIds);
       return NoContent();
     }
   }

@@ -6,6 +6,6 @@ namespace LocalizationEditor.Web.ViewModels.Merge
   public class SelectedMergeViewModel : MergeConnectionIdView
   {
     [JsonProperty("localizationIds")]
-    public IReadOnlyCollection<long> SourceLocalizationIds { get; set; }
+    public List<long> LocalizationIds { get; set; }
   }
 }
