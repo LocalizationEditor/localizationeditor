@@ -15,7 +15,7 @@ namespace LocalizationEditor.Web
     private static IHostBuilder CreateHostBuilder(string[] args) =>
       Host.CreateDefaultBuilder(args)
         .UseServiceProviderFactory(new AutofacServiceProviderFactory())
-        .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+        .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); webBuilder.UseUrls("http://localhost:82"); })
          .ConfigureAppConfiguration((builderContext, config) =>
          {
            config

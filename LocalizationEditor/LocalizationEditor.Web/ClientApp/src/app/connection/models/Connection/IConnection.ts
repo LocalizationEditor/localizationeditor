@@ -8,4 +8,5 @@ export interface IConnection {
   serverName: string;
   password: string;
   dbType: DbType;
+  forAll: boolean;
 }

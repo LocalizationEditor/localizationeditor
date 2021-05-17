@@ -19,5 +19,7 @@ namespace LocalizationEditor.Web.ViewModels.ConnectionStrings
     public string Password { get; set; }
     [JsonProperty("dbType")]
     public ConnectionDbTypeViewModel DbType { get; set; }
+    [JsonProperty("forAll")]
+    public bool ForAll { get; set; }
   }
 }
