@@ -65,3 +65,7 @@ mat-cell > span.truncate-text {
   display:block;
   height:10px;
 }
+
+.search-lable-input{
+  width: 100%;
+}
