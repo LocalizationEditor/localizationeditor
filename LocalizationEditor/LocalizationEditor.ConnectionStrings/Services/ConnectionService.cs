@@ -27,7 +27,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
     public async Task<IConnection> SaveConnectionAsync(IConnection connections, IUser user)
     {
-      if (connections.Server == "internaldb" && user.Role == RoleType.Admin)
+      if (connections.ForAll && user.Role == RoleType.Admin)
         return await SaveAsync(connections, _pathOptionsProvider.FileName);
 
       return await SaveAsync(connections, user.Id.ToString());
@@ -53,10 +53,20 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var entity = existConnections.FirstOrDefault(i => i.Id == id);
       entity?.Update(connection);
 
-      var data = JsonConvert.SerializeObject(existConnections);
-      var encryptData = _encryptService.Encrypt(data);
+      if (entity?.ForAll == true && file != _pathOptionsProvider.FileName)
+      {
+        await SaveToFile(existConnections.Where(i => i.Id != id), file);
 
-      await File.WriteAllTextAsync(file, encryptData);
+        var allConnections = await GetConnectionsAsync(_pathOptionsProvider.FileName);
+        await SaveToFile(allConnections.Append(entity), _pathOptionsProvider.FileName);
+      }
+      else if (entity?.ForAll == false && file == _pathOptionsProvider.FileName)
+      {
+        var allConnections = await GetConnectionsAsync(_pathOptionsProvider.FileName);
+        await SaveToFile(allConnections.Where(i => i.Id != id), _pathOptionsProvider.FileName);
+
+        await SaveToFile(existConnections.Append(entity), user.Id.ToString());
+      }
     }
 
     public async Task<IEnumerable<IConnection>> GetConnectionsAsync(IUser user)
@@ -67,6 +77,14 @@ namespace LocalizationEditor.ConnectionStrings.Services
         connections.AddRange(await GetConnectionsAsync(file));
 
       return connections;
+    }
+
+    private async Task SaveToFile(IEnumerable<IConnection> connections, string file)
+    {
+      var data = JsonConvert.SerializeObject(connections);
+      var encryptData = _encryptService.Encrypt(data);
+
+      await File.WriteAllTextAsync(file, encryptData);
     }
 
     private async Task<string> GetFilePathByConnectionId(Guid id, IUser user)

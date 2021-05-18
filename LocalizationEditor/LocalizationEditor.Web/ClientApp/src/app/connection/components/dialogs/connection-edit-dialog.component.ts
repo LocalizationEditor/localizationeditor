@@ -15,7 +15,6 @@ export class ConnectionEditDialogComponent implements OnInit {
   dialogData: IConnection;
   dbTypes: DbType[];
 
-
   constructor(
     private _httpService: HttpRequestService,
     public dialogRef: MatDialogRef<ConnectionViewComponent>,
@@ -25,7 +24,9 @@ export class ConnectionEditDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConfig();
+
     this.dialogData = this.data.connection;
+
     if (!this.dialogData) {
       this.dialogData = {
         connectionName: "",
@@ -34,7 +35,8 @@ export class ConnectionEditDialogComponent implements OnInit {
         dbType: { id: 0, name: "" },
         serverName: "",
         id: undefined,
-        userName: ""
+        userName: "",
+        forAll: false
       };
     }
   }

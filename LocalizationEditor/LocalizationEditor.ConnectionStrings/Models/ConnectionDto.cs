@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace LocalizationEditor.ConnectionStrings.Models
 {
@@ -11,6 +11,7 @@ namespace LocalizationEditor.ConnectionStrings.Models
     public string UserName { get; private set; }
     public string Password { get; private set; }
     public DbType DataBaseType { get; private set; }
+    public bool ForAll { get; private set; }
 
     public ConnectionDto(
       Guid id,
@@ -19,7 +20,8 @@ namespace LocalizationEditor.ConnectionStrings.Models
       string userName,
       string password,
       DbType dataBaseType,
-      string connectionName)
+      string connectionName,
+      bool forAll)
     {
       Id = id == Guid.Empty ? Guid.NewGuid() : id;
       Server = server;
@@ -28,6 +30,7 @@ namespace LocalizationEditor.ConnectionStrings.Models
       Password = password;
       DataBaseType = dataBaseType;
       ConnectionName = connectionName;
+      ForAll = forAll;
     }
 
     public void Update(IConnection connection)
@@ -38,6 +41,7 @@ namespace LocalizationEditor.ConnectionStrings.Models
       UserName = connection.UserName;
       Password = connection.Password;
       DataBaseType = connection.DataBaseType;
+      ForAll = connection.ForAll;
     }
   }
 }

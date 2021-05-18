@@ -35,7 +35,8 @@ export class ConnectionViewComponent implements OnInit {
       dbType: { id: 0, name: "" },
       serverName: "",
       id: undefined,
-      userName: ""
+      userName: "",
+      forAll: false
     };
 
     this.save(connection);

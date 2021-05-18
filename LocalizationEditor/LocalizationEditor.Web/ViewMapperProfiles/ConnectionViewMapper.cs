@@ -22,6 +22,8 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
           sourceOption => sourceOption.MapFrom(option => option.Password))
         .ForMember(destinationMember => destinationMember.ServerName,
           sourceOption => sourceOption.MapFrom(option => option.Server))
+        .ForMember(destinationMember => destinationMember.ForAll,
+          sourceOption => sourceOption.MapFrom(option => option.ForAll))
         .ForMember(destinationMember => destinationMember.DbType,
           sourceOption =>
             sourceOption.MapFrom(option => new ConnectionDbTypeViewModel
@@ -37,7 +39,8 @@ namespace LocalizationEditor.Web.ViewMapperProfiles
           source.UserName,
           source.Password,
           Enum.Parse<DbType>(source.DbType.Name, true),
-          source.ConnectionName));
+          source.ConnectionName,
+          source.ForAll));
     }
   }
 }

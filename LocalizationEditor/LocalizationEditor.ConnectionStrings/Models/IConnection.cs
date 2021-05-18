@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace LocalizationEditor.ConnectionStrings.Models
 {
@@ -11,6 +11,7 @@ namespace LocalizationEditor.ConnectionStrings.Models
     string UserName { get; }
     string Password { get; }
     DbType DataBaseType { get; }
+    bool ForAll { get; }
 
     void Update(IConnection connection);
   }

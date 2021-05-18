@@ -1,4 +1,4 @@
-﻿import {IConnection} from "./IConnection";
+import {IConnection} from "./IConnection";
 import {DbType} from "./DbType";
 
 export class Connection implements IConnection {
@@ -9,6 +9,7 @@ export class Connection implements IConnection {
   password: string;
   serverName: string;
   userName: string;
+  forAll: boolean;
 
   constructor(
     id: number,
@@ -17,7 +18,8 @@ export class Connection implements IConnection {
     dbType: DbType,
     password: string,
     serverName: string,
-    userName: string) {
+    userName: string,
+    forAll: boolean) {
     this.id = id;
     this.connectionName = connectionName;
     this.dbName = dbName;
@@ -25,5 +27,6 @@ export class Connection implements IConnection {
     this.password = password;
     this.serverName = serverName;
     this.userName = userName;
+    this.forAll = forAll;
   }
 }
