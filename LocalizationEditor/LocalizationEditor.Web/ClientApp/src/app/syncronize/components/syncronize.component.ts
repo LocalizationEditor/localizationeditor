@@ -28,7 +28,7 @@ export class SyncronizeComponent {
   public modifiedModel: DiffEditorModel = { code: "", language: "html" };
   private originalFoundModel: LocalizationDataRowServerDto;
   private modifiedFoundModel: LocalizationDataRowServerDto;
-  private selectedKeys: Set<number> = new Set<number>();
+  private selectedKeys: Array<number> = new Array<number>();
 
   selectedConnection: IConnection;
   public connections: IConnection[] = new Array<IConnection>();
@@ -153,11 +153,12 @@ export class SyncronizeComponent {
   }
 
   select($event) {
-    this.selectedKeys.add($event.id);
+    this.selectedKeys.push($event.id);
   }
 
   deselect($event) {
-    this.selectedKeys.delete($event.id);
+    const index = this.selectedKeys.findIndex(i=> i === $event.id);
+    this.selectedKeys.slice(index, 1);
   }
 
   connectionSelected($event) {

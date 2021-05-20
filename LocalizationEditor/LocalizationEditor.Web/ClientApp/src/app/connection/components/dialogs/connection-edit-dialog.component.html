@@ -2,7 +2,7 @@
   <mat-step label="Fill connection name">
     <mat-form-field>
       <mat-label>Connection name</mat-label>
-      <input matInput placeholder="Connection name" [(ngModel)]="dialogData.connectionName" required/>
+      <input matInput placeholder="Connection name" [(ngModel)]="dialogData.connectionName" required />
     </mat-form-field>
     <div>
       <button mat-button matStepperNext>Next</button>
@@ -24,7 +24,7 @@
   <mat-step label="Fill username">
     <mat-form-field>
       <mat-label>User name</mat-label>
-      <input matInput placeholder="User name" [(ngModel)]="dialogData.userName"  required/>
+      <input matInput placeholder="User name" [(ngModel)]="dialogData.userName" required />
     </mat-form-field>
     <div>
       <button mat-button matStepperNext>Next</button>
@@ -33,7 +33,7 @@
   <mat-step label="Fill server name">
     <mat-form-field>
       <mat-label>Server name</mat-label>
-      <input matInput placeholder="Server name" [(ngModel)]="dialogData.serverName" required/>
+      <input matInput placeholder="Server name" [(ngModel)]="dialogData.serverName" required />
     </mat-form-field>
     <div>
       <button mat-button matStepperNext>Next</button>
@@ -42,7 +42,7 @@
   <mat-step label="Fill database name">
     <mat-form-field>
       <mat-label>Db name</mat-label>
-      <input matInput placeholder="Db name" [(ngModel)]="dialogData.dbName" required/>
+      <input matInput placeholder="Db name" [(ngModel)]="dialogData.dbName" required />
     </mat-form-field>
     <div>
       <button mat-button matStepperNext>Next</button>
@@ -51,8 +51,11 @@
   <mat-step label="Fill password to database">
     <mat-form-field>
       <mat-label>Password</mat-label>
-      <input matInput placeholder="Password" type="password" [(ngModel)]="dialogData.password" required/>
+      <input matInput placeholder="Password" type="password" [(ngModel)]="dialogData.password" required />
     </mat-form-field>
+  </mat-step>
+  <mat-step label="Sellect connection type">
+    <mat-checkbox [(ngModel)]="dialogData.forAll">Is available for all</mat-checkbox>
   </mat-step>
 </mat-vertical-stepper>
 

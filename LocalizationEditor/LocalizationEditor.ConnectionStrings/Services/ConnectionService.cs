@@ -27,7 +27,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
     public async Task<IConnection> SaveConnectionAsync(IConnection connections, IUser user)
     {
-      if (connections.Server == "internaldb" && user.Role == RoleType.Admin)
+      if (connections.ForAll && user.Role == RoleType.Admin)
         return await SaveAsync(connections, _pathOptionsProvider.FileName);
 
       return await SaveAsync(connections, user.Id.ToString());
@@ -53,10 +53,18 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var entity = existConnections.FirstOrDefault(i => i.Id == id);
       entity?.Update(connection);
 
-      var data = JsonConvert.SerializeObject(existConnections);
-      var encryptData = _encryptService.Encrypt(data);
+      await SaveToFile(existConnections.Where(i => i.Id != id), file);
 
-      await File.WriteAllTextAsync(file, encryptData);
+      if (entity?.ForAll == true)
+      {
+        var allConnections = await GetConnectionsAsync(_pathOptionsProvider.FileName);
+        await SaveToFile(allConnections.Append(entity), _pathOptionsProvider.FileName);
+      }
+      else
+      {
+        var allConnections = await GetConnectionsAsync(user.Id.ToString());
+        await SaveToFile(allConnections.Append(entity), user.Id.ToString());
+      }
     }
 
     public async Task<IEnumerable<IConnection>> GetConnectionsAsync(IUser user)
@@ -69,13 +77,34 @@ namespace LocalizationEditor.ConnectionStrings.Services
       return connections;
     }
 
+    public async Task<IDictionary<string, List<IConnection>>> GetConnectionsMapAsync(IUser user)
+    {
+      var files = GetFilesPath(user);
+      var connectionsMap = new Dictionary<string, List<IConnection>>();
+      foreach (var file in files)
+      {
+        var connections = await GetConnectionsAsync(file);
+        connectionsMap.Add(file, connections.ToList());
+      }
+
+      return connectionsMap;
+    }
+
+    private async Task SaveToFile(IEnumerable<IConnection> connections, string file)
+    {
+      var data = JsonConvert.SerializeObject(connections);
+      var encryptData = _encryptService.Encrypt(data);
+
+      await File.WriteAllTextAsync(file, encryptData);
+    }
+
     private async Task<string> GetFilePathByConnectionId(Guid id, IUser user)
     {
       var files = GetFilesPath(user);
       foreach (var file in files)
       {
         var filesByPath = await GetConnectionsAsync(file);
-        var foundFile = filesByPath.FirstOrDefault(i => i.Id == id);
+        var foundFile = filesByPath.FirstOrDefault(i => i?.Id == id);
         if (foundFile != null)
         {
           return file;
@@ -108,15 +137,17 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
     public async Task Remove(Guid id, IUser user)
     {
-      var connections = await GetConnectionsAsync(user);
-      var removeEntity = connections
-        .FirstOrDefault(item => item.Id == id);
+      var connections = await GetConnectionsMapAsync(user);
+      foreach(var kvp in connections.Where(i => i.Value.Any(j => j.Id == id)))
+      {
+        var removeEntity = connections[kvp.Key].First(i => i.Id == id);
 
-      var list = connections.ToList();
-      list.Remove(removeEntity);
-      var data = JsonConvert.SerializeObject(list);
-      var encryptData = _encryptService.Encrypt(data);
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
+        kvp.Value.Remove(removeEntity);
+
+        var json = JsonConvert.SerializeObject(kvp.Value);
+        var encryptData = _encryptService.Encrypt(json);
+        await File.WriteAllTextAsync(kvp.Key, encryptData);
+      }
     }
 
     public async Task<IConnection> GetConnectionByIdAsync(Guid id, IUser user)
