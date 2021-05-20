@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LocalizationEditor.Base.Infrastructure;
 using LocalizationEditor.Web.Infrastrucutre;
+using LocalizationEditor.Web.Middleware;
 
 namespace LocalizationEditor.Web
 {
@@ -100,6 +101,8 @@ namespace LocalizationEditor.Web
         HttpOnly = HttpOnlyPolicy.Always,
         Secure = CookieSecurePolicy.Always
       });
+
+      app.UseMiddleware<LoggingMiddleware>();
 
       app.UseAuthentication();
       app.UseAuthorization();

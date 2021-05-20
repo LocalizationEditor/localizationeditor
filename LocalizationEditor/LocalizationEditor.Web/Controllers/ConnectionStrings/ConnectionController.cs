@@ -14,7 +14,7 @@ using LocalizationEditor.Web.Attributes;
 namespace LocalizationEditor.Web.Controllers.ConnectionStrings
 {
   [Route("connection")]
-  [LocalizationAuth]
+  [LocalizationAuth(true)]
   public class ConnectionController : LocalizationEditorController
   {
     private readonly IMapper _mapper;

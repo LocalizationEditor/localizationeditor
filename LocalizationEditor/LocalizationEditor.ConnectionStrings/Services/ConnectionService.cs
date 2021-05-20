@@ -53,19 +53,17 @@ namespace LocalizationEditor.ConnectionStrings.Services
       var entity = existConnections.FirstOrDefault(i => i.Id == id);
       entity?.Update(connection);
 
-      if (entity?.ForAll == true && file != _pathOptionsProvider.FileName)
-      {
-        await SaveToFile(existConnections.Where(i => i.Id != id), file);
+      await SaveToFile(existConnections.Where(i => i.Id != id), file);
 
+      if (entity?.ForAll == true)
+      {
         var allConnections = await GetConnectionsAsync(_pathOptionsProvider.FileName);
         await SaveToFile(allConnections.Append(entity), _pathOptionsProvider.FileName);
       }
-      else if (entity?.ForAll == false && file == _pathOptionsProvider.FileName)
+      else
       {
-        var allConnections = await GetConnectionsAsync(_pathOptionsProvider.FileName);
-        await SaveToFile(allConnections.Where(i => i.Id != id), _pathOptionsProvider.FileName);
-
-        await SaveToFile(existConnections.Append(entity), user.Id.ToString());
+        var allConnections = await GetConnectionsAsync(user.Id.ToString());
+        await SaveToFile(allConnections.Append(entity), user.Id.ToString());
       }
     }
 
@@ -77,6 +75,19 @@ namespace LocalizationEditor.ConnectionStrings.Services
         connections.AddRange(await GetConnectionsAsync(file));
 
       return connections;
+    }
+
+    public async Task<IDictionary<string, List<IConnection>>> GetConnectionsMapAsync(IUser user)
+    {
+      var files = GetFilesPath(user);
+      var connectionsMap = new Dictionary<string, List<IConnection>>();
+      foreach (var file in files)
+      {
+        var connections = await GetConnectionsAsync(file);
+        connectionsMap.Add(file, connections.ToList());
+      }
+
+      return connectionsMap;
     }
 
     private async Task SaveToFile(IEnumerable<IConnection> connections, string file)
@@ -93,7 +104,7 @@ namespace LocalizationEditor.ConnectionStrings.Services
       foreach (var file in files)
       {
         var filesByPath = await GetConnectionsAsync(file);
-        var foundFile = filesByPath.FirstOrDefault(i => i.Id == id);
+        var foundFile = filesByPath.FirstOrDefault(i => i?.Id == id);
         if (foundFile != null)
         {
           return file;
@@ -126,15 +137,17 @@ namespace LocalizationEditor.ConnectionStrings.Services
 
     public async Task Remove(Guid id, IUser user)
     {
-      var connections = await GetConnectionsAsync(user);
-      var removeEntity = connections
-        .FirstOrDefault(item => item.Id == id);
+      var connections = await GetConnectionsMapAsync(user);
+      foreach(var kvp in connections.Where(i => i.Value.Any(j => j.Id == id)))
+      {
+        var removeEntity = connections[kvp.Key].First(i => i.Id == id);
 
-      var list = connections.ToList();
-      list.Remove(removeEntity);
-      var data = JsonConvert.SerializeObject(list);
-      var encryptData = _encryptService.Encrypt(data);
-      await File.WriteAllTextAsync(_pathOptionsProvider.FileName, encryptData);
+        kvp.Value.Remove(removeEntity);
+
+        var json = JsonConvert.SerializeObject(kvp.Value);
+        var encryptData = _encryptService.Encrypt(json);
+        await File.WriteAllTextAsync(kvp.Key, encryptData);
+      }
     }
 
     public async Task<IConnection> GetConnectionByIdAsync(Guid id, IUser user)
