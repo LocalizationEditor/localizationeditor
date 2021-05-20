@@ -60,8 +60,6 @@ export class HttpRequestService {
       })
       .catch(error => {
         this._snackBar.fail();
-        localStorage.removeItem("role");
-        console.log(error)
       });
   }
 }
