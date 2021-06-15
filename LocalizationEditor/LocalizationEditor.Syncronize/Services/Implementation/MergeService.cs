@@ -46,17 +46,6 @@ namespace LocalizationEditor.Syncronize.Service
     {
       _localizationStringRepository.SetConnectionString(destinationConnection);
       _localizationGroupRepository.SetConnectionString(destinationConnection);
-      //foreach (var addKey in GetLocalizationStrings(diffDto.AddKeys, sources))
-      //{
-      //  var localizationGroup = await _localizationGroupRepository.SearchByGroupKeyAsync(addKey.Group.Name);
-      //  if (localizationGroup is null)
-      //  {
-      //    localizationGroup = new LocalizationGroup { Name = addKey.Group.Name };
-      //    localizationGroup = await _localizationGroupRepository.AddAsync(localizationGroup);
-      //    addKey.UpdateGroup(localizationGroup);
-      //  }
-      //  await _localizationStringRepository.AddAsync(addKey);
-      //}
 
       await ProcessStringsAsync(diffDto.AddKeys, _localizationStringRepository.AddAsync, sources);
 
@@ -64,9 +53,6 @@ namespace LocalizationEditor.Syncronize.Service
         await _localizationStringRepository.DeleteAsync(removeKey);
 
       await ProcessStringsAsync(diffDto.EditKeys, _localizationStringRepository.UpdateAsync, sources);
-
-      //foreach (var editKey in GetLocalizationStrings(diffDto.EditKeys, sources))
-      //  await _localizationStringRepository.UpdateAsync(editKey);
     }
 
     private async Task ProcessStringsAsync(
@@ -96,11 +82,5 @@ namespace LocalizationEditor.Syncronize.Service
         ? localizationStrings
         : localizationStrings.Where(i => sources.Any(j => i.Id == j.Id && i.Key == j.Key));
     }
-  }
-
-  public class LocalizationGroup : ILocalizationGroup
-  {
-    public string Name { get; init; }
-    public long Id { get; init; }
   }
 }
