@@ -11,5 +11,6 @@ namespace LocalizationEditor.BAL.Models.LocalizationString
     IReadOnlyCollection<ILocalizationPair> Localizations { get; }
 
     void Update(ILocalizationString localizationString);
+    void UpdateGroup(ILocalizationGroup localizationGroup);
   }
 }

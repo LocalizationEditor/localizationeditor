@@ -37,5 +37,10 @@ namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
       Key = localizationString.Key;
       Localizations = localizationString.Localizations;
     }
+
+    public void UpdateGroup(ILocalizationGroup localizationGroup)
+    {
+      Group = localizationGroup;
+    }
   }
 }
