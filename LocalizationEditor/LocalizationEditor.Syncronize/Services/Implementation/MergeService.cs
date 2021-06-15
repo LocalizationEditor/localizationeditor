@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,15 +16,18 @@ namespace LocalizationEditor.Syncronize.Service
     private readonly ILocalizationStringRepository _localizationStringRepository;
     private readonly IConnectionStringResolverService _connectionStringResolverService;
     private readonly IDiffService _diffService;
+    private readonly ILocalizationGroupRepository _localizationGroupRepository;
 
     public MergeService(
       ILocalizationStringRepository localizationStringRepository,
       IConnectionStringResolverService connectionStringResolverService,
-      IDiffService diffService)
+      IDiffService diffService,
+      ILocalizationGroupRepository localizationGroupRepository)
     {
       _localizationStringRepository = localizationStringRepository;
       _connectionStringResolverService = connectionStringResolverService;
       _diffService = diffService;
+      _localizationGroupRepository = localizationGroupRepository;
     }
 
     public async Task MergeAsync(IConnection source, IConnection destination, IUser user, IReadOnlyCollection<long> sourceIds = null)
@@ -41,15 +45,47 @@ namespace LocalizationEditor.Syncronize.Service
     private async Task SynchronizeAsync(ILocalizationDiffDto diffDto, string destinationConnection, IReadOnlyCollection<ILocalizationString> sources = null)
     {
       _localizationStringRepository.SetConnectionString(destinationConnection);
+      _localizationGroupRepository.SetConnectionString(destinationConnection);
+      //foreach (var addKey in GetLocalizationStrings(diffDto.AddKeys, sources))
+      //{
+      //  var localizationGroup = await _localizationGroupRepository.SearchByGroupKeyAsync(addKey.Group.Name);
+      //  if (localizationGroup is null)
+      //  {
+      //    localizationGroup = new LocalizationGroup { Name = addKey.Group.Name };
+      //    localizationGroup = await _localizationGroupRepository.AddAsync(localizationGroup);
+      //    addKey.UpdateGroup(localizationGroup);
+      //  }
+      //  await _localizationStringRepository.AddAsync(addKey);
+      //}
 
-      foreach (var addKey in GetLocalizationStrings(diffDto.AddKeys, sources))
-        await _localizationStringRepository.AddAsync(addKey);
+      await ProcessStringsAsync(diffDto.AddKeys, _localizationStringRepository.AddAsync, sources);
 
       foreach (var removeKey in GetLocalizationStrings(diffDto.RemoveKeys, sources))
         await _localizationStringRepository.DeleteAsync(removeKey);
 
-      foreach (var editKey in GetLocalizationStrings(diffDto.EditKeys, sources))
-        await _localizationStringRepository.UpdateAsync(editKey);
+      await ProcessStringsAsync(diffDto.EditKeys, _localizationStringRepository.UpdateAsync, sources);
+
+      //foreach (var editKey in GetLocalizationStrings(diffDto.EditKeys, sources))
+      //  await _localizationStringRepository.UpdateAsync(editKey);
+    }
+
+    private async Task ProcessStringsAsync(
+      IReadOnlyCollection<ILocalizationString> localizationStrings,
+      Func<ILocalizationString, Task<ILocalizationString>> functor,
+      IReadOnlyCollection<ILocalizationString> sources = null)
+    {
+      foreach (var addKey in GetLocalizationStrings(localizationStrings, sources))
+      {
+        var localizationGroup = await _localizationGroupRepository.SearchByGroupKeyAsync(addKey.Group.Name);
+        if (localizationGroup is null)
+        {
+          localizationGroup = new LocalizationGroup { Name = addKey.Group.Name };
+          localizationGroup = await _localizationGroupRepository.AddAsync(localizationGroup);
+          addKey.UpdateGroup(localizationGroup);
+        }
+
+        await functor(addKey);
+      }
     }
 
 
@@ -60,5 +96,11 @@ namespace LocalizationEditor.Syncronize.Service
         ? localizationStrings
         : localizationStrings.Where(i => sources.Any(j => i.Id == j.Id && i.Key == j.Key));
     }
+  }
+
+  public class LocalizationGroup : ILocalizationGroup
+  {
+    public string Name { get; init; }
+    public long Id { get; init; }
   }
 }

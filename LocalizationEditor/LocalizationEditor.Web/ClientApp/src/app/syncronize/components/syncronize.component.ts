@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component } from "@angular/core";
+import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
+import { MatTree, MatTreeFlatDataSource, MatTreeNestedDataSource } from "@angular/material";
 import { DiffEditorModel } from "ngx-monaco-editor";
 import { BaseServerRoutes } from "../../base/base-server-routes";
 import { HttpRequestService, TypedRequestImpl } from "../../base/http-request-service";
@@ -23,7 +24,7 @@ export class SyncronizeComponent {
   private diffModel: DiffDto;
   public shouldShowDiff: boolean = false;
   public editorOptions = { theme: 'vs-dark', language: 'html', automaticLayout: true, fontSize: "12px", renderSideBySide: false };
-  private groupedKeys: GroupedKeyNode[] = new Array<GroupedKeyNode>();
+  private groupedKeys =  new Array<GroupedKeyNode>();
   public originalModel: DiffEditorModel = { code: "", language: "html" };
   public modifiedModel: DiffEditorModel = { code: "", language: "html" };
   private originalFoundModel: LocalizationDataRowServerDto;
@@ -35,6 +36,8 @@ export class SyncronizeComponent {
   selectedConnectionName: string;
   selectedSourceConnectionName: string;
   selectedConnectionId: number;
+
+  @ViewChild(MatTree) tree: MatTree<any>;
 
   constructor(
     private readonly _httpClient: HttpRequestService,
@@ -87,8 +90,6 @@ export class SyncronizeComponent {
   }
 
   diff(): void {
-    
-
     const req = new TypedRequestImpl(`${BaseServerRoutes.Syncronize}/diff?destinationId=${this.selectedConnectionId}`,
       true,
       null,
@@ -113,8 +114,6 @@ export class SyncronizeComponent {
         });
         this.groupedKeys.push(group);
       }
-
-
       this.cdr.detectChanges();
     }
   }
@@ -163,6 +162,8 @@ export class SyncronizeComponent {
 
   connectionSelected($event) {
     if (this.isKeyExistInLocalSotrage(this.connectionHelper.DESTINATION_KEY)) {
+      this.shouldShowDiff = false;
+      this.groupedKeys = null;
       this.diff();
     }
   }
@@ -182,6 +183,8 @@ export class SyncronizeComponent {
   private updateSelected(connectionId: string) {
     this.selectedConnection = this.connections.find(i => i.id.toString() == connectionId);
     if (this.selectedConnection) {
+      this.shouldShowDiff = false;
+      this.groupedKeys = null;
       this.selectedConnectionId = this.selectedConnection.id;
       this.selectedConnectionName = this.selectedConnection.connectionName;
       this.diff();

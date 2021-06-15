@@ -1,5 +1,3 @@
-﻿using LocalizationEditor.BAL.Models.LocalizationString;
-
 namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
 {
   public class LocalizationGroup : ILocalizationGroup
@@ -10,7 +8,12 @@ namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
       Name = name;
     }
 
-    public long Id { get; }
+    public long Id { get; private set; }
     public string Name { get; }
+
+    public void UdpateId(long id)
+    {
+      Id = id;
+    }
   }
 }
