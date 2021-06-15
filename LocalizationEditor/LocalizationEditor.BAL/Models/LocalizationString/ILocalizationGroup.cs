@@ -1,4 +1,4 @@
-﻿using LocalizationEditor.Base.Models;
+using LocalizationEditor.Base.Models;
 
 namespace LocalizationEditor.BAL.Models.LocalizationString
 {
