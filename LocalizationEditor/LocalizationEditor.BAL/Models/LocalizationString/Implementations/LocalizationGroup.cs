@@ -8,12 +8,7 @@ namespace LocalizationEditor.BAL.Models.LocalizationString.Implementations
       Name = name;
     }
 
-    public long Id { get; private set; }
+    public long Id { get; }
     public string Name { get; }
-
-    public void UdpateId(long id)
-    {
-      Id = id;
-    }
   }
 }
