@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, ViewChild } from "@angular/core";
-import { MatTree, MatTreeFlatDataSource, MatTreeNestedDataSource } from "@angular/material";
 import { DiffEditorModel } from "ngx-monaco-editor";
 import { BaseServerRoutes } from "../../base/base-server-routes";
 import { HttpRequestService, TypedRequestImpl } from "../../base/http-request-service";
@@ -36,8 +35,6 @@ export class SyncronizeComponent {
   selectedConnectionName: string;
   selectedSourceConnectionName: string;
   selectedConnectionId: number;
-
-  @ViewChild(MatTree) tree: MatTree<any>;
 
   constructor(
     private readonly _httpClient: HttpRequestService,
