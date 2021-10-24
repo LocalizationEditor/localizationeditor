@@ -1,3 +1,6 @@
+<mat-slide-toggle (click)="diffView.toggle()">
+  Show diff
+</mat-slide-toggle>
 <h5>
   Sync from {{selectedSourceConnectionName}} to <mat-select style="width:111px"
                                                             [(value)]="selectedConnectionId"
@@ -7,7 +10,7 @@
   </mat-select>
 </h5>
 <mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav #diffView mode="side">
     <div class="options-monaco">
       <div *ngIf="shouldShowDiff">
         <tree [treeData]="groupedKeys" (emitter)="getLocalization($event)" (deselectEmitter)="deselect($event)" (selectEmitter)="select($event)">
