@@ -9,11 +9,13 @@ using LocalizationEditor.BAL.Models;
 using LocalizationEditor.Syncronize.Models;
 using System;
 using LocalizationEditor.Admin.Models;
+using System.Runtime.InteropServices;
 
 namespace LocalizationEditor.Syncronize.Service
 {
   internal class DiffService : IDiffService
   {
+    private const string KeyPattern = "{0} {1}";
     private readonly ILocalizationStringRepository _localizationStringRepository;
     private readonly IConnectionStringResolverService _connectionStringResolverService;
 
@@ -49,41 +51,63 @@ namespace LocalizationEditor.Syncronize.Service
       var diff = await GetDiffAsync(sourceConnectionString, destinationConnectionString);
 
       var localizationStrings = new List<ILocalizationString>(diff.AddKeys).Concat(diff.EditKeys).Concat(diff.RemoveKeys);
-      var localizationDesriptionDto = localizationStrings
+      var localizationDescriptionDto = localizationStrings
         .Select(item => new LocalizationGroupKeyDto { Key = item.Key, Group = item.Group.Name })
         .ToArray();
 
-      var sources = await _localizationStringRepository.SetConnectionString(sourceConnectionString).GetByKeysAsync(localizationDesriptionDto);
-      var destinations = await _localizationStringRepository.SetConnectionString(destinationConnectionString).GetByKeysAsync(localizationDesriptionDto);
+      var sources = await _localizationStringRepository.SetConnectionString(sourceConnectionString).GetByKeysAsync(localizationDescriptionDto);
+      var destinations = await _localizationStringRepository.SetConnectionString(destinationConnectionString).GetByKeysAsync(localizationDescriptionDto);
 
       return new LocalizationDiff(sources, destinations);
     }
 
-    private IReadOnlyCollection<ILocalizationString> GetAddedOrRemovedKeys(
+    private static IReadOnlyCollection<ILocalizationString> GetAddedOrRemovedKeys(
       IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
     {
       return first
-        .Where(i => !second.Any(j => i.CompareTo(j) == 0))
+        .Where(i => second.All(j => i.CompareTo(j) != 0))
         .ToList();
     }
 
-    private IReadOnlyCollection<ILocalizationString> GetChangedKeys(
+    private static IReadOnlyCollection<ILocalizationString> GetChangedKeys(
      IEnumerable<ILocalizationString> first, IEnumerable<ILocalizationString> second)
     {
-      return first
-        .Where(i => second.Any(j => i.CompareTo(j) == 0 && IsEditKey(i, j)))
-        .ToList();
+      var sourceMap = GetKeyToLocalizationMap(first);
+      var destinationMap = GetKeyToLocalizationMap(second);
+
+      var result = new List<ILocalizationString>();
+
+      foreach ((string key, ILocalizationString value) in sourceMap)
+      {
+        if (!destinationMap.ContainsKey(key))
+          continue;
+
+        var destinationValue = destinationMap[key];
+
+        if (IsEditKey(value.Localizations, destinationValue.Localizations))
+          result.Add(value);
+      }
+
+      return result;
     }
 
-    private bool IsEditKey(ILocalizationString first, ILocalizationString second)
+    private static Dictionary<string, ILocalizationString> GetKeyToLocalizationMap(
+      IEnumerable<ILocalizationString> localizationStrings)
     {
-      if (first.Localizations.Count != second.Localizations.Count)
-        return true;
+      string GetKey(ILocalizationString localizationString) =>
+        string.Format(KeyPattern, localizationString.Group.Name, localizationString.Key);
 
-      return first.Localizations
-        .Any(i =>
-          second.Localizations
-            .Any(j => j.Locale == i.Locale && j.Value != i.Value));
+      return localizationStrings
+        .GroupBy(GetKey)
+        .ToDictionary(
+          i => i.Key,
+          i => i.First());
+    }
+
+    private static bool IsEditKey(IReadOnlyCollection<ILocalizationPair> first, IReadOnlyCollection<ILocalizationPair> second)
+    {
+      return first.Count != second.Count ||
+             first.Any(i => second.Any(j => j.Locale == i.Locale && j.Value != i.Value));
     }
   }
 }

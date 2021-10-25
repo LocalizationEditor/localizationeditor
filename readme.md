@@ -15,13 +15,13 @@ This will download a copy of the project.
 ### Start the app
 
 To install all of the dependencies and start the ASP.NET 5.0 Web API, run:
-```
+``` sh
 cd LocalizationEditor/LocalizationEditor.Web
 dotnet run
 ```
 To make it work with your database (currently supported only **MSSQL**) create this tables:
 
-```
+``` sql
 CREATE TABLE [dbo].[CORE_Localization_Type] (
     [Id]              BIGINT         IDENTITY (1, 1) NOT NULL,
     [Name]            NVARCHAR (300) NOT NULL,
@@ -50,20 +50,20 @@ CREATE NONCLUSTERED INDEX [FK_CORE_Localization_Strings_To_CORE_Localization_Typ
 ### Publish the app
 
 To publish application, run:
-```
+``` sh
 cd LocalizationEditor/LocalizationEditor.Web
 dotnet publish LocalizationEditor.Web.csproj
 ```
 
 ### Roadmap
-- Add users registration form
-- Add password change and recovery form
-- Make sidebar on merge form hideable
-- Make site mobile adaptive
-- Add possibility to change themes
-- Add possibility to configure columns and their names
-- Add possibility to configure table names
-- Implement factory method for MySql
+- [ ] Add users registration form
+- [ ] Add password change and recovery form
+- [x] Make sidebar on merge form hideable
+- [ ] Make site mobile adaptive
+- [ ] Add possibility to change themes
+- [ ] Add possibility to configure columns and their names
+- [ ] Add possibility to configure table names
+- [ ] Implement factory method for MySql
 
 
 ## Contributing
